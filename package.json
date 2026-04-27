@@ -5,6 +5,7 @@
   "imports": {
     "#ui/primitive/*": "./src/ui/primitive/*/*.tsx",
     "#ui/form/*": "./src/ui/form/*/*.tsx",
+    "#ui/form-fields/*": "./src/ui/form-fields/*/*.tsx",
     "#schema/form-field/*": "./src/schema/form-field/*.ts",
     "#schema/form/*": "./src/schema/form/*.ts"
   },
@@ -14,6 +15,7 @@
     "start": "next start",
     "lint": "oxlint",
     "fmt": "oxfmt",
+    "test": "vitest",
     "storybook": "storybook dev -p 15023",
     "build-storybook": "storybook build"
   },

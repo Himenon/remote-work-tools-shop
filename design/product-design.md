@@ -35,6 +35,9 @@ URI: `/shop/buy/{productName}`
   - `product.spec.categories[i].specs[j]`の表示
 - ギフト設定（`GiftOptionField`）
   - checkbox: ギフト設定有効/無効
+  - 有効な場合
+    - ラッピングの種類選択
+    - ギフトメッセージ
 - バッグへ追加（ `button[type~submit]` ）
 
 ### バッグ
