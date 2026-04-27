@@ -1,0 +1,5 @@
+{
+  "oxc.lint.run": "onSave",
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true
+}

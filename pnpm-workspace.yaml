@@ -1,0 +1,13 @@
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver
+
+minimumReleaseAge: 10800
+
+minimumReleaseAgeExclude:
+  - "@typescript/native-preview"
+  - oxfmt
+  - oxlint
+
+onlyBuiltDependencies:
+  - esbuild
