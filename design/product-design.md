@@ -49,11 +49,11 @@ URI: `/shop/checkout`
 
 ## API
 
-## GET: `/products`
+### GET: `/products`
 
 商品一覧
 
-## GET: `/product/{productName}/spec`
+### GET: `/product/{productName}/spec`
 
 商品のスペックを返すAPI。以下のようなI/Fをしており、`ProductSpec`がレスポンスに含まれて返ってくる。
 
@@ -121,7 +121,7 @@ interface SmartPhone {
 }
 
 interface Desk {
-  category: "Laptop";
+  category: "Desk";
   /** 商品ID */
   productId: string;
   /** スペックを最小構成としたときの価格 */
@@ -147,11 +147,11 @@ interface Microphone {
 export type ProductSpec = Laptop | SmartPhone | Desk | Microphone;
 ```
 
-## POST: `/add/bug`
+### POST: `/add/bag`
 
 - 商品をバッグへ追加する。
-- 商品の個数を選択でいる
-- バッグへ追加でいる最大の商品数は最大商品の種類数は10個とする。
+- 商品の個数を選択できる。
+- バッグへ追加できる商品の種類数は最大10種類とする。
 
 ```ts
 interface CustomizedProduct {
@@ -160,7 +160,7 @@ interface CustomizedProduct {
 }
 
 /** バッグに追加する商品のペイロード */
-interface AddBugPayload {
+interface AddBagPayload {
   /** カスタムされたプロダクト */
   product: CustomizedProduct;
   /** カスタムしたプロダクトの個数 */
@@ -168,12 +168,12 @@ interface AddBugPayload {
 }
 ```
 
-## GET: `/show/bug`
+### GET: `/show/bag`
 
 バッグに入っている商品を一覧で表示する。最大10個返ってくる。
 
 ```ts
-interface ProductsInBug {
+interface ProductsInBag {
   items: {
     /** カスタムされたプロダクト */
     product: CustomizedProduct;
@@ -183,6 +183,6 @@ interface ProductsInBug {
 }
 ```
 
-## POST: `/checkout`
+### POST: `/checkout`
 
 商品の決済処理を実行する。
