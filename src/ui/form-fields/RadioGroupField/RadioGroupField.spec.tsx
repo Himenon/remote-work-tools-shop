@@ -20,8 +20,6 @@ describe("RadioGroupField の表示確認", () => {
   it("disabled が指定されているとき、全ての選択肢が操作できない状態で表示される", async () => {
     const canvas = await Disabled.run();
     const radios = canvas.getAllByRole("radio");
-    for (const radio of radios) {
-      await expect(radio).toBeDisabled();
-    }
+    await Promise.all(radios.map((radio: HTMLElement) => expect(radio).toBeDisabled()));
   });
 });

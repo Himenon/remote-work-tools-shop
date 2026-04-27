@@ -20,8 +20,6 @@ describe("MultiSelectField の表示確認", () => {
   it("disabled が指定されているとき、全ての選択肢が操作できない状態で表示される", async () => {
     const canvas = await Disabled.run();
     const checkboxes = canvas.getAllByRole("checkbox");
-    for (const checkbox of checkboxes) {
-      await expect(checkbox).toBeDisabled();
-    }
+    await Promise.all(checkboxes.map((checkbox: HTMLElement) => expect(checkbox).toBeDisabled()));
   });
 });
