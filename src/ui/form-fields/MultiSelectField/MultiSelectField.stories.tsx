@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { SetFormErrorOnMount } from "../_test-helpers";
+import { SetFormErrorOnMount } from "#test-helper/storybook";
 import { MultiSelectField } from "./MultiSelectField";
 
 type T = typeof MultiSelectField;
