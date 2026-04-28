@@ -5,14 +5,15 @@
 ソースコードの解析やトレースに入る前に、以下のライブラリは必ず公式ドキュメントを参照すること。
 ドキュメントに答えが書いてある場合がほとんどであり、読まずに進めると数時間の無駄調査になる。
 
-| ライブラリ | ドキュメント URL                                              |
-| ---------- | ------------------------------------------------------------- |
-| Base UI    | https://base-ui.com/react/components/                         |
-| Storybook  | https://storybook.js.org/docs                                 |
-| Vite       | https://vitejs.dev/guide/                                     |
-| Vitest     | https://vitest.dev/guide/                                     |
-| Next.js    | `node_modules/next/dist/docs/` または https://nextjs.org/docs |
-| React      | https://react.dev/reference/react                             |
+| ライブラリ   | ドキュメント URL                                              |
+| ------------ | ------------------------------------------------------------- |
+| Base UI      | https://base-ui.com/react/components/                         |
+| Storybook    | https://storybook.js.org/docs                                 |
+| Tailwind CSS | https://tailwindcss.com/docs/                                 |
+| Vite         | https://vitejs.dev/guide/                                     |
+| Vitest       | https://vitest.dev/guide/                                     |
+| Next.js      | `node_modules/next/dist/docs/` または https://nextjs.org/docs |
+| React        | https://react.dev/reference/react                             |
 
 **調査手順（この順を守ること）**:
 
@@ -21,6 +22,15 @@
 3. それでも解決しない場合に限り、ソースコードを参照する
 
 <!-- END:doc-first-rules -->
+
+<!-- BEGIN:breaking-changes-allowed -->
+
+# 破壊的変更を許可する
+
+このリポジトリはデモプロジェクトです。プロジェクト全体に及ぶ破壊的変更（ファイル削除、依存関係の変更、設計方針の転換など）を許可します。
+スマートな解決策のためなら、既存コードを大胆に書き直してください。
+
+<!-- END:breaking-changes-allowed -->
 
 <!-- BEGIN:nextjs-agent-rules -->
 
@@ -234,7 +244,7 @@ browser: {
 
 ```
 Test Files  18 passed (18)
-     Tests  66 passed (66)
+     Tests  71 passed (71)
 ```
 
 | 追加ファイル                | テスト数 |

@@ -35,7 +35,7 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
 
   return (
     <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
-      <Field.Label className="text-sm font-medium text-gray-700 data-[disabled]:opacity-50">{props.label}</Field.Label>
+      <Field.Label className="text-sm font-medium text-gray-700 dark:text-gray-300 data-[disabled]:opacity-50">{props.label}</Field.Label>
       <RadioGroup {...radioGroupProps} className="flex flex-col gap-2">
         {props.options.map((option) => {
           const radioRootProps: React.ComponentProps<typeof Radio.Root> = {
@@ -48,16 +48,16 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
               {...radioRootProps}
               className="group flex cursor-pointer items-center gap-2 outline-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
             >
-              <span className="flex size-4 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white shadow-xs transition-colors group-data-[checked]:border-indigo-600 group-data-[focus-visible]:ring-2 group-data-[focus-visible]:ring-indigo-500/30 group-data-[invalid]:border-red-500">
-                <Radio.Indicator className="size-2 rounded-full bg-indigo-600 group-data-[invalid]:bg-red-500" />
+              <span className="flex size-4 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white shadow-xs transition-colors group-data-[checked]:border-indigo-600 group-data-[focus-visible]:ring-2 group-data-[focus-visible]:ring-indigo-500/30 group-data-[invalid]:border-red-500 dark:border-gray-600 dark:bg-gray-900 dark:group-data-[checked]:border-indigo-500 dark:group-data-[focus-visible]:ring-indigo-400/30 dark:group-data-[invalid]:border-red-400">
+                <Radio.Indicator className="size-2 rounded-full bg-indigo-600 group-data-[invalid]:bg-red-500 dark:bg-indigo-500 dark:group-data-[invalid]:bg-red-400" />
               </span>
-              <span className="text-sm text-gray-900">{option.label}</span>
+              <span className="text-sm text-gray-900 dark:text-white">{option.label}</span>
             </Radio.Root>
           );
         })}
       </RadioGroup>
       {fieldState.error?.message && (
-        <Field.Error match={true} className="text-xs text-red-600">
+        <Field.Error match={true} className="text-xs text-red-600 dark:text-red-400">
           {fieldState.error.message}
         </Field.Error>
       )}

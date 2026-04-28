@@ -25,10 +25,10 @@ const SelectOptionItem: React.FC<SelectOption> = (option) => (
   <Select.Item
     value={option.value}
     disabled={option.disabled}
-    className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm text-gray-900 outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-indigo-50 data-[highlighted]:text-indigo-900 data-[selected]:font-medium"
+    className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm text-gray-900 outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-indigo-50 data-[highlighted]:text-indigo-900 data-[selected]:font-medium dark:text-white dark:data-[highlighted]:bg-indigo-900/40 dark:data-[highlighted]:text-indigo-100"
   >
     <Select.ItemText>{option.label}</Select.ItemText>
-    <Select.ItemIndicator className="ml-auto text-indigo-600">
+    <Select.ItemIndicator className="ml-auto text-indigo-600 dark:text-indigo-400">
       <svg
         viewBox="0 0 16 16"
         className="size-4"
@@ -59,13 +59,16 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
 
   return (
     <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
-      <Field.Label className="text-sm font-medium text-gray-700 data-[disabled]:opacity-50">{props.label}</Field.Label>
+      <Field.Label className="text-sm font-medium text-gray-700 dark:text-gray-300 data-[disabled]:opacity-50">{props.label}</Field.Label>
       <Select.Root {...selectRootProps}>
-        <Select.Trigger className="group flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 text-sm shadow-xs outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[focus-visible]:border-indigo-500 data-[focus-visible]:ring-2 data-[focus-visible]:ring-indigo-500/20 data-[invalid]:border-red-500 data-[popup-open]:border-indigo-500">
-          <Select.Value placeholder={props.placeholder} className="text-gray-600 data-[value]:text-gray-900" />
+        <Select.Trigger className="group flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 text-sm shadow-xs outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[focus-visible]:border-indigo-500 data-[focus-visible]:ring-2 data-[focus-visible]:ring-indigo-500/20 data-[invalid]:border-red-500 data-[popup-open]:border-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:data-[focus-visible]:border-indigo-400 dark:data-[focus-visible]:ring-indigo-400/20 dark:data-[invalid]:border-red-400 dark:data-[popup-open]:border-indigo-400">
+          <Select.Value
+            placeholder={props.placeholder}
+            className="text-gray-600 dark:text-gray-400 data-[value]:text-gray-900 dark:data-[value]:text-white"
+          />
           <svg
             viewBox="0 0 16 16"
-            className="size-4 shrink-0 text-gray-400 transition-transform group-data-[popup-open]:rotate-180"
+            className="size-4 shrink-0 text-gray-400 transition-transform group-data-[popup-open]:rotate-180 dark:text-gray-500"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
@@ -78,7 +81,7 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
         </Select.Trigger>
         <Select.Portal>
           <Select.Positioner className="z-50">
-            <Select.Popup className="min-w-[var(--anchor-width)] overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg outline-none">
+            <Select.Popup className="min-w-[var(--anchor-width)] overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg outline-none dark:border-gray-700 dark:bg-gray-800">
               <Select.List className="p-1">
                 {props.options.map(
                   (option): React.ReactElement => (
@@ -91,7 +94,7 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
         </Select.Portal>
       </Select.Root>
       {fieldState.error?.message && (
-        <Field.Error match={true} className="text-xs text-red-600">
+        <Field.Error match={true} className="text-xs text-red-600 dark:text-red-400">
           {fieldState.error.message}
         </Field.Error>
       )}
