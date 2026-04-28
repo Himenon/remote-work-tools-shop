@@ -26,12 +26,21 @@ export const SwitchField: React.FC<SwitchFieldProps> = (props) => {
   };
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)}>
-      <Field.Label>{props.label}</Field.Label>
-      <Switch.Root {...switchRootProps}>
-        <Switch.Thumb />
-      </Switch.Root>
-      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
+    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1">
+      <div className="flex items-center justify-between gap-4">
+        <Field.Label className="text-sm font-medium text-gray-700 data-[disabled]:opacity-50">{props.label}</Field.Label>
+        <Switch.Root
+          {...switchRootProps}
+          className="group relative inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent bg-gray-200 outline-none transition-colors data-[checked]:bg-indigo-600 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[focus-visible]:ring-2 data-[focus-visible]:ring-indigo-500 data-[focus-visible]:ring-offset-2 data-[invalid]:bg-red-200 data-[checked]:data-[invalid]:bg-red-500"
+        >
+          <Switch.Thumb className="pointer-events-none inline-block size-5 translate-x-0 rounded-full bg-white shadow-lg transition-transform group-data-[checked]:translate-x-5" />
+        </Switch.Root>
+      </div>
+      {fieldState.error?.message && (
+        <Field.Error match={true} className="text-xs text-red-600">
+          {fieldState.error.message}
+        </Field.Error>
+      )}
     </Field.Root>
   );
 };

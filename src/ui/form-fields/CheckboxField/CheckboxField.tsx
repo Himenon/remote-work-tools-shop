@@ -26,12 +26,36 @@ export const CheckboxField: React.FC<CheckboxFieldProps> = (props) => {
   };
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)}>
-      <Checkbox.Root {...checkboxRootProps}>
-        <Checkbox.Indicator />
-      </Checkbox.Root>
-      <Field.Label>{props.label}</Field.Label>
-      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
+    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1">
+      <div className="flex items-start gap-2">
+        <Checkbox.Root
+          {...checkboxRootProps}
+          className="mt-0.5 flex size-4 shrink-0 cursor-pointer items-center justify-center rounded border border-gray-300 bg-white shadow-xs outline-none transition-colors data-[checked]:border-indigo-600 data-[checked]:bg-indigo-600 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[focus-visible]:ring-2 data-[focus-visible]:ring-indigo-500/30 data-[invalid]:border-red-500 data-[checked]:data-[invalid]:bg-red-500"
+        >
+          <Checkbox.Indicator className="text-white">
+            <svg
+              viewBox="0 0 12 12"
+              className="size-3"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden
+            >
+              <path d="M2.5 6l2.5 2.5 4.5-4.5" />
+            </svg>
+          </Checkbox.Indicator>
+        </Checkbox.Root>
+        <Field.Label className="cursor-pointer select-none text-sm font-medium text-gray-700 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50">
+          {props.label}
+        </Field.Label>
+      </div>
+      {fieldState.error?.message && (
+        <Field.Error match={true} className="text-xs text-red-600">
+          {fieldState.error.message}
+        </Field.Error>
+      )}
     </Field.Root>
   );
 };

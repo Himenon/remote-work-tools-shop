@@ -34,23 +34,33 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
   };
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)}>
-      <Field.Label>{props.label}</Field.Label>
-      <RadioGroup {...radioGroupProps}>
+    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
+      <Field.Label className="text-sm font-medium text-gray-700 data-[disabled]:opacity-50">{props.label}</Field.Label>
+      <RadioGroup {...radioGroupProps} className="flex flex-col gap-2">
         {props.options.map((option) => {
           const radioRootProps: React.ComponentProps<typeof Radio.Root> = {
             value: option.value,
             disabled: option.disabled,
           };
           return (
-            <Radio.Root key={option.value} {...radioRootProps}>
-              <Radio.Indicator />
-              {option.label}
+            <Radio.Root
+              key={option.value}
+              {...radioRootProps}
+              className="group flex cursor-pointer items-center gap-2 outline-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+            >
+              <span className="flex size-4 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white shadow-xs transition-colors group-data-[checked]:border-indigo-600 group-data-[focus-visible]:ring-2 group-data-[focus-visible]:ring-indigo-500/30 group-data-[invalid]:border-red-500">
+                <Radio.Indicator className="size-2 rounded-full bg-indigo-600 group-data-[invalid]:bg-red-500" />
+              </span>
+              <span className="text-sm text-gray-700">{option.label}</span>
             </Radio.Root>
           );
         })}
       </RadioGroup>
-      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
+      {fieldState.error?.message && (
+        <Field.Error match={true} className="text-xs text-red-600">
+          {fieldState.error.message}
+        </Field.Error>
+      )}
     </Field.Root>
   );
 };

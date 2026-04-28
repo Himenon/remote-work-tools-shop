@@ -30,9 +30,9 @@ export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
   };
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)}>
-      <Field.Label>{props.label}</Field.Label>
-      <CheckboxGroup {...checkboxGroupProps}>
+    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
+      <Field.Label className="text-sm font-medium text-gray-700 data-[disabled]:opacity-50">{props.label}</Field.Label>
+      <CheckboxGroup {...checkboxGroupProps} className="flex flex-col gap-2">
         {props.options.map((option) => {
           const checkboxRootProps: React.ComponentProps<typeof Checkbox.Root> = {
             value: option.value,
@@ -40,14 +40,37 @@ export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
             disabled: option.disabled,
           };
           return (
-            <Checkbox.Root key={option.value} {...checkboxRootProps}>
-              <Checkbox.Indicator />
-              {option.label}
+            <Checkbox.Root
+              key={option.value}
+              {...checkboxRootProps}
+              className="group flex cursor-pointer items-center gap-2 outline-none data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
+            >
+              <span className="flex size-4 shrink-0 items-center justify-center rounded border border-gray-300 bg-white shadow-xs transition-colors group-data-[checked]:border-indigo-600 group-data-[checked]:bg-indigo-600 group-data-[focus-visible]:ring-2 group-data-[focus-visible]:ring-indigo-500/30 group-data-[invalid]:border-red-500 group-data-[checked]:group-data-[invalid]:bg-red-500">
+                <Checkbox.Indicator className="text-white">
+                  <svg
+                    viewBox="0 0 12 12"
+                    className="size-3"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden
+                  >
+                    <path d="M2.5 6l2.5 2.5 4.5-4.5" />
+                  </svg>
+                </Checkbox.Indicator>
+              </span>
+              <span className="text-sm text-gray-700">{option.label}</span>
             </Checkbox.Root>
           );
         })}
       </CheckboxGroup>
-      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
+      {fieldState.error?.message && (
+        <Field.Error match={true} className="text-xs text-red-600">
+          {fieldState.error.message}
+        </Field.Error>
+      )}
     </Field.Root>
   );
 };

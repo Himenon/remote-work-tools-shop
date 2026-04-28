@@ -1,5 +1,4 @@
-import { useLayoutEffect } from "react";
-import type { ReactNode } from "react";
+import { type ReactNode, useLayoutEffect } from "react";
 import { useFormContext } from "react-hook-form";
 
 interface SetFormErrorOnMountProps {
@@ -16,7 +15,7 @@ interface SetFormErrorOnMountProps {
  * 親であるこのコンポーネントの useLayoutEffect が実行されるため、
  * setError の通知がサブスクライバーに確実に届く。
  */
-export function SetFormErrorOnMount({ name, message, children }: SetFormErrorOnMountProps) {
+export function SetFormErrorOnMount({ name, message, children }: SetFormErrorOnMountProps): ReactNode {
   const { setError } = useFormContext();
   useLayoutEffect(() => {
     setError(name, { type: "manual", message });

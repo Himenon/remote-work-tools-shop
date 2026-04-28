@@ -21,6 +21,30 @@ export interface SingleSelectFieldProps {
   required?: boolean;
 }
 
+const SelectOptionItem: React.FC<SelectOption> = (option) => (
+  <Select.Item
+    value={option.value}
+    disabled={option.disabled}
+    className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm text-gray-700 outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-indigo-50 data-[highlighted]:text-indigo-900 data-[selected]:font-medium"
+  >
+    <Select.ItemText>{option.label}</Select.ItemText>
+    <Select.ItemIndicator className="ml-auto text-indigo-600">
+      <svg
+        viewBox="0 0 16 16"
+        className="size-4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        <path d="M3.5 8l3 3 5.5-5.5" />
+      </svg>
+    </Select.ItemIndicator>
+  </Select.Item>
+);
+
 export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
   const { control } = useFormContext();
   const { field, fieldState } = useController({ name: props.name, control });
@@ -34,34 +58,43 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
   };
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)}>
-      <Field.Label>{props.label}</Field.Label>
+    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
+      <Field.Label className="text-sm font-medium text-gray-700 data-[disabled]:opacity-50">{props.label}</Field.Label>
       <Select.Root {...selectRootProps}>
-        <Select.Trigger>
-          <Select.Value placeholder={props.placeholder} />
+        <Select.Trigger className="group flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 text-sm shadow-xs outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[focus-visible]:border-indigo-500 data-[focus-visible]:ring-2 data-[focus-visible]:ring-indigo-500/20 data-[invalid]:border-red-500 data-[popup-open]:border-indigo-500">
+          <Select.Value placeholder={props.placeholder} className="text-gray-400 data-[value]:text-gray-900" />
+          <svg
+            viewBox="0 0 16 16"
+            className="size-4 shrink-0 text-gray-400 transition-transform group-data-[popup-open]:rotate-180"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <path d="M4 6l4 4 4-4" />
+          </svg>
         </Select.Trigger>
         <Select.Portal>
-          <Select.Positioner>
-            <Select.Popup>
-              <Select.List>
-                {props.options.map((option) => {
-                  const itemProps: React.ComponentProps<typeof Select.Item> = {
-                    value: option.value,
-                    disabled: option.disabled,
-                  };
-                  return (
-                    <Select.Item key={option.value} {...itemProps}>
-                      <Select.ItemText>{option.label}</Select.ItemText>
-                      <Select.ItemIndicator />
-                    </Select.Item>
-                  );
-                })}
+          <Select.Positioner className="z-50">
+            <Select.Popup className="min-w-[var(--anchor-width)] overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg outline-none">
+              <Select.List className="p-1">
+                {props.options.map(
+                  (option): React.ReactElement => (
+                    <SelectOptionItem key={option.value} {...option} />
+                  ),
+                )}
               </Select.List>
             </Select.Popup>
           </Select.Positioner>
         </Select.Portal>
       </Select.Root>
-      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
+      {fieldState.error?.message && (
+        <Field.Error match={true} className="text-xs text-red-600">
+          {fieldState.error.message}
+        </Field.Error>
+      )}
     </Field.Root>
   );
 };

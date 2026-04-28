@@ -24,10 +24,17 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
   };
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)}>
-      <Field.Label>{props.label}</Field.Label>
-      <Input {...inputProps} />
-      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
+    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
+      <Field.Label className="text-sm font-medium text-gray-700 data-[disabled]:opacity-50">{props.label}</Field.Label>
+      <Input
+        {...inputProps}
+        className="rounded-md border border-gray-300 bg-white px-3 py-2 text-sm shadow-xs outline-none transition-colors placeholder:text-gray-400 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid=true]:border-red-500 aria-[invalid=true]:focus:ring-red-500/20"
+      />
+      {fieldState.error?.message && (
+        <Field.Error match={true} className="text-xs text-red-600">
+          {fieldState.error.message}
+        </Field.Error>
+      )}
     </Field.Root>
   );
 };
