@@ -128,3 +128,90 @@ await expect(body.getByText("選択肢")).toBeInTheDocument();
 ```
 
 <!-- END:test-storybook-rules -->
+
+<!-- BEGIN:vrt-rules -->
+
+## Visual Regression Testing (VRT)
+
+### コマンド
+
+```bash
+pnpm test:vrt:update   # ベースラインスクリーンショットを生成・更新
+pnpm test:run          # スクリーンショットを既存ベースラインと比較（CI向け）
+```
+
+### vrt ファイルの書き方
+
+ファイル名: `*.vrt.tsx`
+
+```tsx
+import { composeStories } from "@storybook/react";
+import { describe, expect, it } from "vitest";
+import * as Stories from "./XxxField.stories";
+
+const { Default, Disabled } = composeStories(Stories);
+
+describe("XxxField のビジュアルスナップショット", () => {
+  it("初期状態", async () => {
+    await Default.run();
+    await expect.element(document.body).toMatchScreenshot("default");
+  });
+  it("操作できない状態", async () => {
+    await Disabled.run();
+    await expect.element(document.body).toMatchScreenshot("disabled");
+  });
+});
+```
+
+### 重要: スクリーンショット名は必ず指定する
+
+`toMatchScreenshot()` を引数なしで呼ぶと、同一ファイル内の全テストが `ComponentName-1` というファイル名に衝突する。
+**必ず** `toMatchScreenshot("name")` のように明示的な名前を渡すこと。
+
+### スクリーンショットの保存場所
+
+```
+src/ui/form-fields/XxxField/__screenshots__/XxxField.vrt.tsx/
+  default-chromium-darwin.png
+  disabled-chromium-darwin.png
+  ...
+```
+
+ベースライン画像は Git に **コミットする**（比較のための正解画像として使う）。
+
+### VRT 設定（vitest.config.ts）
+
+```ts
+browser: {
+  expect: {
+    toMatchScreenshot: {
+      comparatorOptions: {
+        threshold: 0.1,                  // ピクセル単位の差異許容閾値
+        allowedMismatchedPixelRatio: 0.01, // 全体の1%以内の差異を許容
+      },
+    },
+  },
+},
+```
+
+### 動作確認項目
+
+`pnpm test:run` を実行し以下を確認:
+
+```
+Test Files  18 passed (18)
+     Tests  66 passed (66)
+```
+
+| 追加ファイル                | テスト数 |
+| --------------------------- | -------- |
+| `CheckboxField.vrt.tsx`     | 4        |
+| `MultiSelectField.vrt.tsx`  | 4        |
+| `RadioGroupField.vrt.tsx`   | 4        |
+| `SingleSelectField.vrt.tsx` | 4        |
+| `SwitchField.vrt.tsx`       | 4        |
+| `TextField.vrt.tsx`         | 4        |
+
+各コンポーネントに4枚のスクリーンショットが `__screenshots__` ディレクトリに生成されていることを確認する。
+
+<!-- END:vrt-rules -->

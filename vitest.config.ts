@@ -2,7 +2,7 @@ import path from "node:path";
 
 import { defineConfig } from "vitest/config";
 
-process.env.STORYBOOK_COMPONENT_PATHS = "src/**/*.spec.?(m)[jt]s?(x)";
+process.env.STORYBOOK_COMPONENT_PATHS = ["src/**/*.spec.?(m)[jt]s?(x)", "src/**/*.vrt.?(m)[jt]s?(x)"].join(";");
 
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 
@@ -29,6 +29,14 @@ export default defineConfig({
             headless: true,
             provider: playwright({}),
             instances: [{ browser: "chromium" }],
+            expect: {
+              toMatchScreenshot: {
+                comparatorOptions: {
+                  threshold: 0.1,
+                  allowedMismatchedPixelRatio: 0.01,
+                },
+              },
+            },
           },
         },
       },

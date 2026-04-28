@@ -17,6 +17,7 @@
     "fmt": "oxfmt",
     "test": "vitest",
     "test:run": "vitest run",
+    "test:vrt:update": "vitest run --update",
     "storybook": "storybook dev -p 15023",
     "build-storybook": "storybook build"
   },
