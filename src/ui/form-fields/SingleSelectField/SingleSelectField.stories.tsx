@@ -46,9 +46,11 @@ export const OpensDropdown: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole("combobox");
     await userEvent.click(trigger);
-    await expect(canvas.getByText("メモリ 8GB")).toBeInTheDocument();
-    await expect(canvas.getByText("メモリ 16GB")).toBeInTheDocument();
-    await expect(canvas.getByText("メモリ 32GB")).toBeInTheDocument();
+    // Base UI の Select はドロップダウンを portal でレンダリングするため document.body で検索する
+    const body = within(document.body);
+    await expect(body.getByText("メモリ 8GB")).toBeInTheDocument();
+    await expect(body.getByText("メモリ 16GB")).toBeInTheDocument();
+    await expect(body.getByText("メモリ 32GB")).toBeInTheDocument();
   },
 };
 

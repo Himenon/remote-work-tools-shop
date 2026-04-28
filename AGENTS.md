@@ -86,4 +86,45 @@ await Promise.all(checkboxes.map((checkbox: HTMLElement) => expect(checkbox).toH
 - `process.env.STORYBOOK_COMPONENT_PATHS` でspecファイルのglobを設定することでテスト対象に追加できる
 - `globals: true` により `describe`/`it` はグローバル利用可能だが、spec ファイルでは vitest から明示的にimportすること
 
+## 動作確認項目
+
+実装後に `pnpm test:run` を実行して以下を確認すること。
+
+### 期待されるテスト結果
+
+```
+Test Files  12 passed (12)
+     Tests  42 passed (42)
+```
+
+| ファイル                        | テスト数 | 内容                                         |
+| ------------------------------- | -------- | -------------------------------------------- |
+| `CheckboxField.stories.tsx`     | 4        | ストーリー表示確認                           |
+| `CheckboxField.spec.tsx`        | 3        | ラベル・要素・disabled検証                   |
+| `MultiSelectField.stories.tsx`  | 3        | ストーリー表示確認                           |
+| `MultiSelectField.spec.tsx`     | 3        | ラベル・選択肢・disabled検証                 |
+| `RadioGroupField.stories.tsx`   | 3        | ストーリー表示確認                           |
+| `RadioGroupField.spec.tsx`      | 3        | ラベル・選択肢・disabled検証                 |
+| `SingleSelectField.stories.tsx` | 4        | ストーリー表示確認（ドロップダウン開閉含む） |
+| `SingleSelectField.spec.tsx`    | 3        | ラベル・プレースホルダー・disabled検証       |
+| `SwitchField.stories.tsx`       | 4        | ストーリー表示確認                           |
+| `SwitchField.spec.tsx`          | 3        | ラベル・要素・disabled検証                   |
+| `TextField.stories.tsx`         | 3        | ストーリー表示確認                           |
+| `TextField.spec.tsx`            | 3        | ラベル・入力欄・disabled検証                 |
+
+### Base UI portal のストーリー実装注意点
+
+Base UI の `Select`（SingleSelectField）はドロップダウンを **portal** で `canvasElement` の外にレンダリングする。
+ストーリーの play 関数でドロップダウン内の要素を検索するときは `within(document.body)` を使う:
+
+```tsx
+// NG: portal 内の要素は canvasElement の外にある
+const canvas = within(canvasElement);
+await expect(canvas.getByText("選択肢")).toBeInTheDocument();
+
+// OK: document.body 全体から探す
+const body = within(document.body);
+await expect(body.getByText("選択肢")).toBeInTheDocument();
+```
+
 <!-- END:test-storybook-rules -->

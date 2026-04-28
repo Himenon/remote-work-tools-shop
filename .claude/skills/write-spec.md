@@ -85,12 +85,25 @@ const checkboxes: HTMLElement[] = canvas.getAllByRole("checkbox");
 await Promise.all(checkboxes.map((checkbox: HTMLElement) => expect(checkbox).toHaveAttribute("aria-disabled", "true")));
 ```
 
-## テスト実行
+## テスト実行と動作確認
 
 ```bash
 pnpm test:run   # 非ウォッチ（AIエージェント・CI向け）
 pnpm test       # ウォッチモード
 ```
+
+spec ファイルを追加・変更したら必ず `pnpm test:run` を実行して確認すること。
+
+### 合格基準
+
+現時点（42テスト）ですべてパスすること:
+
+```
+Test Files  12 passed (12)
+     Tests  42 passed (42)
+```
+
+新しい spec ファイルを1つ追加するたびにテスト数が増える。テスト数が減っていたら spec の include 設定を確認すること。
 
 ## よくある失敗パターン
 
