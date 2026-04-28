@@ -31,7 +31,7 @@ export const SwitchField: React.FC<SwitchFieldProps> = (props) => {
       <Switch.Root {...switchRootProps}>
         <Switch.Thumb />
       </Switch.Root>
-      {fieldState.error?.message && <Field.Error>{fieldState.error.message}</Field.Error>}
+      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
     </Field.Root>
   );
 };

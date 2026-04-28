@@ -50,7 +50,7 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
           );
         })}
       </RadioGroup>
-      {fieldState.error?.message && <Field.Error>{fieldState.error.message}</Field.Error>}
+      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
     </Field.Root>
   );
 };

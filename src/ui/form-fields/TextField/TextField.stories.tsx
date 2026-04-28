@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, within } from "storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { SetFormErrorOnMount } from "../_test-helpers";
 import { TextField } from "./TextField";
 
 type T = typeof TextField;
@@ -35,13 +36,19 @@ export const WithValue: Story = {
 };
 
 export const ShowsErrorMessage: Story = {
+  render: (props) => {
+    const methods = useForm({ defaultValues: { text: "" } });
+    return (
+      <FormProvider {...methods}>
+        <SetFormErrorOnMount name="text" message="テキストを入力してください">
+          <TextField {...props} />
+        </SetFormErrorOnMount>
+      </FormProvider>
+    );
+  },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const input = canvas.getByRole("textbox");
-    await userEvent.click(input);
-    await userEvent.clear(input);
-    await userEvent.tab();
-    await expect(input).toBeInTheDocument();
+    await expect(await canvas.findByText("テキストを入力してください")).toBeInTheDocument();
   },
 };
 

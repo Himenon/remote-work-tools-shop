@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { SetFormErrorOnMount } from "../_test-helpers";
 import { MultiSelectField } from "./MultiSelectField";
 
 type T = typeof MultiSelectField;
@@ -37,6 +38,23 @@ export const WithDefaultValues: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+export const ShowsErrorMessage: Story = {
+  render: (props) => {
+    const methods = useForm({ defaultValues: { features: [] } });
+    return (
+      <FormProvider {...methods}>
+        <SetFormErrorOnMount name="features" message="搭載機能を1つ以上選択してください">
+          <MultiSelectField {...props} />
+        </SetFormErrorOnMount>
+      </FormProvider>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(await canvas.findByText("搭載機能を1つ以上選択してください")).toBeInTheDocument();
   },
 };
 

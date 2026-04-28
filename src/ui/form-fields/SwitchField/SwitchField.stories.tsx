@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { SetFormErrorOnMount } from "../_test-helpers";
 import { SwitchField } from "./SwitchField";
 
 type T = typeof SwitchField;
@@ -30,6 +31,23 @@ export const On: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+export const ShowsErrorMessage: Story = {
+  render: (props) => {
+    const methods = useForm({ defaultValues: { notifications: false } });
+    return (
+      <FormProvider {...methods}>
+        <SetFormErrorOnMount name="notifications" message="通知設定を有効にしてください">
+          <SwitchField {...props} />
+        </SetFormErrorOnMount>
+      </FormProvider>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(await canvas.findByText("通知設定を有効にしてください")).toBeInTheDocument();
   },
 };
 

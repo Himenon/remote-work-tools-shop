@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, userEvent, within } from "storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { SetFormErrorOnMount } from "../_test-helpers";
 import { SingleSelectField } from "./SingleSelectField";
 
 type T = typeof SingleSelectField;
@@ -38,6 +39,23 @@ export const WithDefaultValue: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+export const ShowsErrorMessage: Story = {
+  render: (props) => {
+    const methods = useForm({ defaultValues: { memory: null } });
+    return (
+      <FormProvider {...methods}>
+        <SetFormErrorOnMount name="memory" message="メモリ容量を選択してください">
+          <SingleSelectField {...props} />
+        </SetFormErrorOnMount>
+      </FormProvider>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(await canvas.findByText("メモリ容量を選択してください")).toBeInTheDocument();
   },
 };
 

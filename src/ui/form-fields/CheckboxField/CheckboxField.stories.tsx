@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { SetFormErrorOnMount } from "../_test-helpers";
 import { CheckboxField } from "./CheckboxField";
 
 type T = typeof CheckboxField;
@@ -30,6 +31,23 @@ export const Checked: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+export const ShowsErrorMessage: Story = {
+  render: (props) => {
+    const methods = useForm({ defaultValues: { agree: false } });
+    return (
+      <FormProvider {...methods}>
+        <SetFormErrorOnMount name="agree" message="利用規約への同意は必須です">
+          <CheckboxField {...props} />
+        </SetFormErrorOnMount>
+      </FormProvider>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(await canvas.findByText("利用規約への同意は必須です")).toBeInTheDocument();
   },
 };
 

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { SetFormErrorOnMount } from "../_test-helpers";
 import { RadioGroupField } from "./RadioGroupField";
 
 type T = typeof RadioGroupField;
@@ -37,6 +38,23 @@ export const WithDefaultValue: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+export const ShowsErrorMessage: Story = {
+  render: (props) => {
+    const methods = useForm({ defaultValues: { plan: "" } });
+    return (
+      <FormProvider {...methods}>
+        <SetFormErrorOnMount name="plan" message="プランの選択は必須です">
+          <RadioGroupField {...props} />
+        </SetFormErrorOnMount>
+      </FormProvider>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(await canvas.findByText("プランの選択は必須です")).toBeInTheDocument();
   },
 };
 

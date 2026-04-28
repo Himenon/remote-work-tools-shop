@@ -27,7 +27,7 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)}>
       <Field.Label>{props.label}</Field.Label>
       <Input {...inputProps} />
-      {fieldState.error?.message && <Field.Error>{fieldState.error.message}</Field.Error>}
+      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
     </Field.Root>
   );
 };

@@ -31,7 +31,7 @@ export const CheckboxField: React.FC<CheckboxFieldProps> = (props) => {
         <Checkbox.Indicator />
       </Checkbox.Root>
       <Field.Label>{props.label}</Field.Label>
-      {fieldState.error?.message && <Field.Error>{fieldState.error.message}</Field.Error>}
+      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
     </Field.Root>
   );
 };

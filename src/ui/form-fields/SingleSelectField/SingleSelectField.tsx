@@ -61,7 +61,7 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
           </Select.Positioner>
         </Select.Portal>
       </Select.Root>
-      {fieldState.error?.message && <Field.Error>{fieldState.error.message}</Field.Error>}
+      {fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>}
     </Field.Root>
   );
 };
