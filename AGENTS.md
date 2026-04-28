@@ -105,6 +105,16 @@ await Promise.all(checkboxes.map((checkbox: HTMLElement) => expect(checkbox).toH
 - ストーリー対象: `src/**/*.stories.@(js|jsx|mjs|ts|tsx)`
 - スペックファイルはStorybookのUI上には表示されない（`stories` フィールドに含まない）
 
+## UIコンポーネント開発時の手順
+
+コンポーネントの新規実装・修正・テスト作成を行う前に、以下の手順を守ること。
+
+1. `pnpm storybook`（ポート 15023）でStorybookを起動する
+2. **Storybook MCP**（MCPサーバー名: `storybook`）を使って既存コンポーネントとストーリーを確認する
+   - 既存のストーリー名・Props・バリアントを把握してから実装を始める
+   - `composeStories` で使用するストーリー名はMCPで確認した名前と一致させる
+3. Storybookが起動していない場合は、MCPを呼ばずにソースコードを直接参照する
+
 ## vitest.config.ts の重要ポイント
 
 - `process.env.STORYBOOK_COMPONENT_PATHS` でspecファイルのglobを設定することでテスト対象に追加できる
