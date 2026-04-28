@@ -1,3 +1,27 @@
+<!-- BEGIN:doc-first-rules -->
+
+# ライブラリの挙動を調査するときはまず公式ドキュメントを読むこと
+
+ソースコードの解析やトレースに入る前に、以下のライブラリは必ず公式ドキュメントを参照すること。
+ドキュメントに答えが書いてある場合がほとんどであり、読まずに進めると数時間の無駄調査になる。
+
+| ライブラリ | ドキュメント URL                                              |
+| ---------- | ------------------------------------------------------------- |
+| Base UI    | https://base-ui.com/react/components/                         |
+| Storybook  | https://storybook.js.org/docs                                 |
+| Vite       | https://vitejs.dev/guide/                                     |
+| Vitest     | https://vitest.dev/guide/                                     |
+| Next.js    | `node_modules/next/dist/docs/` または https://nextjs.org/docs |
+| React      | https://react.dev/reference/react                             |
+
+**調査手順（この順を守ること）**:
+
+1. 公式ドキュメントで該当コンポーネント・API のページを読む
+2. Props 一覧・使用例・注意事項を確認する
+3. それでも解決しない場合に限り、ソースコードを参照する
+
+<!-- END:doc-first-rules -->
+
 <!-- BEGIN:nextjs-agent-rules -->
 
 # This is NOT the Next.js you know

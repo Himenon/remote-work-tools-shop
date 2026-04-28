@@ -58,6 +58,73 @@ const { field, fieldState } = useController({ name: props.name, control });
    - `{ComponentName}.spec.tsx` — vitest テスト（`composeStories` でストーリーを再利用）
 3. `package.json` の `#ui/form-fields/*` エイリアス経由でインポートできる
 
+## Field.Error を使うときの必須設定
+
+### `match={true}` を必ず渡すこと
+
+Base UI の `Field.Error` は、**独自の `FormContext`（Base UI の `<Form>` コンポーネントが提供するもの）** を参照して表示の可否を判断する。
+表示条件は次の通りであり、どちらも満たされない場合は `mounted = false` となり `null` を返す。
+
+```
+rendered = Boolean(formError)            // Base UI の FormContext.errors に値がある
+         || validityData.state.valid === false  // Base UI 独自のバリデーションが実行された
+```
+
+このプロジェクトでは Base UI の `Form` を使わず react-hook-form の `FormProvider` を使うため、
+**どちらの条件も常に false** になる。`Field.Error` は children を渡しても何も表示しない。
+
+**対処**: `match={true}` を渡す。これにより `rendered` が強制的に `true` になり、
+children で渡したエラーメッセージが表示される。
+
+```tsx
+// NG: Field.Error が常に null を返す
+{
+  fieldState.error?.message && <Field.Error>{fieldState.error.message}</Field.Error>;
+}
+
+// OK: match={true} で強制表示
+{
+  fieldState.error?.message && <Field.Error match={true}>{fieldState.error.message}</Field.Error>;
+}
+```
+
+---
+
+## テストで setError を使うときの必須パターン
+
+### `SetFormErrorOnMount` はフィールドを「包む」こと
+
+`src/ui/form-fields/_test-helpers.tsx` の `SetFormErrorOnMount` は Storybook のストーリーで
+マウント直後にエラーをセットするためのヘルパーコンポーネントである。
+
+**兄弟要素として配置してはならない。**
+
+React のレイアウトエフェクトは **子 → 親** の順に実行される。
+`useFormState`（`useController` の内部）はレイアウトエフェクトで購読（subscribe）を設定する。
+購読の設定より先に `setError` が呼ばれると、通知を受け取る購読者がいないため状態更新が発生せず、
+エラーが画面に反映されない。
+
+フィールドコンポーネントを `SetFormErrorOnMount` で包むことで、
+フィールド（子）のレイアウトエフェクトが先に実行されて購読が設定され、
+その後に `SetFormErrorOnMount`（親）のレイアウトエフェクトで `setError` が呼ばれる。
+
+```tsx
+// NG: SetFormErrorOnMount が兄弟かつ先行 → setError 実行時に購読者がいない
+<FormProvider {...methods}>
+  <SetFormErrorOnMount name="agree" message="..." />
+  <CheckboxField {...props} />
+</FormProvider>
+
+// OK: フィールドを包む親として配置 → 購読設定後に setError が実行される
+<FormProvider {...methods}>
+  <SetFormErrorOnMount name="agree" message="...">
+    <CheckboxField {...props} />
+  </SetFormErrorOnMount>
+</FormProvider>
+```
+
+---
+
 ## コンポーネント一覧
 
 | コンポーネント    | 対応 BaseUI                  | 仕様書の view     |
