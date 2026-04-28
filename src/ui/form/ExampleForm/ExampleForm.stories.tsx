@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { fn } from "storybook/test";
+import { action } from "storybook/actions";
 
 import { ExampleForm, type ExampleFormValues } from "./ExampleForm";
 
@@ -33,12 +34,13 @@ export const WithPrefilledValues: Story = {
   name: "送信時の値を Actions で確認できる状態",
   args: {
     onSubmit: fn().mockImplementation((values: ExampleFormValues): void => {
-      console.log("フォーム送信値:", values);
+      action("フォーム送信値")(values);
     }),
   },
   parameters: {
     docs: {
       description: {
+        // oxlint-disable-next-line no-magic-numbers
         story: `フォームを送信すると Actions パネルに入力値が記録されます。確認用の入力値例: ${JSON.stringify(submittedValues, null, 2)}`,
       },
     },

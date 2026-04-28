@@ -1,22 +1,15 @@
 import * as React from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
+import { ExampleFormSchema, type ExampleFormInput, type ExampleFormValues } from "#schema/form/ExampleFormSchema";
 import { MultiSelectField, type MultiSelectOption } from "#ui/field/MultiSelectField";
 import { RadioGroupField, type RadioOption } from "#ui/field/RadioGroupField";
 import { SingleSelectField, type SelectOption } from "#ui/field/SingleSelectField";
 import { SwitchField } from "#ui/field/SwitchField";
 import { TextField } from "#ui/field/TextField";
 
-export interface ExampleFormValues {
-  serverName: string;
-  region: string | null;
-  containerImage: string;
-  serverType: string | null;
-  numOfInstances: string;
-  storageType: string;
-  restartOnFailure: boolean;
-  allowedNetworkProtocols: string[];
-}
+export type { ExampleFormValues };
 
 const REGION_OPTIONS: SelectOption[] = [
   { label: "US East (N. Virginia)", value: "us-east-1" },
@@ -50,7 +43,8 @@ export interface ExampleFormProps {
 }
 
 export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
-  const methods = useForm<ExampleFormValues>({
+  const methods = useForm<ExampleFormInput, unknown, ExampleFormValues>({
+    resolver: zodResolver(ExampleFormSchema),
     defaultValues: {
       serverName: "",
       region: null,
