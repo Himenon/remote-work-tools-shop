@@ -6,9 +6,9 @@ const config: StorybookConfig = {
   addons: ["@chromatic-com/storybook", "@storybook/addon-vitest", "@storybook/addon-a11y", "@storybook/addon-docs", "@storybook/addon-mcp"],
   framework: "@storybook/nextjs-vite",
   staticDirs: ["../public"],
-  viteFinal: (config) => {
-    config.plugins = [tailwindcss(), ...(config.plugins ?? [])];
-    return config;
+  viteFinal: (inlineConfig) => {
+    inlineConfig.plugins = [tailwindcss(), ...(inlineConfig.plugins ?? [])];
+    return inlineConfig;
   },
 };
 export default config;
