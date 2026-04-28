@@ -51,7 +51,7 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
               <span className="flex size-4 shrink-0 items-center justify-center rounded-full border border-gray-300 bg-white shadow-xs transition-colors group-data-[checked]:border-indigo-600 group-data-[focus-visible]:ring-2 group-data-[focus-visible]:ring-indigo-500/30 group-data-[invalid]:border-red-500">
                 <Radio.Indicator className="size-2 rounded-full bg-indigo-600 group-data-[invalid]:bg-red-500" />
               </span>
-              <span className="text-sm text-gray-700">{option.label}</span>
+              <span className="text-sm text-gray-900">{option.label}</span>
             </Radio.Root>
           );
         })}

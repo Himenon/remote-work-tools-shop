@@ -2,7 +2,7 @@ import path from "node:path";
 
 import { defineConfig } from "vitest/config";
 
-process.env.STORYBOOK_COMPONENT_PATHS = ["src/**/*.spec.?(m)[jt]s?(x)", "src/**/*.vrt.?(m)[jt]s?(x)"].join(";");
+process.env.STORYBOOK_COMPONENT_PATHS ??= ["src/**/*.spec.?(m)[jt]s?(x)", "src/**/*.vrt.?(m)[jt]s?(x)"].join(";");
 
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 

@@ -25,7 +25,7 @@ const SelectOptionItem: React.FC<SelectOption> = (option) => (
   <Select.Item
     value={option.value}
     disabled={option.disabled}
-    className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm text-gray-700 outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-indigo-50 data-[highlighted]:text-indigo-900 data-[selected]:font-medium"
+    className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm text-gray-900 outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-indigo-50 data-[highlighted]:text-indigo-900 data-[selected]:font-medium"
   >
     <Select.ItemText>{option.label}</Select.ItemText>
     <Select.ItemIndicator className="ml-auto text-indigo-600">
@@ -62,7 +62,7 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
       <Field.Label className="text-sm font-medium text-gray-700 data-[disabled]:opacity-50">{props.label}</Field.Label>
       <Select.Root {...selectRootProps}>
         <Select.Trigger className="group flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 text-sm shadow-xs outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[focus-visible]:border-indigo-500 data-[focus-visible]:ring-2 data-[focus-visible]:ring-indigo-500/20 data-[invalid]:border-red-500 data-[popup-open]:border-indigo-500">
-          <Select.Value placeholder={props.placeholder} className="text-gray-400 data-[value]:text-gray-900" />
+          <Select.Value placeholder={props.placeholder} className="text-gray-600 data-[value]:text-gray-900" />
           <svg
             viewBox="0 0 16 16"
             className="size-4 shrink-0 text-gray-400 transition-transform group-data-[popup-open]:rotate-180"

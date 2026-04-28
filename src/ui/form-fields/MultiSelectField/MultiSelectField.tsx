@@ -61,7 +61,7 @@ export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
                   </svg>
                 </Checkbox.Indicator>
               </span>
-              <span className="text-sm text-gray-700">{option.label}</span>
+              <span className="text-sm text-gray-900">{option.label}</span>
             </Checkbox.Root>
           );
         })}
