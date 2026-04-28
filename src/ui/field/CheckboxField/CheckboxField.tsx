@@ -2,7 +2,7 @@ import { Checkbox } from "@base-ui/react/checkbox";
 import { Field } from "@base-ui/react/field";
 import * as React from "react";
 import { useController, useFormContext } from "react-hook-form";
-import { FieldTextError } from "../FieldTextError/FieldTextError";
+import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface CheckboxFieldProps {
   name: string;

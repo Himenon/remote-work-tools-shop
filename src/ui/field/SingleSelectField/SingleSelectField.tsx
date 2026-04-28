@@ -2,7 +2,7 @@ import { Field } from "@base-ui/react/field";
 import { Select } from "@base-ui/react/select";
 import * as React from "react";
 import { useController, useFormContext } from "react-hook-form";
-import { FieldTextError } from "../FieldTextError/FieldTextError";
+import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface SelectOption {
   label: string;

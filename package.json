@@ -5,7 +5,7 @@
   "imports": {
     "#ui/primitive/*": "./src/ui/primitive/*/*.tsx",
     "#ui/form/*": "./src/ui/form/*/*.tsx",
-    "#ui/fields/*": "./src/ui/fields/*/*.tsx",
+    "#ui/field/*": "./src/ui/field/*/*.tsx",
     "#schema/field/*": "./src/schema/field/*.ts",
     "#schema/form/*": "./src/schema/form/*.ts",
     "#test-helper/storybook": "./src/test-helper/storybook/index.ts"

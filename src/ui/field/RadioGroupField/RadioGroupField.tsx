@@ -3,7 +3,7 @@ import { Radio } from "@base-ui/react/radio";
 import { RadioGroup } from "@base-ui/react/radio-group";
 import * as React from "react";
 import { useController, useFormContext } from "react-hook-form";
-import { FieldTextError } from "../FieldTextError/FieldTextError";
+import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface RadioOption {
   label: string;

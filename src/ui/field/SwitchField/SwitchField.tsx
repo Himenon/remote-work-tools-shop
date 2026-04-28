@@ -2,7 +2,7 @@ import { Field } from "@base-ui/react/field";
 import { Switch } from "@base-ui/react/switch";
 import * as React from "react";
 import { useController, useFormContext } from "react-hook-form";
-import { FieldTextError } from "../FieldTextError/FieldTextError";
+import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface SwitchFieldProps {
   name: string;
