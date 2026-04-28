@@ -52,7 +52,15 @@
     "filename-case": "off",
     "prefer-destructuring": "off",
     "max-params": "off",
-    "unicorn/no-array-for-each": "off"
+    "unicorn/no-array-for-each": "off",
+    "eslint/max-lines-per-function": [
+      "error",
+      {
+        "skipComments": true,
+        "skipBlankLines": true
+      }
+    ],
+    "eslint/no-alert": "off"
   },
   "env": {
     "builtin": true

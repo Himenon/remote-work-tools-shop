@@ -67,6 +67,7 @@ export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
     if (props.onSubmit) {
       props.onSubmit(values);
     } else {
+      // oxlint-disable-next-line no-magic-numbers
       alert(JSON.stringify(values, null, 2));
     }
   });
