@@ -1,12 +1,11 @@
 import path from "node:path";
 
+import tailwindcss from "@tailwindcss/vite";
+import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
 
 process.env.STORYBOOK_COMPONENT_PATHS ??= ["src/**/*.spec.?(m)[jt]s?(x)", "src/**/*.vrt.?(m)[jt]s?(x)"].join(";");
-
-import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
-
-import { playwright } from "@vitest/browser-playwright";
 
 const dirname = typeof __dirname === "undefined" ? import.meta.dirname : __dirname;
 
@@ -17,6 +16,7 @@ const dirname = typeof __dirname === "undefined" ? import.meta.dirname : __dirna
 //         アクセシビリティチェック用であり、CI 上で実行目的が異なる。
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+  plugins: [tailwindcss()],
   test: {
     globals: true,
     projects: [
@@ -27,12 +27,16 @@ export default defineConfig({
           // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
           storybookTest({ configDir: path.join(dirname, ".storybook") }),
         ],
+        // __VITEST_DARK__ を false に置換する。未定義のままだと preview.ts が ReferenceError を投げる。
+        define: { __VITEST_DARK__: "false" },
         test: {
           name: "storybook",
           browser: {
             enabled: true,
             headless: true,
             provider: playwright({}),
+            // 16:10 のビューポートサイズで撮影する
+            viewport: { width: 1280, height: 800 },
             instances: [{ browser: "chromium" }],
             expect: {
               toMatchScreenshot: {
