@@ -2,6 +2,8 @@ import path from "node:path";
 
 import { defineConfig } from "vitest/config";
 
+process.env.STORYBOOK_COMPONENT_PATHS = "src/**/*.spec.?(m)[jt]s?(x)";
+
 import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 
 import { playwright } from "@vitest/browser-playwright";
@@ -11,6 +13,7 @@ const dirname = typeof __dirname === "undefined" ? import.meta.dirname : __dirna
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   test: {
+    globals: true,
     projects: [
       {
         extends: true,
