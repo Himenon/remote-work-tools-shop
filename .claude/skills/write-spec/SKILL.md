@@ -15,7 +15,7 @@ description: specファイルを書く。「specを書いて」「テストを�
 ストーリーファイルと同じディレクトリに配置する:
 
 ```
-src/ui/form-fields/XxxField/
+src/ui/fields/XxxField/
   XxxField.tsx
   XxxField.stories.tsx   ← ストーリー定義
   XxxField.spec.tsx      ← spec（ここに書く）

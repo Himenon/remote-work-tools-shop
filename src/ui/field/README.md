@@ -1,4 +1,4 @@
-# form-fields
+# fields
 
 react-hook-form と BaseUI を組み合わせたフォームフィールドコンポーネント群。
 
@@ -8,7 +8,7 @@ react-hook-form と BaseUI を組み合わせたフォームフィールドコ�
 
 ```tsx
 import { useForm, FormProvider } from "react-hook-form";
-import { TextField } from "#ui/form-fields/TextField";
+import { TextField } from "#ui/fields/TextField";
 
 const methods = useForm({ defaultValues: { name: "" } });
 
@@ -51,12 +51,12 @@ const { field, fieldState } = useController({ name: props.name, control });
 
 ## 新しいフィールドを追加するとき
 
-1. `src/ui/form-fields/{ComponentName}/` ディレクトリを作成する
+1. `src/ui/fields/{ComponentName}/` ディレクトリを作成する
 2. 以下の 3 ファイルを用意する：
    - `{ComponentName}.tsx` — コンポーネント本体
    - `{ComponentName}.stories.tsx` — Storybook ストーリー（`play` 関数でインタラクションをテスト）
    - `{ComponentName}.spec.tsx` — vitest テスト（`composeStories` でストーリーを再利用）
-3. `package.json` の `#ui/form-fields/*` エイリアス経由でインポートできる
+3. `package.json` の `#ui/fields/*` エイリアス経由でインポートできる
 
 ## Field.Error を使うときの必須設定
 
@@ -94,7 +94,7 @@ children で渡したエラーメッセージが表示される。
 
 ### `SetFormErrorOnMount` はフィールドを「包む」こと
 
-`src/ui/form-fields/_test-helpers.tsx` の `SetFormErrorOnMount` は Storybook のストーリーで
+`src/ui/fields/_test-helpers.tsx` の `SetFormErrorOnMount` は Storybook のストーリーで
 マウント直後にエラーをセットするためのヘルパーコンポーネントである。
 
 **兄弟要素として配置してはならない。**

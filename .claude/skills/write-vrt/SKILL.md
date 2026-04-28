@@ -8,7 +8,7 @@ description: VRTファイルを書く。「VRTを書いて」「ビジュアル�
 ## ファイル配置
 
 ```
-src/ui/form-fields/XxxField/
+src/ui/fields/XxxField/
   XxxField.tsx
   XxxField.stories.tsx
   XxxField.vrt.tsx      ← VRT（ここに書く）

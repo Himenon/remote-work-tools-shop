@@ -215,7 +215,7 @@ describe("XxxField のビジュアルスナップショット", () => {
 ### スクリーンショットの保存場所
 
 ```
-src/ui/form-fields/XxxField/__screenshots__/XxxField.vrt.tsx/
+src/ui/fields/XxxField/__screenshots__/XxxField.vrt.tsx/
   default-chromium-darwin.png
   disabled-chromium-darwin.png
   ...
