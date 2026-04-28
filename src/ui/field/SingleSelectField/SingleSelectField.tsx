@@ -2,6 +2,7 @@ import { Field } from "@base-ui/react/field";
 import { Select } from "@base-ui/react/select";
 import * as React from "react";
 import { useController, useFormContext } from "react-hook-form";
+import { FieldTextError } from "../FieldTextError/FieldTextError";
 
 export interface SelectOption {
   label: string;
@@ -93,11 +94,7 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
           </Select.Positioner>
         </Select.Portal>
       </Select.Root>
-      {fieldState.error?.message && (
-        <Field.Error match={true} className="text-xs text-red-600 dark:text-red-400">
-          {fieldState.error.message}
-        </Field.Error>
-      )}
+      <FieldTextError message={fieldState.error?.message} />
     </Field.Root>
   );
 };

@@ -5,7 +5,8 @@ import "../src/app/globals.css";
 declare const __VITEST_DARK__: boolean | undefined;
 
 const withTheme: Decorator = (Story, context) => {
-  const isDarkForced = __VITEST_DARK__ !== undefined && __VITEST_DARK__;
+  // oxlint-disable-next-line unicorn/no-typeof-undefined
+  const isDarkForced = typeof __VITEST_DARK__ !== "undefined" && __VITEST_DARK__;
   const isDark = isDarkForced || (context.globals as { theme?: string }).theme === "dark";
   document.documentElement.classList.toggle("dark", isDark);
   document.documentElement.style.backgroundColor = isDark ? "oklch(15% 1% 264deg)" : "";

@@ -3,6 +3,7 @@ import { Radio } from "@base-ui/react/radio";
 import { RadioGroup } from "@base-ui/react/radio-group";
 import * as React from "react";
 import { useController, useFormContext } from "react-hook-form";
+import { FieldTextError } from "../FieldTextError/FieldTextError";
 
 export interface RadioOption {
   label: string;
@@ -56,11 +57,7 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
           );
         })}
       </RadioGroup>
-      {fieldState.error?.message && (
-        <Field.Error match={true} className="text-xs text-red-600 dark:text-red-400">
-          {fieldState.error.message}
-        </Field.Error>
-      )}
+      <FieldTextError message={fieldState.error?.message} />
     </Field.Root>
   );
 };

@@ -2,6 +2,7 @@ import { Checkbox } from "@base-ui/react/checkbox";
 import { Field } from "@base-ui/react/field";
 import * as React from "react";
 import { useController, useFormContext } from "react-hook-form";
+import { FieldTextError } from "../FieldTextError/FieldTextError";
 
 export interface CheckboxFieldProps {
   name: string;
@@ -51,11 +52,7 @@ export const CheckboxField: React.FC<CheckboxFieldProps> = (props) => {
           {props.label}
         </Field.Label>
       </div>
-      {fieldState.error?.message && (
-        <Field.Error match={true} className="text-xs text-red-600 dark:text-red-400">
-          {fieldState.error.message}
-        </Field.Error>
-      )}
+      <FieldTextError message={fieldState.error?.message} />
     </Field.Root>
   );
 };
