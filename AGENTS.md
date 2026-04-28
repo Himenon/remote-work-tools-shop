@@ -180,7 +180,7 @@ await expect(body.getByText("選択肢")).toBeInTheDocument();
 ### コマンド
 
 ```bash
-pnpm test:vrt:update   # ベースラインスクリーンショットを生成・更新
+pnpm test:update   # ベースラインスクリーンショットを生成・更新
 pnpm test:run          # スクリーンショットを既存ベースラインと比較（CI向け）
 ```
 

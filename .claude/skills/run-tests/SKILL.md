@@ -36,4 +36,4 @@ Test Files  18 passed (18)
 | `canvas is undefined`       | `run()` の返り値を使っていないか確認 → `within(document.body)` を使う |
 | `toBeDisabled()` が失敗     | Base UI コンポーネントは `aria-disabled="true"` で検証する            |
 | spec ファイルがテスト対象外 | `vitest.config.ts` の `STORYBOOK_COMPONENT_PATHS` を確認              |
-| スクリーンショット差分      | VRT のベースラインが古い → `pnpm test:vrt:update` で更新              |
+| スクリーンショット差分      | VRT のベースラインが古い → `pnpm test:update` で更新                  |
