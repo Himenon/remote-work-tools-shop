@@ -7,7 +7,7 @@ import { SingleSelectField, type SelectOption } from "#ui/field/SingleSelectFiel
 import { SwitchField } from "#ui/field/SwitchField";
 import { TextField } from "#ui/field/TextField";
 
-export type ExampleFormValues = {
+export interface ExampleFormValues {
   serverName: string;
   region: string | null;
   containerImage: string;
@@ -16,7 +16,7 @@ export type ExampleFormValues = {
   storageType: string;
   restartOnFailure: boolean;
   allowedNetworkProtocols: string[];
-};
+}
 
 const REGION_OPTIONS: SelectOption[] = [
   { label: "US East (N. Virginia)", value: "us-east-1" },

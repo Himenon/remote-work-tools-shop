@@ -14,7 +14,6 @@
     "no-warning-comments": "off",
     "strict-boolean-expressions": "off",
     "sort-keys": "off",
-    "consistent-type-definitions": "off",
     "promise-function-async": "off",
     "prefer-template": "off",
     "max-statements": "off",
