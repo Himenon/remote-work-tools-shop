@@ -12,3 +12,4 @@ minimumReleaseAgeExclude:
 onlyBuiltDependencies:
   - "@parcel/watcher"
   - esbuild
+  - lefthook
