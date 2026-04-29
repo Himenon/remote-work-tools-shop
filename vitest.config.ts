@@ -18,7 +18,7 @@ const dirname = typeof __dirname === "undefined" ? import.meta.dirname : __dirna
 export default defineConfig({
   plugins: [tailwindcss()],
   optimizeDeps: {
-    include: ["@base-ui/react/fieldset", "@base-ui/react/slider"],
+    include: ["@base-ui/react/fieldset", "@base-ui/react/number-field", "@base-ui/react/slider"],
   },
   test: {
     globals: true,

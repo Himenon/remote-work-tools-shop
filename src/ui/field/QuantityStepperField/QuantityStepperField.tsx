@@ -1,0 +1,60 @@
+import { Field } from "@base-ui/react/field";
+import { NumberField } from "@base-ui/react/number-field";
+import * as React from "react";
+import { useController, useFormContext } from "react-hook-form";
+
+import { FieldTextError } from "#ui/field/FieldTextError";
+
+export interface QuantityStepperFieldProps {
+  name: string;
+  label: string;
+  min?: number;
+  max?: number;
+  step?: number;
+  /** @default false */
+  disabled?: boolean;
+  /** @default false */
+  required?: boolean;
+}
+
+const stepperButtonClassName =
+  "flex size-9 shrink-0 items-center justify-center text-gray-600 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-400 dark:hover:bg-gray-800";
+
+export const QuantityStepperField: React.FC<QuantityStepperFieldProps> = (props) => {
+  const { control } = useFormContext();
+  const { field, fieldState } = useController({ name: props.name, control });
+
+  const numberFieldRootProps: React.ComponentProps<typeof NumberField.Root> = {
+    value: field.value as number | null,
+    onValueChange: (value: number | null): void => {
+      field.onChange(value);
+    },
+    name: field.name,
+    inputRef: field.ref,
+    min: props.min,
+    max: props.max,
+    step: props.step,
+    disabled: props.disabled,
+    required: props.required,
+  };
+
+  return (
+    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
+      <Field.Label className="text-sm font-medium text-gray-700 data-[disabled]:opacity-50 dark:text-gray-300">{props.label}</Field.Label>
+      <NumberField.Root {...numberFieldRootProps}>
+        <NumberField.Group className="inline-flex items-center overflow-hidden rounded-md border border-gray-300 bg-white shadow-xs transition-colors focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 data-[invalid]:border-red-500 data-[invalid]:focus-within:ring-red-500/20 dark:border-gray-700 dark:bg-gray-900">
+          <NumberField.Decrement aria-label="数量を減らす" className={stepperButtonClassName}>
+            −
+          </NumberField.Decrement>
+          <NumberField.Input className="w-16 bg-transparent py-2 text-center text-sm text-gray-900 outline-none disabled:cursor-not-allowed disabled:opacity-50 dark:text-white" />
+          <NumberField.Increment aria-label="数量を増やす" className={stepperButtonClassName}>
+            +
+          </NumberField.Increment>
+        </NumberField.Group>
+      </NumberField.Root>
+      <FieldTextError message={fieldState.error?.message} />
+    </Field.Root>
+  );
+};
+
+QuantityStepperField.displayName = "QuantityStepperField";
