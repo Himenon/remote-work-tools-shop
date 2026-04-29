@@ -89,11 +89,11 @@ await Promise.all(checkboxes.map((checkbox: HTMLElement) => expect(checkbox).toH
 ## テスト実行と動作確認
 
 ```bash
-pnpm test:run   # 非ウォッチ（AIエージェント・CI向け）
+pnpm test   # 非ウォッチ（AIエージェント・CI向け）
 pnpm test       # ウォッチモード
 ```
 
-spec ファイルを追加・変更したら必ず `pnpm test:run` を実行して確認すること。
+spec ファイルを追加・変更したら必ず `pnpm test` を実行して確認すること。
 
 ### 合格基準
 

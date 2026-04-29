@@ -21,6 +21,7 @@ describe("ExampleForm の表示確認", () => {
     await expect(canvas.getByText("コンテナイメージ")).toBeInTheDocument();
     await expect(canvas.getByText("サーバータイプ")).toBeInTheDocument();
     await expect(canvas.getByText("インスタンス数")).toBeInTheDocument();
+    await expect(canvas.getByText("スケーリング閾値")).toBeInTheDocument();
     await expect(canvas.getByText("ストレージタイプ")).toBeInTheDocument();
     await expect(canvas.getByText("障害時に自動再起動する")).toBeInTheDocument();
     await expect(canvas.getByText("許可するネットワークプロトコル")).toBeInTheDocument();

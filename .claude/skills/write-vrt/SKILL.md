@@ -63,10 +63,10 @@ await expect.element(document.body).toMatchScreenshot("disabled");
 pnpm test:update
 
 # 比較（CI・日常確認）
-pnpm test:run
+pnpm test
 ```
 
-VRT ファイルを追加・変更したら `pnpm test:update` でベースラインを生成してから `pnpm test:run` で確認する。
+VRT ファイルを追加・変更したら `pnpm test:update` でベースラインを生成してから `pnpm test` で確認する。
 
 ### 合格基準
 

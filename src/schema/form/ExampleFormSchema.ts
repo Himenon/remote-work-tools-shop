@@ -2,8 +2,8 @@ import { z } from "zod";
 
 const NON_EMPTY_MIN_LENGTH = 1;
 const SERVER_NAME_MIN_LENGTH = 3;
-const INSTANCES_MIN = 1;
-const INSTANCES_MAX = 64;
+export const INSTANCES_MIN = 1;
+export const INSTANCES_MAX = 64;
 
 const nullableRequiredString = (message: string) =>
   z
@@ -27,15 +27,19 @@ export const ExampleFormSchema = z.object({
   containerImage: z.string().min(NON_EMPTY_MIN_LENGTH, "コンテナイメージを入力してください"),
   serverType: nullableRequiredString("サーバータイプを選択してください"),
   numOfInstances: z
-    .string()
-    .min(NON_EMPTY_MIN_LENGTH, "インスタンス数を入力してください")
-    .refine(
-      (v) => {
-        const n = Number(v);
-        return Number.isInteger(n) && n >= INSTANCES_MIN && n <= INSTANCES_MAX;
-      },
-      { message: "インスタンス数は1〜64の整数で入力してください" },
-    ),
+    .number()
+    .int("インスタンス数は整数で入力してください")
+    .min(INSTANCES_MIN, "インスタンス数は1以上で入力してください")
+    .max(INSTANCES_MAX, "インスタンス数は64以下で入力してください")
+    .nullable()
+    .transform((val, ctx) => {
+      if (val === null) {
+        ctx.addIssue({ code: "custom", message: "インスタンス数を入力してください" });
+        return z.NEVER;
+      }
+      return val;
+    }),
+  scalingThreshold: z.array(z.number()),
   storageType: z.string(),
   restartOnFailure: z.boolean(),
   allowedNetworkProtocols: z.array(z.string()),

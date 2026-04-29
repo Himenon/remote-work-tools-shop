@@ -2,8 +2,10 @@ import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { ExampleFormSchema, type ExampleFormInput, type ExampleFormValues } from "#schema/form/ExampleFormSchema";
+import { ExampleFormSchema, INSTANCES_MIN, INSTANCES_MAX, type ExampleFormInput, type ExampleFormValues } from "#schema/form/ExampleFormSchema";
 import { MultiSelectField, type MultiSelectOption } from "#ui/field/MultiSelectField";
+import { NumberSlideField } from "#ui/field/NumberSlideField";
+import { QuantityStepperField } from "#ui/field/QuantityStepperField";
 import { RadioGroupField, type RadioOption } from "#ui/field/RadioGroupField";
 import { SingleSelectField, type SelectOption } from "#ui/field/SingleSelectField";
 import { SwitchField } from "#ui/field/SwitchField";
@@ -38,6 +40,10 @@ const NETWORK_PROTOCOL_OPTIONS: MultiSelectOption[] = [
   { label: "HTTPS", value: "https" },
 ];
 
+const SCALING_THRESHOLD_MIN_DEFAULT = 0.2;
+const SCALING_THRESHOLD_MAX_DEFAULT = 0.8;
+const SCALING_THRESHOLD_FORMAT: Intl.NumberFormatOptions = { style: "percent" };
+
 export interface ExampleFormProps {
   onSubmit?: (values: ExampleFormValues) => void;
 }
@@ -50,7 +56,8 @@ export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
       region: null,
       containerImage: "",
       serverType: null,
-      numOfInstances: "",
+      numOfInstances: null,
+      scalingThreshold: [SCALING_THRESHOLD_MIN_DEFAULT, SCALING_THRESHOLD_MAX_DEFAULT],
       storageType: "ssd",
       restartOnFailure: true,
       allowedNetworkProtocols: [],
@@ -79,7 +86,9 @@ export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
 
         <SingleSelectField name="serverType" label="サーバータイプ" options={SERVER_TYPE_OPTIONS} placeholder="サーバータイプを選択" required />
 
-        <TextField name="numOfInstances" label="インスタンス数" placeholder="1〜64" required />
+        <QuantityStepperField name="numOfInstances" label="インスタンス数" min={INSTANCES_MIN} max={INSTANCES_MAX} required />
+
+        <NumberSlideField name="scalingThreshold" label="スケーリング閾値" format={SCALING_THRESHOLD_FORMAT} />
 
         <RadioGroupField name="storageType" label="ストレージタイプ" options={STORAGE_TYPE_OPTIONS} />
 

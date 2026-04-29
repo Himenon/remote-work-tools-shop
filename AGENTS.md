@@ -47,7 +47,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 ## テスト実行コマンド
 
 ```bash
-pnpm test:run   # 非ウォッチモード（CI・AIエージェント向け）
+pnpm test   # 非ウォッチモード（CI・AIエージェント向け）
 pnpm test       # ウォッチモード（開発中）
 ```
 
@@ -132,7 +132,7 @@ await Promise.all(checkboxes.map((checkbox: HTMLElement) => expect(checkbox).toH
 
 ## 動作確認項目
 
-実装後に `pnpm test:run` を実行して以下を確認すること。
+実装後に `pnpm test` を実行して以下を確認すること。
 
 ### 期待されるテスト結果
 
@@ -181,7 +181,7 @@ await expect(body.getByText("選択肢")).toBeInTheDocument();
 
 ```bash
 pnpm test:update   # ベースラインスクリーンショットを生成・更新
-pnpm test:run          # スクリーンショットを既存ベースラインと比較（CI向け）
+pnpm test          # スクリーンショットを既存ベースラインと比較（CI向け）
 ```
 
 ### vrt ファイルの書き方
@@ -240,7 +240,7 @@ browser: {
 
 ### 動作確認項目
 
-`pnpm test:run` を実行し以下を確認:
+`pnpm test` を実行し以下を確認:
 
 ```
 Test Files  18 passed (18)
