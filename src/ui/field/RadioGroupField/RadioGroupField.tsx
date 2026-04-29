@@ -3,6 +3,7 @@ import { Radio } from "@base-ui/react/radio";
 import { RadioGroup } from "@base-ui/react/radio-group";
 import * as React from "react";
 import { useController } from "react-hook-form";
+import { FieldLabel } from "#ui/field/FieldLabel";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface RadioOption {
@@ -35,7 +36,7 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
 
   return (
     <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
-      <Field.Label className="text-sm font-medium text-gray-700 dark:text-gray-300 data-[disabled]:opacity-50">{props.label}</Field.Label>
+      <FieldLabel>{props.label}</FieldLabel>
       <RadioGroup {...radioGroupProps} className="flex flex-col gap-2">
         {props.options.map((option) => {
           const radioRootProps: React.ComponentProps<typeof Radio.Root> = {

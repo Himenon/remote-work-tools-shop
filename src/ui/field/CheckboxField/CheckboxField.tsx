@@ -2,6 +2,7 @@ import { Checkbox } from "@base-ui/react/checkbox";
 import { Field } from "@base-ui/react/field";
 import * as React from "react";
 import { useController } from "react-hook-form";
+import { FieldLabel } from "#ui/field/FieldLabel";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface CheckboxFieldProps {
@@ -47,9 +48,7 @@ export const CheckboxField: React.FC<CheckboxFieldProps> = (props) => {
             </svg>
           </Checkbox.Indicator>
         </Checkbox.Root>
-        <Field.Label className="cursor-pointer select-none text-sm font-medium text-gray-700 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 dark:text-gray-300">
-          {props.label}
-        </Field.Label>
+        <FieldLabel clickable>{props.label}</FieldLabel>
       </div>
       <FieldTextError message={fieldState.error?.message} />
     </Field.Root>

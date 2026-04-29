@@ -3,6 +3,7 @@ import { NumberField } from "@base-ui/react/number-field";
 import * as React from "react";
 import { useController } from "react-hook-form";
 
+import { FieldLabel } from "#ui/field/FieldLabel";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface QuantityStepperFieldProps {
@@ -39,7 +40,7 @@ export const QuantityStepperField: React.FC<QuantityStepperFieldProps> = (props)
 
   return (
     <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
-      <Field.Label className="text-sm font-medium text-gray-700 data-[disabled]:opacity-50 dark:text-gray-300">{props.label}</Field.Label>
+      <FieldLabel>{props.label}</FieldLabel>
       <NumberField.Root {...numberFieldRootProps}>
         <NumberField.Group className="inline-flex items-center overflow-hidden rounded-md border border-gray-300 bg-white shadow-xs transition-colors focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 data-[invalid]:border-red-500 data-[invalid]:focus-within:ring-red-500/20 dark:border-gray-700 dark:bg-gray-900">
           <NumberField.Decrement aria-label="数量を減らす" className={stepperButtonClassName}>

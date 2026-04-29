@@ -3,6 +3,7 @@ import { CheckboxGroup } from "@base-ui/react/checkbox-group";
 import { Field } from "@base-ui/react/field";
 import * as React from "react";
 import { useController } from "react-hook-form";
+import { FieldLabel } from "#ui/field/FieldLabel";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface MultiSelectOption {
@@ -31,7 +32,7 @@ export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
 
   return (
     <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
-      <Field.Label className="text-sm font-medium text-gray-700 dark:text-gray-300 data-[disabled]:opacity-50">{props.label}</Field.Label>
+      <FieldLabel>{props.label}</FieldLabel>
       <CheckboxGroup {...checkboxGroupProps} className="flex flex-col gap-2">
         {props.options.map((option) => {
           const checkboxRootProps: React.ComponentProps<typeof Checkbox.Root> = {
