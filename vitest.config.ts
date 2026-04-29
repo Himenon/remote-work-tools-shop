@@ -17,6 +17,9 @@ const dirname = typeof __dirname === "undefined" ? import.meta.dirname : __dirna
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [tailwindcss()],
+  optimizeDeps: {
+    include: ["@base-ui/react/fieldset", "@base-ui/react/slider"],
+  },
   test: {
     globals: true,
     projects: [

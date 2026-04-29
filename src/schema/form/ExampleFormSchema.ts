@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+const NON_EMPTY_MIN_LENGTH = 1;
+const SERVER_NAME_MIN_LENGTH = 3;
+const INSTANCES_MIN = 1;
+const INSTANCES_MAX = 64;
+
 const nullableRequiredString = (message: string) =>
   z
     .string()
@@ -15,19 +20,19 @@ const nullableRequiredString = (message: string) =>
 export const ExampleFormSchema = z.object({
   serverName: z
     .string()
-    .min(1, "サーバー名を入力してください")
-    .min(3, "サーバー名は3文字以上で入力してください")
+    .min(NON_EMPTY_MIN_LENGTH, "サーバー名を入力してください")
+    .min(SERVER_NAME_MIN_LENGTH, "サーバー名は3文字以上で入力してください")
     .regex(/^[\w-]+$/, "サーバー名は英数字・アンダースコア・ハイフンのみ使用できます"),
   region: nullableRequiredString("リージョンを選択してください"),
-  containerImage: z.string().min(1, "コンテナイメージを入力してください"),
+  containerImage: z.string().min(NON_EMPTY_MIN_LENGTH, "コンテナイメージを入力してください"),
   serverType: nullableRequiredString("サーバータイプを選択してください"),
   numOfInstances: z
     .string()
-    .min(1, "インスタンス数を入力してください")
+    .min(NON_EMPTY_MIN_LENGTH, "インスタンス数を入力してください")
     .refine(
       (v) => {
         const n = Number(v);
-        return Number.isInteger(n) && n >= 1 && n <= 64;
+        return Number.isInteger(n) && n >= INSTANCES_MIN && n <= INSTANCES_MAX;
       },
       { message: "インスタンス数は1〜64の整数で入力してください" },
     ),

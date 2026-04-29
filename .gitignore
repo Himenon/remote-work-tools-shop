@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+.vitest-attachments
 
 # next.js
 /.next/
@@ -50,3 +51,4 @@ storybook-static
 # MCP browser screenshots (Playwright等での動作確認用)
 /.screenshots/*
 !/.screenshots/.gitkeep
+

@@ -62,6 +62,14 @@
     ],
     "eslint/no-alert": "off"
   },
+  "overrides": [
+    {
+      "files": ["**/*.{spec,vrt,stories}.{js,jsx,ts,tsx,mjs,mts}"],
+      "rules": {
+        "no-magic-numbers": "off"
+      }
+    }
+  ],
   "env": {
     "builtin": true
   }
