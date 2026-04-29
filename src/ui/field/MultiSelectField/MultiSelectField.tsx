@@ -2,7 +2,7 @@ import { Checkbox } from "@base-ui/react/checkbox";
 import { CheckboxGroup } from "@base-ui/react/checkbox-group";
 import { Field } from "@base-ui/react/field";
 import * as React from "react";
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface MultiSelectOption {
@@ -21,8 +21,7 @@ export interface MultiSelectFieldProps {
 }
 
 export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
-  const { control } = useFormContext();
-  const { field, fieldState } = useController({ name: props.name, control });
+  const { field, fieldState } = useController({ name: props.name });
 
   const checkboxGroupProps: React.ComponentProps<typeof CheckboxGroup> = {
     value: field.value ?? [],

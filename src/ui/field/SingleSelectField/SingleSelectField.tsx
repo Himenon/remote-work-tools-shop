@@ -1,7 +1,7 @@
 import { Field } from "@base-ui/react/field";
 import { Select } from "@base-ui/react/select";
 import * as React from "react";
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface SelectOption {
@@ -47,8 +47,7 @@ const SelectOptionItem: React.FC<SelectOption> = (option) => (
 );
 
 export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
-  const { control } = useFormContext();
-  const { field, fieldState } = useController({ name: props.name, control });
+  const { field, fieldState } = useController({ name: props.name });
 
   const selectRootProps: React.ComponentProps<typeof Select.Root> = {
     value: field.value ?? null,

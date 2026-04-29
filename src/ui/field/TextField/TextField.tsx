@@ -1,7 +1,7 @@
 import { Field } from "@base-ui/react/field";
 import { Input } from "@base-ui/react/input";
 import * as React from "react";
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface TextFieldProps {
@@ -15,8 +15,7 @@ export interface TextFieldProps {
 }
 
 export const TextField: React.FC<TextFieldProps> = (props) => {
-  const { control } = useFormContext();
-  const { field, fieldState } = useController({ name: props.name, control });
+  const { field, fieldState } = useController({ name: props.name });
 
   const inputProps: React.ComponentProps<typeof Input> = {
     ...field,

@@ -2,7 +2,7 @@ import { Field } from "@base-ui/react/field";
 import { Radio } from "@base-ui/react/radio";
 import { RadioGroup } from "@base-ui/react/radio-group";
 import * as React from "react";
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface RadioOption {
@@ -23,8 +23,7 @@ export interface RadioGroupFieldProps {
 }
 
 export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
-  const { control } = useFormContext();
-  const { field, fieldState } = useController({ name: props.name, control });
+  const { field, fieldState } = useController({ name: props.name });
 
   const radioGroupProps: React.ComponentProps<typeof RadioGroup> = {
     value: field.value,

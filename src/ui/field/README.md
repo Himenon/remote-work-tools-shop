@@ -4,7 +4,7 @@ react-hook-form と BaseUI を組み合わせたフォームフィールドコ�
 
 ## 前提：FormProvider によるラップ
 
-各フィールドコンポーネントは内部で `useFormContext()` を呼び出すため、呼び出し側で必ず `<FormProvider>` でラップすること。
+各フィールドコンポーネントは内部で `useController()` を呼び出すため、呼び出し側で必ず `<FormProvider>` でラップすること。
 
 ```tsx
 import { useForm, FormProvider } from "react-hook-form";
@@ -34,15 +34,15 @@ Field.Root          ← disabled / invalid の状態管理とアクセシビリ�
   Field.Error       ← バリデーションエラーメッセージ（fieldState.error 時のみ表示）
 ```
 
-### useFormContext + useController の取得パターン
+### useController の取得パターン
 
 ```tsx
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 
-const { control } = useFormContext();
-const { field, fieldState } = useController({ name: props.name, control });
+const { field, fieldState } = useController({ name: props.name });
 ```
 
+`FormProvider` 配下では `control` を明示せずとも `useController` がコンテキストから自動取得する。
 `field.value` / `field.onChange` / `field.onBlur` / `field.ref` を対応する BaseUI コンポーネントの Props に接続する。
 
 ### Field.Root の invalid Props
@@ -127,11 +127,13 @@ React のレイアウトエフェクトは **子 → 親** の順に実行され
 
 ## コンポーネント一覧
 
-| コンポーネント    | 対応 BaseUI                  | 仕様書の view     |
-| ----------------- | ---------------------------- | ----------------- |
-| TextField         | `Input`                      | —                 |
-| RadioGroupField   | `RadioGroup` + `Radio`       | `"radio"`         |
-| SingleSelectField | `Select`                     | `"single-select"` |
-| MultiSelectField  | `CheckboxGroup` + `Checkbox` | `"multi-select"`  |
-| SwitchField       | `Switch`                     | —                 |
-| CheckboxField     | `Checkbox`                   | —                 |
+| コンポーネント       | 対応 BaseUI                  | 仕様書の view     |
+| -------------------- | ---------------------------- | ----------------- |
+| TextField            | `Input`                      | —                 |
+| RadioGroupField      | `RadioGroup` + `Radio`       | `"radio"`         |
+| SingleSelectField    | `Select`                     | `"single-select"` |
+| MultiSelectField     | `CheckboxGroup` + `Checkbox` | `"multi-select"`  |
+| SwitchField          | `Switch`                     | —                 |
+| CheckboxField        | `Checkbox`                   | —                 |
+| NumberSlideField     | `Slider` + `Fieldset`        | —                 |
+| QuantityStepperField | `NumberField`                | —                 |

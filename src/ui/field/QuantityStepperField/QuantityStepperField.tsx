@@ -1,7 +1,7 @@
 import { Field } from "@base-ui/react/field";
 import { NumberField } from "@base-ui/react/number-field";
 import * as React from "react";
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 
 import { FieldTextError } from "#ui/field/FieldTextError";
 
@@ -21,8 +21,7 @@ const stepperButtonClassName =
   "flex size-9 shrink-0 items-center justify-center text-gray-600 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:text-gray-400 dark:hover:bg-gray-800";
 
 export const QuantityStepperField: React.FC<QuantityStepperFieldProps> = (props) => {
-  const { control } = useFormContext();
-  const { field, fieldState } = useController({ name: props.name, control });
+  const { field, fieldState } = useController({ name: props.name });
 
   const numberFieldRootProps: React.ComponentProps<typeof NumberField.Root> = {
     value: field.value as number | null,

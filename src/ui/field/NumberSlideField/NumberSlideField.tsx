@@ -2,7 +2,7 @@ import { Field } from "@base-ui/react/field";
 import { Fieldset } from "@base-ui/react/fieldset";
 import { Slider } from "@base-ui/react/slider";
 import * as React from "react";
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 
 import { FieldTextError } from "#ui/field/FieldTextError";
 
@@ -30,8 +30,7 @@ const thumbClassName =
   "size-4 rounded-full bg-white shadow-sm outline-none ring-1 ring-gray-300 transition-shadow data-[dragging]:ring-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[focus-visible]:ring-2 data-[focus-visible]:ring-indigo-500 dark:bg-gray-200 dark:ring-gray-600";
 
 export const NumberSlideField: React.FC<NumberSlideFieldProps> = (props) => {
-  const { control } = useFormContext();
-  const { field, fieldState } = useController({ name: props.name, control });
+  const { field, fieldState } = useController({ name: props.name });
 
   return (
     <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">

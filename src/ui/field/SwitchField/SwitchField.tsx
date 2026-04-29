@@ -1,7 +1,7 @@
 import { Field } from "@base-ui/react/field";
 import { Switch } from "@base-ui/react/switch";
 import * as React from "react";
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface SwitchFieldProps {
@@ -14,8 +14,7 @@ export interface SwitchFieldProps {
 }
 
 export const SwitchField: React.FC<SwitchFieldProps> = (props) => {
-  const { control } = useFormContext();
-  const { field, fieldState } = useController({ name: props.name, control });
+  const { field, fieldState } = useController({ name: props.name });
 
   const switchRootProps: React.ComponentProps<typeof Switch.Root> = {
     checked: field.value ?? false,

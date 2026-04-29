@@ -1,7 +1,7 @@
 import { Checkbox } from "@base-ui/react/checkbox";
 import { Field } from "@base-ui/react/field";
 import * as React from "react";
-import { useController, useFormContext } from "react-hook-form";
+import { useController } from "react-hook-form";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface CheckboxFieldProps {
@@ -14,8 +14,7 @@ export interface CheckboxFieldProps {
 }
 
 export const CheckboxField: React.FC<CheckboxFieldProps> = (props) => {
-  const { control } = useFormContext();
-  const { field, fieldState } = useController({ name: props.name, control });
+  const { field, fieldState } = useController({ name: props.name });
 
   const checkboxRootProps: React.ComponentProps<typeof Checkbox.Root> = {
     checked: field.value ?? false,
