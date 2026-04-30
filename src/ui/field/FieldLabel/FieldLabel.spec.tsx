@@ -23,6 +23,7 @@ describe("FieldLabel の表示確認", () => {
     await Disabled.run();
     const canvas = within(document.body);
     const label = canvas.getByText("ラベルテキスト");
-    await expect(label).toHaveAttribute("data-disabled", "true");
+    // Base UI の data-* boolean 属性は "true" ではなく空文字列 "" で設定される。
+    await expect(label).toHaveAttribute("data-disabled", "");
   });
 });
