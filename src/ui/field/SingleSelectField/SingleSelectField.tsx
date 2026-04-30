@@ -72,7 +72,7 @@ const SelectPopup: React.FC<SelectPopupProps> = ({ options, optionsListClassName
 export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
 
-  const selectRootProps: React.ComponentProps<typeof Select.Root> = {
+  const selectRootProps: Select.Root.Props<string> = {
     value: field.value ?? null,
     onValueChange: field.onChange,
     name: field.name,

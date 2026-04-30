@@ -5,7 +5,7 @@ import { FieldLabel } from "#ui/field/FieldLabel";
 import { FieldRoot, type FieldLayoutProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
-export interface TextFieldProps {
+export interface OnelineTextFieldProps {
   name: string;
   label: string;
   placeholder?: string;
@@ -16,7 +16,7 @@ export interface TextFieldProps {
   layout?: FieldLayoutProps;
 }
 
-export const TextField: React.FC<TextFieldProps> = (props) => {
+export const OnelineTextField: React.FC<OnelineTextFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
 
   const inputProps: React.ComponentProps<typeof Input> = {
@@ -37,4 +37,4 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
   );
 };
 
-TextField.displayName = "TextField";
+OnelineTextField.displayName = "OnelineTextField";

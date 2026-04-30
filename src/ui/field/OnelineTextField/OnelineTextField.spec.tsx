@@ -1,11 +1,11 @@
 import { composeStories } from "@storybook/react";
 import { describe, it } from "vitest";
 import { expect, within } from "storybook/test";
-import * as Stories from "./TextField.stories";
+import * as Stories from "./OnelineTextField.stories";
 
 const { Default, Disabled } = composeStories(Stories);
 
-describe("TextField の表示確認", () => {
+describe("OnelineTextField の表示確認", () => {
   it("ラベルが画面に表示される", async () => {
     await Default.run();
     const canvas = within(document.body);

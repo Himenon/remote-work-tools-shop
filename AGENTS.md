@@ -57,6 +57,7 @@ pnpm test   # 非ウォッチモード（CI・AIエージェント向け）
 > **コンポーネントを新規作成・リファクタリングするときは `/make-component` スキルを呼び出すこと。**
 > **Storybookストーリーを作成・修正するときは `/make-storybook` スキルを呼び出すこと。**
 > **コンポーネントのテスト（spec・VRT）を書くときは `/make-component-test` スキルを呼び出すこと。**
+> **TypeScriptの実装を終えたら `/check-ts-writing` スキルを呼び出し、書き方を確認すること。**
 
 1. `pnpm storybook`（ポート 15023）でStorybookを起動する
 2. **Storybook MCP**（MCPサーバー名: `storybook`）を使って既存コンポーネントとストーリーを確認する

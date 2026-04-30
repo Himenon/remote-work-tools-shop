@@ -7,13 +7,14 @@ import { MultiSelectField, type MultiSelectOption } from "#ui/field/MultiSelectF
 import { NumberSlideField } from "#ui/field/NumberSlideField";
 import { QuantityStepperField } from "#ui/field/QuantityStepperField";
 import { RadioGroupField, type RadioOption } from "#ui/field/RadioGroupField";
+import { ComboboxField, type ComboboxOption } from "#ui/field/ComboboxField";
 import { SingleSelectField, type SelectOption } from "#ui/field/SingleSelectField";
 import { SwitchField } from "#ui/field/SwitchField";
-import { TextField } from "#ui/field/TextField";
+import { OnelineTextField } from "#ui/field/OnelineTextField";
 
 export type { ExampleFormValues };
 
-const REGION_OPTIONS: SelectOption[] = [
+const REGION_OPTIONS: ComboboxOption[] = [
   { label: "US East (N. Virginia)", value: "us-east-1" },
   { label: "US West (Oregon)", value: "us-west-2" },
   { label: "EU (Ireland)", value: "eu-west-1" },
@@ -78,11 +79,11 @@ export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
       <form onSubmit={handleSubmit} className="flex max-w-xl flex-col gap-6 p-6">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">サーバー設定</h2>
 
-        <TextField name="serverName" label="サーバー名" placeholder="例: web-server-01" required />
+        <OnelineTextField name="serverName" label="サーバー名" placeholder="例: web-server-01" required />
 
-        <SingleSelectField name="region" label="リージョン" options={REGION_OPTIONS} placeholder="リージョンを選択" required />
+        <ComboboxField name="region" label="リージョン" options={REGION_OPTIONS} placeholder="リージョンを選択または入力" required />
 
-        <TextField name="containerImage" label="コンテナイメージ" placeholder="例: nginx:latest" required />
+        <OnelineTextField name="containerImage" label="コンテナイメージ" placeholder="例: nginx:latest" required />
 
         <SingleSelectField name="serverType" label="サーバータイプ" options={SERVER_TYPE_OPTIONS} placeholder="サーバータイプを選択" required />
 

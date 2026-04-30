@@ -1,10 +1,10 @@
 import { composeStories } from "@storybook/react";
 import { describe, expect, it } from "vitest";
-import * as Stories from "./TextField.stories";
+import * as Stories from "./OnelineTextField.stories";
 
 const { Default, Disabled, WithValue, ShowsErrorMessage } = composeStories(Stories);
 
-describe("TextField のビジュアルスナップショット", () => {
+describe("OnelineTextField のビジュアルスナップショット", () => {
   it("テキスト入力欄が空の初期状態", async () => {
     await Default.run();
     await expect.element(document.body).toMatchScreenshot("default");

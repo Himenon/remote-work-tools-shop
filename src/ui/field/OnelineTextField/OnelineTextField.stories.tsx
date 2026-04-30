@@ -3,9 +3,9 @@ import { expect, within } from "storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { SetFormErrorOnMount } from "#test-helper/storybook";
-import { TextField } from "./TextField";
+import { OnelineTextField } from "./OnelineTextField";
 
-type T = typeof TextField;
+type T = typeof OnelineTextField;
 type Story = StoryObj<T>;
 
 const args: ComponentPropsWithoutRef<T> = {
@@ -41,7 +41,7 @@ export const ShowsErrorMessage: Story = {
     return (
       <FormProvider {...methods}>
         <SetFormErrorOnMount name="text" message="テキストを入力してください">
-          <TextField {...props} />
+          <OnelineTextField {...props} />
         </SetFormErrorOnMount>
       </FormProvider>
     );
@@ -57,7 +57,7 @@ export default {
     const methods = useForm({ defaultValues: { [args.name]: "" } });
     return (
       <FormProvider {...methods}>
-        <TextField {...props} />
+        <OnelineTextField {...props} />
       </FormProvider>
     );
   },
