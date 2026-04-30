@@ -22,9 +22,14 @@ export interface RadioGroupFieldProps {
   /** @default false */
   disabled?: boolean;
   /** 選択肢の並び方向。"vertical": 縦並び（デフォルト）、"horizontal": 横並び @default "vertical" */
-  optionsOrientation?: "vertical" | "horizontal";
+  orientation?: "vertical" | "horizontal";
   layout?: FieldLayoutProps;
 }
+
+const optionsOrientationClassNames: Record<"vertical" | "horizontal", string> = {
+  vertical: "flex flex-col gap-2",
+  horizontal: "flex flex-row flex-wrap gap-4",
+};
 
 export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
@@ -37,7 +42,7 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
     required: props.required,
   };
 
-  const optionsClassName = props.optionsOrientation === "horizontal" ? "flex flex-row flex-wrap gap-4" : "flex flex-col gap-2";
+  const optionsClassName = optionsOrientationClassNames[props.orientation ?? "vertical"];
 
   return (
     <FieldRoot {...props.layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>

@@ -19,8 +19,15 @@ export interface MultiSelectFieldProps {
   options: MultiSelectOption[];
   /** @default false */
   disabled?: boolean;
+  /** 選択肢の並び方向。"vertical": 縦並び（デフォルト）、"horizontal": 横並び @default "vertical" */
+  orientation?: "vertical" | "horizontal";
   layout?: FieldLayoutProps;
 }
+
+const optionsOrientationClassNames: Record<"vertical" | "horizontal", string> = {
+  vertical: "flex flex-col gap-2",
+  horizontal: "flex flex-row flex-wrap gap-4",
+};
 
 export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
@@ -31,10 +38,12 @@ export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
     disabled: props.disabled,
   };
 
+  const optionsClassName = optionsOrientationClassNames[props.orientation ?? "vertical"];
+
   return (
     <FieldRoot {...props.layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>
       <FieldLabel>{props.label}</FieldLabel>
-      <CheckboxGroup {...checkboxGroupProps} className="flex flex-col gap-2">
+      <CheckboxGroup {...checkboxGroupProps} className={optionsClassName}>
         {props.options.map((option) => {
           const checkboxRootProps: React.ComponentProps<typeof Checkbox.Root> = {
             value: option.value,
