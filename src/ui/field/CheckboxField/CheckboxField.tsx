@@ -2,15 +2,17 @@ import { Checkbox } from "@base-ui/react/checkbox";
 import * as React from "react";
 import { useController } from "react-hook-form";
 import { FieldLabel } from "#ui/field/FieldLabel";
-import { FieldRoot } from "#ui/field/FieldRoot";
-import type { FieldRootProps } from "#ui/field/FieldRoot";
+import { FieldRoot, type FieldLayoutProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
-export interface CheckboxFieldProps extends Pick<FieldRootProps, "direction" | "disabled"> {
+export interface CheckboxFieldProps {
   name: string;
   label: string;
   /** @default false */
   required?: boolean;
+  /** @default false */
+  disabled?: boolean;
+  layout?: FieldLayoutProps;
 }
 
 export const CheckboxField: React.FC<CheckboxFieldProps> = (props) => {
@@ -26,12 +28,7 @@ export const CheckboxField: React.FC<CheckboxFieldProps> = (props) => {
   };
 
   return (
-    <FieldRoot
-      disabled={props.disabled}
-      invalid={Boolean(fieldState.error)}
-      direction={props.direction}
-      error={<FieldTextError message={fieldState.error?.message} />}
-    >
+    <FieldRoot {...props.layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>
       <div className="flex items-start gap-2">
         <Checkbox.Root
           {...checkboxRootProps}

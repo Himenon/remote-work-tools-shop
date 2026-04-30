@@ -3,8 +3,7 @@ import { RadioGroup } from "@base-ui/react/radio-group";
 import * as React from "react";
 import { useController } from "react-hook-form";
 import { FieldLabel } from "#ui/field/FieldLabel";
-import { FieldRoot } from "#ui/field/FieldRoot";
-import type { FieldRootProps } from "#ui/field/FieldRoot";
+import { FieldRoot, type FieldLayoutProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface RadioOption {
@@ -14,12 +13,17 @@ export interface RadioOption {
   disabled?: boolean;
 }
 
-export interface RadioGroupFieldProps extends Pick<FieldRootProps, "direction" | "disabled"> {
+export interface RadioGroupFieldProps {
   name: string;
   label: string;
   options: RadioOption[];
   /** @default false */
   required?: boolean;
+  /** @default false */
+  disabled?: boolean;
+  /** 選択肢の並び方向。"vertical": 縦並び（デフォルト）、"horizontal": 横並び @default "vertical" */
+  optionsOrientation?: "vertical" | "horizontal";
+  layout?: FieldLayoutProps;
 }
 
 export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
@@ -33,15 +37,12 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
     required: props.required,
   };
 
+  const optionsClassName = props.optionsOrientation === "horizontal" ? "flex flex-row flex-wrap gap-4" : "flex flex-col gap-2";
+
   return (
-    <FieldRoot
-      disabled={props.disabled}
-      invalid={Boolean(fieldState.error)}
-      direction={props.direction}
-      error={<FieldTextError message={fieldState.error?.message} />}
-    >
+    <FieldRoot {...props.layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>
       <FieldLabel>{props.label}</FieldLabel>
-      <RadioGroup {...radioGroupProps} className="flex flex-col gap-2">
+      <RadioGroup {...radioGroupProps} className={optionsClassName}>
         {props.options.map((option) => {
           const radioRootProps: React.ComponentProps<typeof Radio.Root> = {
             value: option.value,

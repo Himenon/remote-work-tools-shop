@@ -2,16 +2,18 @@ import { Input } from "@base-ui/react/input";
 import * as React from "react";
 import { useController } from "react-hook-form";
 import { FieldLabel } from "#ui/field/FieldLabel";
-import { FieldRoot } from "#ui/field/FieldRoot";
-import type { FieldRootProps } from "#ui/field/FieldRoot";
+import { FieldRoot, type FieldLayoutProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
-export interface TextFieldProps extends Pick<FieldRootProps, "direction" | "disabled"> {
+export interface TextFieldProps {
   name: string;
   label: string;
   placeholder?: string;
   /** @default false */
   required?: boolean;
+  /** @default false */
+  disabled?: boolean;
+  layout?: FieldLayoutProps;
 }
 
 export const TextField: React.FC<TextFieldProps> = (props) => {
@@ -21,15 +23,11 @@ export const TextField: React.FC<TextFieldProps> = (props) => {
     ...field,
     placeholder: props.placeholder,
     required: props.required,
+    disabled: props.disabled,
   };
 
   return (
-    <FieldRoot
-      disabled={props.disabled}
-      invalid={Boolean(fieldState.error)}
-      direction={props.direction}
-      error={<FieldTextError message={fieldState.error?.message} />}
-    >
+    <FieldRoot {...props.layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>
       <FieldLabel>{props.label}</FieldLabel>
       <Input
         {...inputProps}

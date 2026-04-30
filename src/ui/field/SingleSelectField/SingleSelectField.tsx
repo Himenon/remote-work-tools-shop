@@ -2,8 +2,7 @@ import { Select } from "@base-ui/react/select";
 import * as React from "react";
 import { useController } from "react-hook-form";
 import { FieldLabel } from "#ui/field/FieldLabel";
-import { FieldRoot } from "#ui/field/FieldRoot";
-import type { FieldRootProps } from "#ui/field/FieldRoot";
+import { FieldRoot, type FieldLayoutProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface SelectOption {
@@ -13,13 +12,18 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SingleSelectFieldProps extends Pick<FieldRootProps, "direction" | "disabled"> {
+export interface SingleSelectFieldProps {
   name: string;
   label: string;
   options: SelectOption[];
   placeholder?: string;
   /** @default false */
   required?: boolean;
+  /** @default false */
+  disabled?: boolean;
+  /** ドロップダウン内の選択肢の並び方向。"vertical": 縦並び（デフォルト）、"horizontal": 横並び @default "vertical" */
+  optionsOrientation?: "vertical" | "horizontal";
+  layout?: FieldLayoutProps;
 }
 
 const SelectOptionItem: React.FC<SelectOption> = (option) => (
@@ -46,6 +50,27 @@ const SelectOptionItem: React.FC<SelectOption> = (option) => (
   </Select.Item>
 );
 
+interface SelectPopupProps {
+  options: SelectOption[];
+  optionsListClassName: string;
+}
+
+const SelectPopup: React.FC<SelectPopupProps> = ({ options, optionsListClassName }) => (
+  <Select.Portal>
+    <Select.Positioner className="z-50">
+      <Select.Popup className="min-w-[var(--anchor-width)] overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg outline-none dark:border-gray-700 dark:bg-gray-800">
+        <Select.List className={optionsListClassName}>
+          {options.map(
+            (option): React.ReactElement => (
+              <SelectOptionItem key={option.value} {...option} />
+            ),
+          )}
+        </Select.List>
+      </Select.Popup>
+    </Select.Positioner>
+  </Select.Portal>
+);
+
 export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
 
@@ -57,13 +82,10 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
     required: props.required,
   };
 
+  const optionsListClassName = props.optionsOrientation === "horizontal" ? "flex flex-row flex-wrap gap-1 p-1" : "p-1";
+
   return (
-    <FieldRoot
-      disabled={props.disabled}
-      invalid={Boolean(fieldState.error)}
-      direction={props.direction}
-      error={<FieldTextError message={fieldState.error?.message} />}
-    >
+    <FieldRoot {...props.layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>
       <FieldLabel>{props.label}</FieldLabel>
       <Select.Root {...selectRootProps}>
         <Select.Trigger className="group flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 text-sm shadow-xs outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[focus-visible]:border-indigo-500 data-[focus-visible]:ring-2 data-[focus-visible]:ring-indigo-500/20 data-[invalid]:border-red-500 data-[popup-open]:border-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:data-[focus-visible]:border-indigo-400 dark:data-[focus-visible]:ring-indigo-400/20 dark:data-[invalid]:border-red-400 dark:data-[popup-open]:border-indigo-400">
@@ -84,19 +106,7 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
             <path d="M4 6l4 4 4-4" />
           </svg>
         </Select.Trigger>
-        <Select.Portal>
-          <Select.Positioner className="z-50">
-            <Select.Popup className="min-w-[var(--anchor-width)] overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg outline-none dark:border-gray-700 dark:bg-gray-800">
-              <Select.List className="p-1">
-                {props.options.map(
-                  (option): React.ReactElement => (
-                    <SelectOptionItem key={option.value} {...option} />
-                  ),
-                )}
-              </Select.List>
-            </Select.Popup>
-          </Select.Positioner>
-        </Select.Portal>
+        <SelectPopup options={props.options} optionsListClassName={optionsListClassName} />
       </Select.Root>
     </FieldRoot>
   );

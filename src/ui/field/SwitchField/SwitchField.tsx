@@ -2,19 +2,24 @@ import { Switch } from "@base-ui/react/switch";
 import * as React from "react";
 import { useController } from "react-hook-form";
 import { FieldLabel } from "#ui/field/FieldLabel";
-import { FieldRoot } from "#ui/field/FieldRoot";
-import type { FieldRootProps } from "#ui/field/FieldRoot";
+import { FieldRoot, type FieldLayoutProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
-export interface SwitchFieldProps extends Pick<FieldRootProps, "direction" | "disabled"> {
+export interface SwitchFieldProps {
   name: string;
   label: string;
   /** @default false */
   required?: boolean;
+  /** @default false */
+  disabled?: boolean;
+  layout?: FieldLayoutProps;
 }
 
-export const SwitchField: React.FC<SwitchFieldProps> = ({ direction = "horizontal", ...props }) => {
+export const SwitchField: React.FC<SwitchFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
+
+  // SwitchField はラベルとスイッチを横並びにするため direction のデフォルトを "horizontal" にする
+  const layout: FieldLayoutProps = { direction: "horizontal", ...props.layout };
 
   const switchRootProps: React.ComponentProps<typeof Switch.Root> = {
     checked: field.value ?? false,
@@ -26,12 +31,7 @@ export const SwitchField: React.FC<SwitchFieldProps> = ({ direction = "horizonta
   };
 
   return (
-    <FieldRoot
-      disabled={props.disabled}
-      invalid={Boolean(fieldState.error)}
-      direction={direction}
-      error={<FieldTextError message={fieldState.error?.message} />}
-    >
+    <FieldRoot {...layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>
       <FieldLabel>{props.label}</FieldLabel>
       <Switch.Root
         {...switchRootProps}
