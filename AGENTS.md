@@ -48,7 +48,6 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ```bash
 pnpm test   # 非ウォッチモード（CI・AIエージェント向け）
-pnpm test       # ウォッチモード（開発中）
 ```
 
 ## テスト構成
