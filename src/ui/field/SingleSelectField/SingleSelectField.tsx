@@ -1,8 +1,9 @@
-import { Field } from "@base-ui/react/field";
 import { Select } from "@base-ui/react/select";
 import * as React from "react";
 import { useController } from "react-hook-form";
 import { FieldLabel } from "#ui/field/FieldLabel";
+import { FieldRoot } from "#ui/field/FieldRoot";
+import type { FieldRootProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface SelectOption {
@@ -12,13 +13,11 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SingleSelectFieldProps {
+export interface SingleSelectFieldProps extends Pick<FieldRootProps, "direction" | "disabled"> {
   name: string;
   label: string;
   options: SelectOption[];
   placeholder?: string;
-  /** @default false */
-  disabled?: boolean;
   /** @default false */
   required?: boolean;
 }
@@ -59,7 +58,12 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
   };
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
+    <FieldRoot
+      disabled={props.disabled}
+      invalid={Boolean(fieldState.error)}
+      direction={props.direction}
+      error={<FieldTextError message={fieldState.error?.message} />}
+    >
       <FieldLabel>{props.label}</FieldLabel>
       <Select.Root {...selectRootProps}>
         <Select.Trigger className="group flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 text-sm shadow-xs outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[focus-visible]:border-indigo-500 data-[focus-visible]:ring-2 data-[focus-visible]:ring-indigo-500/20 data-[invalid]:border-red-500 data-[popup-open]:border-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:data-[focus-visible]:border-indigo-400 dark:data-[focus-visible]:ring-indigo-400/20 dark:data-[invalid]:border-red-400 dark:data-[popup-open]:border-indigo-400">
@@ -94,8 +98,7 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
           </Select.Positioner>
         </Select.Portal>
       </Select.Root>
-      <FieldTextError message={fieldState.error?.message} />
-    </Field.Root>
+    </FieldRoot>
   );
 };
 

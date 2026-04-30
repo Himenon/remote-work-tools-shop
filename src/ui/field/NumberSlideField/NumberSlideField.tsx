@@ -1,12 +1,13 @@
-import { Field } from "@base-ui/react/field";
 import { Fieldset } from "@base-ui/react/fieldset";
 import { Slider } from "@base-ui/react/slider";
 import * as React from "react";
 import { useController } from "react-hook-form";
 
+import { FieldRoot } from "#ui/field/FieldRoot";
+import type { FieldRootProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
-export interface NumberSlideFieldProps {
+export interface NumberSlideFieldProps extends Pick<FieldRootProps, "direction" | "disabled"> {
   name: string;
   label: string;
   /** @default 0 */
@@ -18,8 +19,6 @@ export interface NumberSlideFieldProps {
   format?: Intl.NumberFormatOptions;
   minThumbLabel?: string;
   maxThumbLabel?: string;
-  /** @default false */
-  disabled?: boolean;
 }
 
 const DEFAULT_MIN = 0;
@@ -33,7 +32,12 @@ export const NumberSlideField: React.FC<NumberSlideFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
+    <FieldRoot
+      disabled={props.disabled}
+      invalid={Boolean(fieldState.error)}
+      direction={props.direction}
+      error={<FieldTextError message={fieldState.error?.message} />}
+    >
       <Fieldset.Root
         render={
           <Slider.Root
@@ -62,8 +66,7 @@ export const NumberSlideField: React.FC<NumberSlideFieldProps> = (props) => {
           </Slider.Track>
         </Slider.Control>
       </Fieldset.Root>
-      <FieldTextError message={fieldState.error?.message} />
-    </Field.Root>
+    </FieldRoot>
   );
 };
 

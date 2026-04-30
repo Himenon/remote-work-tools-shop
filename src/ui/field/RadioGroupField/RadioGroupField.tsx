@@ -1,9 +1,10 @@
-import { Field } from "@base-ui/react/field";
 import { Radio } from "@base-ui/react/radio";
 import { RadioGroup } from "@base-ui/react/radio-group";
 import * as React from "react";
 import { useController } from "react-hook-form";
 import { FieldLabel } from "#ui/field/FieldLabel";
+import { FieldRoot } from "#ui/field/FieldRoot";
+import type { FieldRootProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface RadioOption {
@@ -13,12 +14,10 @@ export interface RadioOption {
   disabled?: boolean;
 }
 
-export interface RadioGroupFieldProps {
+export interface RadioGroupFieldProps extends Pick<FieldRootProps, "direction" | "disabled"> {
   name: string;
   label: string;
   options: RadioOption[];
-  /** @default false */
-  disabled?: boolean;
   /** @default false */
   required?: boolean;
 }
@@ -35,7 +34,12 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
   };
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
+    <FieldRoot
+      disabled={props.disabled}
+      invalid={Boolean(fieldState.error)}
+      direction={props.direction}
+      error={<FieldTextError message={fieldState.error?.message} />}
+    >
       <FieldLabel>{props.label}</FieldLabel>
       <RadioGroup {...radioGroupProps} className="flex flex-col gap-2">
         {props.options.map((option) => {
@@ -57,8 +61,7 @@ export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
           );
         })}
       </RadioGroup>
-      <FieldTextError message={fieldState.error?.message} />
-    </Field.Root>
+    </FieldRoot>
   );
 };
 

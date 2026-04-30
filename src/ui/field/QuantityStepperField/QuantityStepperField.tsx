@@ -1,19 +1,18 @@
-import { Field } from "@base-ui/react/field";
 import { NumberField } from "@base-ui/react/number-field";
 import * as React from "react";
 import { useController } from "react-hook-form";
 
 import { FieldLabel } from "#ui/field/FieldLabel";
+import { FieldRoot } from "#ui/field/FieldRoot";
+import type { FieldRootProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
-export interface QuantityStepperFieldProps {
+export interface QuantityStepperFieldProps extends Pick<FieldRootProps, "direction" | "disabled"> {
   name: string;
   label: string;
   min?: number;
   max?: number;
   step?: number;
-  /** @default false */
-  disabled?: boolean;
   /** @default false */
   required?: boolean;
 }
@@ -39,7 +38,12 @@ export const QuantityStepperField: React.FC<QuantityStepperFieldProps> = (props)
   };
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
+    <FieldRoot
+      disabled={props.disabled}
+      invalid={Boolean(fieldState.error)}
+      direction={props.direction}
+      error={<FieldTextError message={fieldState.error?.message} />}
+    >
       <FieldLabel>{props.label}</FieldLabel>
       <NumberField.Root {...numberFieldRootProps}>
         <NumberField.Group className="inline-flex items-center overflow-hidden rounded-md border border-gray-300 bg-white shadow-xs transition-colors focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 data-[invalid]:border-red-500 data-[invalid]:focus-within:ring-red-500/20 dark:border-gray-700 dark:bg-gray-900">
@@ -52,8 +56,7 @@ export const QuantityStepperField: React.FC<QuantityStepperFieldProps> = (props)
           </NumberField.Increment>
         </NumberField.Group>
       </NumberField.Root>
-      <FieldTextError message={fieldState.error?.message} />
-    </Field.Root>
+    </FieldRoot>
   );
 };
 

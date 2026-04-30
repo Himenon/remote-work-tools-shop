@@ -1,9 +1,10 @@
 import { Checkbox } from "@base-ui/react/checkbox";
 import { CheckboxGroup } from "@base-ui/react/checkbox-group";
-import { Field } from "@base-ui/react/field";
 import * as React from "react";
 import { useController } from "react-hook-form";
 import { FieldLabel } from "#ui/field/FieldLabel";
+import { FieldRoot } from "#ui/field/FieldRoot";
+import type { FieldRootProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
 export interface MultiSelectOption {
@@ -13,12 +14,10 @@ export interface MultiSelectOption {
   disabled?: boolean;
 }
 
-export interface MultiSelectFieldProps {
+export interface MultiSelectFieldProps extends Pick<FieldRootProps, "direction" | "disabled"> {
   name: string;
   label: string;
   options: MultiSelectOption[];
-  /** @default false */
-  disabled?: boolean;
 }
 
 export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
@@ -31,7 +30,12 @@ export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
   };
 
   return (
-    <Field.Root disabled={props.disabled} invalid={Boolean(fieldState.error)} className="flex flex-col gap-1.5">
+    <FieldRoot
+      disabled={props.disabled}
+      invalid={Boolean(fieldState.error)}
+      direction={props.direction}
+      error={<FieldTextError message={fieldState.error?.message} />}
+    >
       <FieldLabel>{props.label}</FieldLabel>
       <CheckboxGroup {...checkboxGroupProps} className="flex flex-col gap-2">
         {props.options.map((option) => {
@@ -67,8 +71,7 @@ export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
           );
         })}
       </CheckboxGroup>
-      <FieldTextError message={fieldState.error?.message} />
-    </Field.Root>
+    </FieldRoot>
   );
 };
 
