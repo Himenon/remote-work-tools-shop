@@ -18,6 +18,8 @@ describe("ComboboxField の表示確認", () => {
     await expect(canvas.getByPlaceholderText("リージョンを選択または入力")).toBeInTheDocument();
   });
 
+  // Base UI は controlled value（選択アイテム）を入力欄の表示テキストに自動反映しないため、
+  // コンポーネント側で inputValue を別途管理している。このテストでその初期表示を保証する。
   it("デフォルト値のラベルが入力欄に表示される", async () => {
     await WithDefaultValue.run();
     const canvas = within(document.body);

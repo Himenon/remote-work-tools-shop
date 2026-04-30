@@ -24,17 +24,18 @@ const args: ComponentPropsWithoutRef<T> = {
 
 export const Default: Story = {};
 
+// decorators ではなく render を使う理由:
+// decorators で FormProvider を巻くと、default export の component も FormProvider を生成するため
+// 二重ネストになり、内側（component 側）の defaultValues: null が useController に渡って上書きされる。
 export const WithDefaultValue: Story = {
-  decorators: [
-    (Story) => {
-      const methods = useForm({ defaultValues: { region: "eu-west-1" } });
-      return (
-        <FormProvider {...methods}>
-          <Story />
-        </FormProvider>
-      );
-    },
-  ],
+  render: (props) => {
+    const methods = useForm({ defaultValues: { region: "eu-west-1" } });
+    return (
+      <FormProvider {...methods}>
+        <ComboboxField {...props} />
+      </FormProvider>
+    );
+  },
 };
 
 export const Disabled: Story = {
@@ -63,8 +64,11 @@ export const ShowsErrorMessage: Story = {
 export const OpensDropdown: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    // Combobox.Trigger の aria-label は Field.Root の labelId で上書きされるため getByRole({ name: "開く" }) は使えない。
     const trigger = canvas.getByTestId("combobox-trigger");
     await userEvent.click(trigger);
+    // ドロップダウンは portal 経由で document.body 直下に描画されるため within(document.body) で検索する。
+    // click 後の DOM 反映を待つため findByText（非同期）を使う。
     const body = within(document.body);
     await expect(await body.findByText("US East (N. Virginia)")).toBeInTheDocument();
     await expect(await body.findByText("US West (Oregon)")).toBeInTheDocument();

@@ -67,6 +67,8 @@ const ComboboxActions: React.FC = () => (
         <path d="M3 3l10 10M13 3L3 13" />
       </svg>
     </Combobox.Clear>
+    {/* aria-label は Field.Root の labelId（aria-labelledby）で上書きされるためアクセシブル名には使われない。
+        テストでのボタン特定には data-testid を使う。 */}
     <Combobox.Trigger
       aria-label="開く"
       data-testid="combobox-trigger"
@@ -105,6 +107,8 @@ export const ComboboxField: React.FC<ComboboxFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
 
   const selectedOption = props.options.find((o): boolean => o.value === field.value) ?? null;
+  // Base UI の Combobox.Root は controlled `value`（選択アイテム）を入力欄の表示テキストに自動反映しない。
+  // inputValue を別途制御しないと、初期値が設定済みでも入力欄が空のまま表示される。
   const [inputValue, setInputValue] = React.useState(selectedOption?.label ?? "");
 
   const handleValueChange = (option: ComboboxOption | null): void => {
