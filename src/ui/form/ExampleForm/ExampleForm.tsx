@@ -90,11 +90,16 @@ export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
 
         <NumberSlideField name="scalingThreshold" label="スケーリング閾値" format={SCALING_THRESHOLD_FORMAT} />
 
-        <RadioGroupField name="storageType" label="ストレージタイプ" options={STORAGE_TYPE_OPTIONS} />
+        <RadioGroupField name="storageType" label="ストレージタイプ" options={STORAGE_TYPE_OPTIONS} orientation="horizontal" />
 
         <SwitchField name="restartOnFailure" label="障害時に自動再起動する" />
 
-        <MultiSelectField name="allowedNetworkProtocols" label="許可するネットワークプロトコル" options={NETWORK_PROTOCOL_OPTIONS} />
+        <MultiSelectField
+          name="allowedNetworkProtocols"
+          label="許可するネットワークプロトコル"
+          options={NETWORK_PROTOCOL_OPTIONS}
+          orientation="horizontal"
+        />
 
         <button
           type="submit"

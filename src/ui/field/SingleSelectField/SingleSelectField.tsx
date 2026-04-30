@@ -21,8 +21,6 @@ export interface SingleSelectFieldProps {
   required?: boolean;
   /** @default false */
   disabled?: boolean;
-  /** ドロップダウン内の選択肢の並び方向。"vertical": 縦並び（デフォルト）、"horizontal": 横並び @default "vertical" */
-  orientation?: "vertical" | "horizontal";
   layout?: FieldLayoutProps;
 }
 
@@ -71,11 +69,6 @@ const SelectPopup: React.FC<SelectPopupProps> = ({ options, optionsListClassName
   </Select.Portal>
 );
 
-const optionsOrientationClassNames: Record<"vertical" | "horizontal", string> = {
-  vertical: "p-1",
-  horizontal: "flex flex-row flex-wrap gap-1 p-1",
-};
-
 export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
 
@@ -86,8 +79,6 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
     disabled: props.disabled,
     required: props.required,
   };
-
-  const optionsListClassName = optionsOrientationClassNames[props.orientation ?? "vertical"];
 
   return (
     <FieldRoot {...props.layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>
@@ -111,7 +102,7 @@ export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
             <path d="M4 6l4 4 4-4" />
           </svg>
         </Select.Trigger>
-        <SelectPopup options={props.options} optionsListClassName={optionsListClassName} />
+        <SelectPopup options={props.options} optionsListClassName="p-1" />
       </Select.Root>
     </FieldRoot>
   );
