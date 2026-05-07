@@ -6,6 +6,13 @@ import { FieldLabel } from "#ui/field/FieldLabel";
 import { FieldRoot, type FieldLayoutProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
 
+export const parseNumberOrNull = (value: unknown): number | null => {
+  if (value === null || typeof value === "number") {
+    return value;
+  }
+  throw new Error(`QuantityStepperField: field.value が number | null 形式ではありません。実際の値: ${JSON.stringify(value)}`);
+};
+
 export interface QuantityStepperFieldProps {
   name: string;
   label: string;
@@ -26,7 +33,7 @@ export const QuantityStepperField: React.FC<QuantityStepperFieldProps> = (props)
   const { field, fieldState } = useController({ name: props.name });
 
   const numberFieldRootProps: React.ComponentProps<typeof NumberField.Root> = {
-    value: field.value as number | null,
+    value: parseNumberOrNull(field.value),
     onValueChange: (value: number | null): void => {
       field.onChange(value);
     },

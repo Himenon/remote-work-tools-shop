@@ -2,9 +2,39 @@ import { Fieldset } from "@base-ui/react/fieldset";
 import { Slider } from "@base-ui/react/slider";
 import * as React from "react";
 import { useController } from "react-hook-form";
-
 import { FieldRoot, type FieldLayoutProps } from "#ui/field/FieldRoot";
 import { FieldTextError } from "#ui/field/FieldTextError";
+
+interface SliderValue {
+  min: number;
+  max: number;
+}
+
+const assertSliderValue = (value: unknown): SliderValue => {
+  if (typeof value !== "object" || value === null) {
+    throw new Error(
+      `NumberSlideField: field.value はオブジェクトである必要がありますが、${typeof value} が渡されました。実際の値: ${JSON.stringify(value)}`,
+    );
+  }
+  const record = value as Record<string, unknown>;
+  if (!("min" in value)) {
+    throw new Error(`NumberSlideField: field.value に min キーがありません。実際の値: ${JSON.stringify(value)}`);
+  }
+  if (!("max" in value)) {
+    throw new Error(`NumberSlideField: field.value に max キーがありません。実際の値: ${JSON.stringify(value)}`);
+  }
+  if (typeof record.min !== "number") {
+    throw new TypeError(
+      `NumberSlideField: field.value.min は number である必要がありますが、${typeof record.min} が渡されました。実際の値: ${JSON.stringify(value)}`,
+    );
+  }
+  if (typeof record.max !== "number") {
+    throw new TypeError(
+      `NumberSlideField: field.value.max は number である必要がありますが、${typeof record.max} が渡されました。実際の値: ${JSON.stringify(value)}`,
+    );
+  }
+  return value as SliderValue;
+};
 
 export interface NumberSlideFieldProps {
   name: string;
@@ -32,7 +62,7 @@ const thumbClassName =
 
 export const NumberSlideField: React.FC<NumberSlideFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
-  const value = field.value as { min: number; max: number };
+  const value = assertSliderValue(field.value);
 
   return (
     <FieldRoot {...props.layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>
