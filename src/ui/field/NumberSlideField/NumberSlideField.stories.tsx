@@ -25,7 +25,7 @@ export const Disabled: Story = {
 
 export const ShowsErrorMessage: Story = {
   render: (props) => {
-    const methods = useForm({ defaultValues: { scalingThreshold: [0.2, 0.8] } });
+    const methods = useForm({ defaultValues: { scalingThreshold: { min: 0.2, max: 0.8 } } });
     return (
       <FormProvider {...methods}>
         <SetFormErrorOnMount name="scalingThreshold" message="スケーリング閾値を設定してください">
@@ -49,7 +49,7 @@ export const ShowsLabel: Story = {
 
 export default {
   component: (props) => {
-    const methods = useForm({ defaultValues: { [args.name]: [0.2, 0.8] } });
+    const methods = useForm({ defaultValues: { [args.name]: { min: 0.2, max: 0.8 } } });
     return (
       <FormProvider {...methods}>
         <NumberSlideField {...props} />

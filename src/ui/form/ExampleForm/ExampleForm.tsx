@@ -35,22 +35,10 @@ export interface ExampleFormProps {
   onSubmit?: (values: ExampleFormValues) => void;
 }
 
-const buildNewFormDefaultValues = (scalingThreshold: ExampleFormSources["scalingThreshold"]): ExampleFormInput => ({
-  serverName: "",
-  region: null,
-  containerImage: "",
-  serverType: null,
-  numOfInstances: null,
-  scalingThreshold: [scalingThreshold.min, scalingThreshold.max],
-  storageType: "ssd",
-  restartOnFailure: true,
-  allowedNetworkProtocols: [],
-});
-
 export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
   const methods = useForm<ExampleFormInput, unknown, ExampleFormValues>({
     resolver: zodResolver(ExampleFormSchema),
-    defaultValues: props.defaultValues ?? buildNewFormDefaultValues(props.sources.scalingThreshold),
+    defaultValues: props.defaultValues,
   });
 
   const handleSubmit = methods.handleSubmit((values: ExampleFormValues): void => {

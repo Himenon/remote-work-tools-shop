@@ -39,7 +39,10 @@ export const ExampleFormSchema = z.object({
       }
       return val;
     }),
-  scalingThreshold: z.array(z.number()),
+  scalingThreshold: z.object({
+    min: z.number(),
+    max: z.number(),
+  }),
   storageType: z.string(),
   restartOnFailure: z.boolean(),
   allowedNetworkProtocols: z.array(z.string()),

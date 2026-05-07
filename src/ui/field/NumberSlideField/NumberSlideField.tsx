@@ -32,14 +32,15 @@ const thumbClassName =
 
 export const NumberSlideField: React.FC<NumberSlideFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
+  const value = field.value as { min: number; max: number };
 
   return (
     <FieldRoot {...props.layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>
       <Fieldset.Root
         render={
           <Slider.Root
-            value={field.value as readonly number[]}
-            onValueChange={field.onChange}
+            value={[value.min, value.max]}
+            onValueChange={([min, max]: number[]): void => field.onChange({ min, max })}
             name={field.name}
             min={props.min ?? DEFAULT_MIN}
             max={props.max ?? DEFAULT_MAX}

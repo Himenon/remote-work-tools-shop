@@ -49,7 +49,7 @@ const submittedValues: ExampleFormValues = {
   containerImage: "nginx:latest",
   serverType: "t2.small",
   numOfInstances: 3,
-  scalingThreshold: [0.2, 0.8],
+  scalingThreshold: { min: 0.2, max: 0.8 },
   storageType: "ssd",
   restartOnFailure: true,
   allowedNetworkProtocols: ["tcp", "https"],
