@@ -14,9 +14,9 @@ import {
   type BuyFormValues,
 } from "#schema/form/BuyFormSchema";
 import type { ProductSpec } from "#types/product";
-import { GiftOptionSection } from "./GiftOptionSection";
-import { PriceSummarySection } from "./PriceSummarySection";
-import { SpecsSection } from "./SpecsSection";
+import { GiftOptionSection } from "./parts/GiftOptionSection";
+import { PriceSummarySection } from "./parts/PriceSummarySection";
+import { SpecsSection } from "./parts/SpecsSection";
 
 export type { BuyFormValues };
 

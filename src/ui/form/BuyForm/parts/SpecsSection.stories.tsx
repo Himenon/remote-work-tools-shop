@@ -4,7 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import type { ComponentPropsWithoutRef } from "react";
 import type { ProductSpec } from "#types/product";
 import { DEFAULT_WRAPPING, DEFAULT_COUNT, type BuyFormInput } from "#schema/form/BuyFormSchema";
-import { MOCK_PRODUCT_SPECS } from "../../../app/_mock/products";
+import { MOCK_PRODUCT_SPECS } from "../../../../app/_mock/products";
 import { SpecsSection } from "./SpecsSection";
 
 type T = typeof SpecsSection;
