@@ -77,7 +77,7 @@
           {
             "patterns": [
               {
-                "group": ["../**"],
+                "group": ["../**", "#types/**"],
                 "message": "src/ui からの親ディレクトリへの相対インポートは禁止です。使用可能なインポート: react | @base-ui/react/* | react-hook-form | @hookform/resolvers/* | #ui/* | #schema/* | #types/* | #test-helper/* | ./* (同階層・下位ディレクトリのみ)"
               }
             ]
