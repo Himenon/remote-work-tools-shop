@@ -14,55 +14,43 @@ import { OnelineTextField } from "#ui/field/OnelineTextField";
 
 export type { ExampleFormValues };
 
-const REGION_OPTIONS: ComboboxOption[] = [
-  { label: "US East (N. Virginia)", value: "us-east-1" },
-  { label: "US West (Oregon)", value: "us-west-2" },
-  { label: "EU (Ireland)", value: "eu-west-1" },
-  { label: "Asia Pacific (Tokyo)", value: "ap-northeast-1" },
-];
-
-const SERVER_TYPE_OPTIONS: SelectOption[] = [
-  { label: "t2.micro (1 vCPU, 1 GB)", value: "t2.micro" },
-  { label: "t2.small (1 vCPU, 2 GB)", value: "t2.small" },
-  { label: "t2.medium (2 vCPU, 4 GB)", value: "t2.medium" },
-  { label: "c5.large (2 vCPU, 4 GB)", value: "c5.large" },
-];
-
-const STORAGE_TYPE_OPTIONS: RadioOption[] = [
-  { label: "SSD", value: "ssd" },
-  { label: "HDD", value: "hdd" },
-  { label: "NVMe", value: "nvme" },
-];
-
-const NETWORK_PROTOCOL_OPTIONS: MultiSelectOption[] = [
-  { label: "TCP", value: "tcp" },
-  { label: "UDP", value: "udp" },
-  { label: "HTTP", value: "http" },
-  { label: "HTTPS", value: "https" },
-];
-
-const SCALING_THRESHOLD_MIN_DEFAULT = 0.2;
-const SCALING_THRESHOLD_MAX_DEFAULT = 0.8;
 const SCALING_THRESHOLD_FORMAT: Intl.NumberFormatOptions = { style: "percent" };
 
+export interface ExampleFormSources {
+  region: ComboboxOption[];
+  serverType: SelectOption[];
+  storageType: RadioOption[];
+  allowedNetworkProtocols: MultiSelectOption[];
+  /** 新規入力フォーム時のスケーリング閾値の初期範囲 */
+  scalingThreshold: {
+    min: number;
+    max: number;
+  };
+}
+
 export interface ExampleFormProps {
+  sources: ExampleFormSources;
+  /** 指定時は編集フォーム、未指定時は新規入力フォームとして動作する */
+  defaultValues?: ExampleFormInput;
   onSubmit?: (values: ExampleFormValues) => void;
 }
 
 export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
+  const newFormDefaultValues: ExampleFormInput = {
+    serverName: "",
+    region: null,
+    containerImage: "",
+    serverType: null,
+    numOfInstances: null,
+    scalingThreshold: [props.sources.scalingThreshold.min, props.sources.scalingThreshold.max],
+    storageType: "ssd",
+    restartOnFailure: true,
+    allowedNetworkProtocols: [],
+  };
+
   const methods = useForm<ExampleFormInput, unknown, ExampleFormValues>({
     resolver: zodResolver(ExampleFormSchema),
-    defaultValues: {
-      serverName: "",
-      region: null,
-      containerImage: "",
-      serverType: null,
-      numOfInstances: null,
-      scalingThreshold: [SCALING_THRESHOLD_MIN_DEFAULT, SCALING_THRESHOLD_MAX_DEFAULT],
-      storageType: "ssd",
-      restartOnFailure: true,
-      allowedNetworkProtocols: [],
-    },
+    defaultValues: props.defaultValues ?? newFormDefaultValues,
   });
 
   const handleSubmit = methods.handleSubmit((values: ExampleFormValues): void => {
@@ -81,24 +69,30 @@ export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
 
         <OnelineTextField name="serverName" label="サーバー名" placeholder="例: web-server-01" required />
 
-        <ComboboxField name="region" label="リージョン" options={REGION_OPTIONS} placeholder="リージョンを選択または入力" required />
+        <ComboboxField name="region" label="リージョン" options={props.sources.region} placeholder="リージョンを選択または入力" required />
 
         <OnelineTextField name="containerImage" label="コンテナイメージ" placeholder="例: nginx:latest" required />
 
-        <SingleSelectField name="serverType" label="サーバータイプ" options={SERVER_TYPE_OPTIONS} placeholder="サーバータイプを選択" required />
+        <SingleSelectField
+          name="serverType"
+          label="サーバータイプ"
+          options={props.sources.serverType}
+          placeholder="サーバータイプを選択"
+          required
+        />
 
         <QuantityStepperField name="numOfInstances" label="インスタンス数" min={INSTANCES_MIN} max={INSTANCES_MAX} required />
 
         <NumberSlideField name="scalingThreshold" label="スケーリング閾値" format={SCALING_THRESHOLD_FORMAT} />
 
-        <RadioGroupField name="storageType" label="ストレージタイプ" options={STORAGE_TYPE_OPTIONS} orientation="horizontal" />
+        <RadioGroupField name="storageType" label="ストレージタイプ" options={props.sources.storageType} orientation="horizontal" />
 
         <SwitchField name="restartOnFailure" label="障害時に自動再起動する" />
 
         <MultiSelectField
           name="allowedNetworkProtocols"
           label="許可するネットワークプロトコル"
-          options={NETWORK_PROTOCOL_OPTIONS}
+          options={props.sources.allowedNetworkProtocols}
           orientation="horizontal"
         />
 

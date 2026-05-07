@@ -2,11 +2,39 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { fn, userEvent, within } from "storybook/test";
 import { action } from "storybook/actions";
 
-import { ExampleForm, type ExampleFormValues } from "./ExampleForm";
+import { ExampleForm, type ExampleFormSources, type ExampleFormValues } from "./ExampleForm";
+
+const SOURCES: ExampleFormSources = {
+  region: [
+    { label: "US East (N. Virginia)", value: "us-east-1" },
+    { label: "US West (Oregon)", value: "us-west-2" },
+    { label: "EU (Ireland)", value: "eu-west-1" },
+    { label: "Asia Pacific (Tokyo)", value: "ap-northeast-1" },
+  ],
+  serverType: [
+    { label: "t2.micro (1 vCPU, 1 GB)", value: "t2.micro" },
+    { label: "t2.small (1 vCPU, 2 GB)", value: "t2.small" },
+    { label: "t2.medium (2 vCPU, 4 GB)", value: "t2.medium" },
+    { label: "c5.large (2 vCPU, 4 GB)", value: "c5.large" },
+  ],
+  storageType: [
+    { label: "SSD", value: "ssd" },
+    { label: "HDD", value: "hdd" },
+    { label: "NVMe", value: "nvme" },
+  ],
+  allowedNetworkProtocols: [
+    { label: "TCP", value: "tcp" },
+    { label: "UDP", value: "udp" },
+    { label: "HTTP", value: "http" },
+    { label: "HTTPS", value: "https" },
+  ],
+  scalingThreshold: { min: 0.2, max: 0.8 },
+};
 
 const meta = {
   component: ExampleForm,
   args: {
+    sources: SOURCES,
     onSubmit: fn(),
   },
 } satisfies Meta<typeof ExampleForm>;
