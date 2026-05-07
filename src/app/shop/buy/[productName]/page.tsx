@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { MOCK_PRODUCT_SPECS } from "../../../_mock/products";
-import { BuyForm } from "./BuyForm";
+import { BuyFormConnector } from "./BuyFormConnector";
 
 interface PageProps {
   params: Promise<{ productName: string }>;
@@ -24,5 +24,5 @@ export default async function BuyPage({ params }: PageProps): Promise<JSX.Elemen
     notFound();
   }
 
-  return <BuyForm spec={spec} />;
+  return <BuyFormConnector spec={spec} />;
 }

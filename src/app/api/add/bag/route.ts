@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import type { AddBagPayload } from "../../../_types/product";
+import type { AddBagPayload } from "#types/product";
 import { addBagItem } from "../../../_store/bag";
 
 const isAddBagPayload = (value: unknown): value is AddBagPayload => {

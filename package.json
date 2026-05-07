@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "imports": {
+    "#types/*": "./src/types/*.ts",
     "#ui/primitive/*": "./src/ui/primitive/*/*.tsx",
     "#ui/form/*": "./src/ui/form/*/*.tsx",
     "#ui/field/*": "./src/ui/field/*/*.tsx",

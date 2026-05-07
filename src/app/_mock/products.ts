@@ -1,4 +1,4 @@
-import type { ProductListItem, ProductSpec } from "../_types/product";
+import type { ProductListItem, ProductSpec } from "#types/product";
 
 export const MOCK_PRODUCT_LIST: ProductListItem[] = [
   {

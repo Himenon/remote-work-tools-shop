@@ -1,6 +1,6 @@
 "use client";
 
-import type { SpecCategory } from "../../../_types/product";
+import type { SpecCategory } from "#types/product";
 
 export interface SpecCategoryFieldProps {
   categoryKey: string;

@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { findAllBagItems } from "../../_store/bag";
 import { MOCK_PRODUCT_LIST } from "../../_mock/products";
-import type { BagItem } from "../../_types/product";
-import { CheckoutButton } from "./CheckoutButton";
+import type { BagItem } from "#types/product";
+import { CheckoutFormConnector } from "./CheckoutFormConnector";
 
 export const metadata: Metadata = {
   title: "チェックアウト - RemoteWork Tools Shop",
@@ -62,7 +62,7 @@ export default function CheckoutPage(): JSX.Element {
           </ul>
         )}
       </section>
-      <CheckoutButton disabled={isEmpty} />
+      <CheckoutFormConnector disabled={isEmpty} />
       {isEmpty && (
         <a href="/" className="text-center text-sm text-indigo-600 underline hover:text-indigo-700">
           商品を探す
