@@ -78,7 +78,7 @@
             "patterns": [
               {
                 "group": ["../**", "#types/**"],
-                "message": "src/ui からの親ディレクトリへの相対インポートは禁止です。使用可能なインポート: react | @base-ui/react/* | react-hook-form | @hookform/resolvers/* | #ui/* | #schema/* | #types/* | #test-helper/* | ./* (同階層・下位ディレクトリのみ)"
+                "message": "src/ui から依存可能な対象は、ドメインに属さないライブラリか、コンポーネントを構成する下位のコンポーネントのみです。共通の型定義などは存在せず、UIはUIの責務の範囲で型定義を定義してください。"
               }
             ]
           }
