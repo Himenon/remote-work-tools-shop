@@ -1,9 +1,9 @@
 "use client";
 
 import { useWatch } from "react-hook-form";
-import { CheckboxField } from "../../../field/CheckboxField/CheckboxField";
-import { OnelineTextField } from "../../../field/OnelineTextField/OnelineTextField";
-import { RadioGroupField, type RadioOption } from "../../../field/RadioGroupField/RadioGroupField";
+import { CheckboxField } from "@rwts/ui/field/CheckboxField";
+import { OnelineTextField } from "@rwts/ui/field/OnelineTextField";
+import { RadioGroupField, type RadioOption } from "@rwts/ui/field/RadioGroupField";
 import { WRAPPING_OPTIONS, type BuyFormInput } from "@rwts/contract/form/BuyFormSchema";
 
 const WRAPPING_RADIO_OPTIONS: RadioOption[] = WRAPPING_OPTIONS.map((option): RadioOption => ({ label: option, value: option }));

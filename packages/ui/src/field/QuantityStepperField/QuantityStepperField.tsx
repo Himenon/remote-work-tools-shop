@@ -2,9 +2,9 @@ import { NumberField } from "@base-ui/react/number-field";
 import * as React from "react";
 import { useController } from "react-hook-form";
 
-import { FieldLabel } from "../FieldLabel/FieldLabel";
-import { FieldRoot, type FieldLayoutProps } from "../FieldRoot/FieldRoot";
-import { FieldTextError } from "../FieldTextError/FieldTextError";
+import { FieldLabel } from "@rwts/ui/field/FieldLabel";
+import { FieldRoot, type FieldLayoutProps } from "@rwts/ui/field/FieldRoot";
+import { FieldTextError } from "@rwts/ui/field/FieldTextError";
 
 export const parseNumberOrNull = (value: unknown): number | null => {
   if (value === null || typeof value === "number") {

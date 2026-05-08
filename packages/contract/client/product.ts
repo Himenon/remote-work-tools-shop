@@ -39,11 +39,15 @@ const MicrophoneSchema = ProductBaseSchema.extend({ category: z.literal("Microph
 
 export const ProductSpecSchema = z.discriminatedUnion("category", [LaptopSchema, SmartPhoneSchema, DeskSchema, MicrophoneSchema]);
 
+const CATCH_COPY_MAX_LENGTH = 72;
+
 export const ProductListItemSchema = z.object({
   productId: z.string({ message: "商品IDは文字列である必要があります" }),
   name: z.string({ message: "商品名は文字列である必要があります" }),
   price: z.number({ message: "価格は数値である必要があります" }),
-  catchCopy: z.string({ message: "販促文章は文字列である必要があります" }).max(72, "販促文章は72文字以内である必要があります"),
+  catchCopy: z
+    .string({ message: "販促文章は文字列である必要があります" })
+    .max(CATCH_COPY_MAX_LENGTH, "販促文章は72文字以内である必要があります"),
 });
 
 const CustomizedProductSchema = z.object({
@@ -51,12 +55,14 @@ const CustomizedProductSchema = z.object({
   specs: z.record(z.string(), z.string({ message: "スペックの値は文字列である必要があります" })),
 });
 
+const MIN_COUNT = 1;
+
 export const BagItemSchema = z.object({
   product: CustomizedProductSchema,
   count: z
     .number({ message: "個数は数値である必要があります" })
     .int("個数は整数である必要があります")
-    .min(1, "個数は1以上である必要があります"),
+    .min(MIN_COUNT, "個数は1以上である必要があります"),
 });
 
 export const ProductsInBagSchema = z.object({

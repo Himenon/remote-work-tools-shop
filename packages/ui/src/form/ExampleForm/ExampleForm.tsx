@@ -9,14 +9,14 @@ import {
   type ExampleFormInput,
   type ExampleFormValues,
 } from "@rwts/contract/form/ExampleFormSchema";
-import { MultiSelectField, type MultiSelectOption } from "../../field/MultiSelectField/MultiSelectField";
-import { NumberSlideField } from "../../field/NumberSlideField/NumberSlideField";
-import { QuantityStepperField } from "../../field/QuantityStepperField/QuantityStepperField";
-import { RadioGroupField, type RadioOption } from "../../field/RadioGroupField/RadioGroupField";
-import { ComboboxField, type ComboboxOption } from "../../field/ComboboxField/ComboboxField";
-import { SingleSelectField, type SelectOption } from "../../field/SingleSelectField/SingleSelectField";
-import { SwitchField } from "../../field/SwitchField/SwitchField";
-import { OnelineTextField } from "../../field/OnelineTextField/OnelineTextField";
+import { MultiSelectField, type MultiSelectOption } from "@rwts/ui/field/MultiSelectField";
+import { NumberSlideField } from "@rwts/ui/field/NumberSlideField";
+import { QuantityStepperField } from "@rwts/ui/field/QuantityStepperField";
+import { RadioGroupField, type RadioOption } from "@rwts/ui/field/RadioGroupField";
+import { ComboboxField, type ComboboxOption } from "@rwts/ui/field/ComboboxField";
+import { SingleSelectField, type SelectOption } from "@rwts/ui/field/SingleSelectField";
+import { SwitchField } from "@rwts/ui/field/SwitchField";
+import { OnelineTextField } from "@rwts/ui/field/OnelineTextField";
 
 export type { ExampleFormValues };
 

@@ -1,9 +1,9 @@
 import { Switch } from "@base-ui/react/switch";
 import * as React from "react";
 import { useController } from "react-hook-form";
-import { FieldLabel } from "../FieldLabel/FieldLabel";
-import { FieldRoot, type FieldLayoutProps } from "../FieldRoot/FieldRoot";
-import { FieldTextError } from "../FieldTextError/FieldTextError";
+import { FieldLabel } from "@rwts/ui/field/FieldLabel";
+import { FieldRoot, type FieldLayoutProps } from "@rwts/ui/field/FieldRoot";
+import { FieldTextError } from "@rwts/ui/field/FieldTextError";
 
 export interface SwitchFieldProps {
   name: string;

@@ -6,6 +6,7 @@ const BAG_FILE = path.join(process.cwd(), "data", "bag.json");
 
 const MAX_BAG_ITEM_KINDS = 10;
 const NOT_FOUND_INDEX = -1;
+const JSON_INDENT_SPACES = 2;
 
 const readItems = (): BagItem[] => {
   if (!fs.existsSync(BAG_FILE)) {
@@ -17,7 +18,7 @@ const readItems = (): BagItem[] => {
 
 const writeItems = (items: BagItem[]): void => {
   fs.mkdirSync(path.dirname(BAG_FILE), { recursive: true });
-  fs.writeFileSync(BAG_FILE, JSON.stringify({ items }, null, 2), "utf8");
+  fs.writeFileSync(BAG_FILE, JSON.stringify({ items }, null, JSON_INDENT_SPACES), "utf8");
 };
 
 export const findAllBagItems = (): BagItem[] => readItems();

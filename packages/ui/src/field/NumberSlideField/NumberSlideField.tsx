@@ -2,8 +2,8 @@ import { Fieldset } from "@base-ui/react/fieldset";
 import { Slider } from "@base-ui/react/slider";
 import * as React from "react";
 import { useController } from "react-hook-form";
-import { FieldRoot, type FieldLayoutProps } from "../FieldRoot/FieldRoot";
-import { FieldTextError } from "../FieldTextError/FieldTextError";
+import { FieldRoot, type FieldLayoutProps } from "@rwts/ui/field/FieldRoot";
+import { FieldTextError } from "@rwts/ui/field/FieldTextError";
 
 interface SliderValue {
   min: number;

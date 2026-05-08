@@ -2,9 +2,9 @@ import { Checkbox } from "@base-ui/react/checkbox";
 import { CheckboxGroup } from "@base-ui/react/checkbox-group";
 import * as React from "react";
 import { useController } from "react-hook-form";
-import { FieldLabel } from "../FieldLabel/FieldLabel";
-import { FieldRoot, type FieldLayoutProps } from "../FieldRoot/FieldRoot";
-import { FieldTextError } from "../FieldTextError/FieldTextError";
+import { FieldLabel } from "@rwts/ui/field/FieldLabel";
+import { FieldRoot, type FieldLayoutProps } from "@rwts/ui/field/FieldRoot";
+import { FieldTextError } from "@rwts/ui/field/FieldTextError";
 
 export interface MultiSelectOption {
   label: string;
