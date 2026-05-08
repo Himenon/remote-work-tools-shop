@@ -4,7 +4,15 @@ import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { QuantityStepperField } from "@rwts/ui/field/QuantityStepperField";
-import { BuyFormSchema, COUNT_MIN, COUNT_MAX, type BuyFormInput, type BuyFormValues } from "@rwts/contract/form/BuyFormSchema";
+import {
+  BuyFormSchema,
+  COUNT_MIN,
+  COUNT_MAX,
+  DEFAULT_COUNT,
+  DEFAULT_WRAPPING,
+  type BuyFormInput,
+  type BuyFormValues,
+} from "@rwts/contract/form/BuyFormSchema";
 import type { SpecCategory } from "./parts/SpecCategoryField";
 import { GiftOptionSection } from "./parts/GiftOptionSection";
 import { PriceSummarySection } from "./parts/PriceSummarySection";
@@ -29,7 +37,13 @@ export interface BuyFormProps {
 export const BuyForm: React.FC<BuyFormProps> = ({ product, defaultValues, onSubmit }) => {
   const methods = useForm<BuyFormInput, unknown, BuyFormValues>({
     resolver: zodResolver(BuyFormSchema),
-    defaultValues,
+    defaultValues: defaultValues ?? {
+      specs: {},
+      giftEnabled: false,
+      wrapping: DEFAULT_WRAPPING,
+      message: "",
+      count: DEFAULT_COUNT,
+    },
   });
 
   const handleSubmit = methods.handleSubmit(onSubmit);
@@ -38,7 +52,7 @@ export const BuyForm: React.FC<BuyFormProps> = ({ product, defaultValues, onSubm
     <FormProvider {...methods}>
       <div className="mx-auto max-w-2xl">
         <h1 className="mb-6 text-2xl font-bold">{product.name}</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
           <SpecsSection specSortKeys={product.specSortKeys} categories={product.categories} />
           <GiftOptionSection />
           <section className="flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-900">

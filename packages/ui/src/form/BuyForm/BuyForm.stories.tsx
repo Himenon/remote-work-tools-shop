@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn, expect, within, userEvent } from "storybook/test";
 import { MOCK_BUY_FORM_PRODUCTS } from "@rwts/test-helper/mock/products";
+import { DEFAULT_WRAPPING, type BuyFormInput } from "@rwts/contract/form/BuyFormSchema";
 import { BuyForm, type BuyFormProduct } from "./BuyForm";
 
 type T = typeof BuyForm;
@@ -30,15 +31,20 @@ export const Microphone: Story = {
   args: { product: micProduct },
 };
 
+const emptyCountDefaultValues: BuyFormInput = {
+  specs: {},
+  giftEnabled: false,
+  wrapping: DEFAULT_WRAPPING,
+  message: "",
+  count: null,
+};
+
 /** 個数フィールドを空にして送信ボタンを押したときのバリデーションエラー */
 export const ValidationErrorCountEmpty: Story = {
   name: "バリデーションエラー（個数フィールドを空にして送信）",
+  args: { defaultValues: emptyCountDefaultValues },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const countInput = canvas.getByRole("textbox", { name: "個数" });
-    await userEvent.tripleClick(countInput);
-    await userEvent.keyboard("{Backspace}");
-    await userEvent.tab();
     await userEvent.click(canvas.getByRole("button", { name: "バッグへ追加" }));
     await expect(await canvas.findByText("個数を入力してください")).toBeInTheDocument();
   },

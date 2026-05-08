@@ -44,7 +44,17 @@ export interface ExampleFormProps {
 export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
   const methods = useForm<ExampleFormInput, unknown, ExampleFormValues>({
     resolver: zodResolver(ExampleFormSchema),
-    defaultValues: props.defaultValues,
+    defaultValues: props.defaultValues ?? {
+      serverName: "",
+      region: null,
+      containerImage: "",
+      serverType: null,
+      numOfInstances: null,
+      scalingThreshold: props.sources.scalingThreshold,
+      storageType: "",
+      restartOnFailure: true,
+      allowedNetworkProtocols: [],
+    },
   });
 
   const handleSubmit = methods.handleSubmit((values: ExampleFormValues): void => {
