@@ -4,6 +4,27 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  default:
+    '@types/react':
+      specifier: '19'
+      version: 19.2.14
+    '@types/react-dom':
+      specifier: '19'
+      version: 19.2.3
+    react:
+      specifier: 19.2.5
+      version: 19.2.5
+    react-dom:
+      specifier: 19.2.5
+      version: 19.2.5
+    react-hook-form:
+      specifier: ^7.72.1
+      version: 7.72.1
+    zod:
+      specifier: ^4.3.6
+      version: 4.3.6
+
 importers:
 
   .:
@@ -42,20 +63,20 @@ importers:
         specifier: 16.2.4
         version: 16.2.4(@babel/core@7.29.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(sass@1.99.0)
       react:
-        specifier: 19.2.5
+        specifier: 'catalog:'
         version: 19.2.5
       react-dom:
-        specifier: 19.2.5
+        specifier: 'catalog:'
         version: 19.2.5(react@19.2.5)
     devDependencies:
       '@rwts/test-helper':
         specifier: workspace:*
         version: link:../../packages/test-helper
       '@types/react':
-        specifier: '19'
+        specifier: 'catalog:'
         version: 19.2.14
       '@types/react-dom':
-        specifier: '19'
+        specifier: 'catalog:'
         version: 19.2.3(@types/react@19.2.14)
       babel-plugin-react-compiler:
         specifier: ^1.0.0
@@ -64,7 +85,7 @@ importers:
   packages/contract:
     dependencies:
       zod:
-        specifier: ^4.3.6
+        specifier: 'catalog:'
         version: 4.3.6
 
   packages/server:
@@ -73,7 +94,7 @@ importers:
         specifier: workspace:*
         version: link:../contract
       zod:
-        specifier: ^4.3.6
+        specifier: 'catalog:'
         version: 4.3.6
 
   packages/test-helper:
@@ -82,14 +103,14 @@ importers:
         specifier: workspace:*
         version: link:../contract
       react:
-        specifier: ^19.0.0
+        specifier: 'catalog:'
         version: 19.2.5
       react-hook-form:
-        specifier: ^7.72.1
+        specifier: 'catalog:'
         version: 7.72.1(react@19.2.5)
     devDependencies:
       '@types/react':
-        specifier: '19'
+        specifier: 'catalog:'
         version: 19.2.14
 
   packages/ui:
@@ -110,17 +131,17 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       react:
-        specifier: 19.2.5
+        specifier: 'catalog:'
         version: 19.2.5
       react-dom:
-        specifier: 19.2.5
+        specifier: 'catalog:'
         version: 19.2.5(react@19.2.5)
       react-hook-form:
-        specifier: ^7.72.1
+        specifier: 'catalog:'
         version: 7.72.1(react@19.2.5)
       tailwindcss:
         specifier: ^4.2.2
-        version: 4.2.2
+        version: 4.2.4
     devDependencies:
       '@chromatic-com/storybook':
         specifier: 5.1.2
@@ -156,10 +177,10 @@ importers:
         specifier: ^16.3.2
         version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
       '@types/react':
-        specifier: '19'
+        specifier: 'catalog:'
         version: 19.2.14
       '@types/react-dom':
-        specifier: '19'
+        specifier: 'catalog:'
         version: 19.2.3(@types/react@19.2.14)
       '@vitest/browser-playwright':
         specifier: 4.1.4

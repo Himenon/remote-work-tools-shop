@@ -10,6 +10,6 @@
   },
   "dependencies": {
     "@rwts/contract": "workspace:*",
-    "zod": "^4.3.6"
+    "zod": "catalog:"
   }
 }

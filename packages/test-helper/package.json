@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "@rwts/contract": "workspace:*",
-    "react-hook-form": "^7.72.1"
+    "react-hook-form": "catalog:"
   },
   "devDependencies": {
-    "@types/react": "19"
+    "@types/react": "catalog:"
   },
   "peerDependencies": {
-    "react": "^19.0.0"
+    "react": "catalog:"
   }
 }
