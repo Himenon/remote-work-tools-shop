@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { BuyForm, type BuyFormValues, type BuyFormProduct } from "#ui/form/BuyForm";
+import { DEFAULT_COUNT, DEFAULT_WRAPPING, type BuyFormInput } from "#schema/form/BuyFormSchema";
 import type { ProductSpec } from "#types/product";
 
 interface BuyFormConnectorProps {
@@ -9,22 +10,49 @@ interface BuyFormConnectorProps {
 }
 
 const EMPTY_MESSAGE_LENGTH = 0;
+const FIRST_SPEC_INDEX = 0;
 
-const toBuyFormProduct = (spec: ProductSpec): BuyFormProduct => ({
-  name: spec.name,
-  price: spec.price,
-  specSortKeys: spec.spec.meta.specSortKey,
-  categories: Object.fromEntries(
-    Object.entries(spec.spec.categories).map(([key, category]) => [
-      key,
-      {
-        name: category.name,
-        view: category.view,
-        specs: category.specs.map(({ name, cost }) => ({ name, cost })),
-      },
-    ]),
-  ),
-});
+const buildInitialSpecs = (product: BuyFormProduct): Record<string, string[]> => {
+  const initial: Record<string, string[]> = {};
+  for (const key of product.specSortKeys) {
+    const category = product.categories[key];
+    if (!category) {
+      continue;
+    }
+    if (category.view === "indicator") {
+      continue;
+    }
+    const first = category.specs[FIRST_SPEC_INDEX];
+    initial[key] = first ? [first.name] : [];
+  }
+  return initial;
+};
+
+const toBuyFormProps = (spec: ProductSpec): { product: BuyFormProduct; defaultValues: BuyFormInput } => {
+  const product: BuyFormProduct = {
+    name: spec.name,
+    price: spec.price,
+    specSortKeys: spec.spec.meta.specSortKey,
+    categories: Object.fromEntries(
+      Object.entries(spec.spec.categories).map(([key, category]) => [
+        key,
+        {
+          name: category.name,
+          view: category.view,
+          specs: category.specs.map(({ name, cost }) => ({ name, cost })),
+        },
+      ]),
+    ),
+  };
+  const defaultValues: BuyFormInput = {
+    specs: buildInitialSpecs(product),
+    giftEnabled: false,
+    wrapping: DEFAULT_WRAPPING,
+    message: "",
+    count: DEFAULT_COUNT,
+  };
+  return { product, defaultValues };
+};
 
 const buildFlatSpecs = (specs: Record<string, string[]>, giftEnabled: boolean, wrapping: string, message: string): Record<string, string> => {
   const flatSpecs: Record<string, string> = {};
@@ -56,7 +84,7 @@ export const BuyFormConnector: React.FC<BuyFormConnectorProps> = ({ spec }) => {
     router.push("/shop/bag");
   };
 
-  return <BuyForm product={toBuyFormProduct(spec)} onSubmit={handleSubmit} />;
+  return <BuyForm {...toBuyFormProps(spec)} onSubmit={handleSubmit} />;
 };
 
 BuyFormConnector.displayName = "BuyFormConnector";

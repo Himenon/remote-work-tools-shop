@@ -4,15 +4,7 @@ import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { QuantityStepperField } from "#ui/field/QuantityStepperField";
-import {
-  BuyFormSchema,
-  COUNT_MIN,
-  COUNT_MAX,
-  DEFAULT_COUNT,
-  DEFAULT_WRAPPING,
-  type BuyFormInput,
-  type BuyFormValues,
-} from "#schema/form/BuyFormSchema";
+import { BuyFormSchema, COUNT_MIN, COUNT_MAX, type BuyFormInput, type BuyFormValues } from "#schema/form/BuyFormSchema";
 import type { SpecCategory } from "./parts/SpecCategoryField";
 import { GiftOptionSection } from "./parts/GiftOptionSection";
 import { PriceSummarySection } from "./parts/PriceSummarySection";
@@ -34,34 +26,10 @@ export interface BuyFormProps {
   onSubmit: (values: BuyFormValues) => Promise<void>;
 }
 
-const FIRST_SPEC_INDEX = 0;
-
-const buildInitialSpecs = (product: BuyFormProduct): Record<string, string[]> => {
-  const initial: Record<string, string[]> = {};
-  for (const key of product.specSortKeys) {
-    const category = product.categories[key];
-    if (!category) {
-      continue;
-    }
-    if (category.view === "indicator") {
-      continue;
-    }
-    const first = category.specs[FIRST_SPEC_INDEX];
-    initial[key] = first ? [first.name] : [];
-  }
-  return initial;
-};
-
 export const BuyForm: React.FC<BuyFormProps> = ({ product, defaultValues, onSubmit }) => {
   const methods = useForm<BuyFormInput, unknown, BuyFormValues>({
     resolver: zodResolver(BuyFormSchema),
-    defaultValues: defaultValues ?? {
-      specs: buildInitialSpecs(product),
-      giftEnabled: false,
-      wrapping: DEFAULT_WRAPPING,
-      message: "",
-      count: DEFAULT_COUNT,
-    },
+    defaultValues: defaultValues,
   });
 
   const handleSubmit = methods.handleSubmit(onSubmit);
