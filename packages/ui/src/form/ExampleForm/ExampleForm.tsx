@@ -27,11 +27,6 @@ export interface ExampleFormSources {
   serverType: SelectOption[];
   storageType: RadioOption[];
   allowedNetworkProtocols: MultiSelectOption[];
-  /** 新規入力フォーム時のスケーリング閾値の初期範囲 */
-  scalingThreshold: {
-    min: number;
-    max: number;
-  };
 }
 
 export interface ExampleFormProps {
@@ -41,20 +36,25 @@ export interface ExampleFormProps {
   onSubmit?: (values: ExampleFormValues) => void;
 }
 
+const defaultValues: ExampleFormInput = {
+  serverName: "",
+  region: null,
+  containerImage: "",
+  serverType: null,
+  numOfInstances: null,
+  scalingThreshold: {
+    min: 0,
+    max: 1,
+  },
+  storageType: "",
+  restartOnFailure: true,
+  allowedNetworkProtocols: [],
+};
+
 export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
   const methods = useForm<ExampleFormInput, unknown, ExampleFormValues>({
     resolver: zodResolver(ExampleFormSchema),
-    defaultValues: props.defaultValues ?? {
-      serverName: "",
-      region: null,
-      containerImage: "",
-      serverType: null,
-      numOfInstances: null,
-      scalingThreshold: props.sources.scalingThreshold,
-      storageType: "",
-      restartOnFailure: true,
-      allowedNetworkProtocols: [],
-    },
+    defaultValues: props.defaultValues ?? defaultValues,
   });
 
   const handleSubmit = methods.handleSubmit((values: ExampleFormValues): void => {
