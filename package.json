@@ -6,6 +6,7 @@
     "dev": "pnpm --filter shop-web dev",
     "build": "pnpm --filter shop-web build",
     "start": "pnpm --filter shop-web start",
+    "typecheck": "tsc --noEmit",
     "lint": "oxlint",
     "fmt": "oxfmt",
     "test": "pnpm -r test"
