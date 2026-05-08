@@ -13,7 +13,7 @@ import {
   type BuyFormInput,
   type BuyFormValues,
 } from "#schema/form/BuyFormSchema";
-import type { ProductSpec } from "#types/product";
+import type { ProductSpec } from "./parts/types";
 import { GiftOptionSection } from "./parts/GiftOptionSection";
 import { PriceSummarySection } from "./parts/PriceSummarySection";
 import { SpecsSection } from "./parts/SpecsSection";

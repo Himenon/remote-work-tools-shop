@@ -2,9 +2,9 @@ import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { expect, within } from "storybook/test";
 import { FormProvider, useForm } from "react-hook-form";
 import type { ComponentPropsWithoutRef } from "react";
-import type { ProductSpec } from "#types/product";
 import { DEFAULT_WRAPPING, DEFAULT_COUNT, type BuyFormInput } from "#schema/form/BuyFormSchema";
-import { MOCK_PRODUCT_SPECS } from "../../../../app/_mock/products";
+import type { ProductSpec } from "./types";
+import { MOCK_PRODUCT_SPECS } from "#test-helper/mock/products";
 import { PriceSummarySection } from "./PriceSummarySection";
 
 type T = typeof PriceSummarySection;

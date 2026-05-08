@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import type { BuyFormInput } from "#schema/form/BuyFormSchema";
-import type { ProductSpec } from "#types/product";
+import type { ProductSpec } from "./types";
 import { SpecCategoryField, type SpecCategoryFieldProps } from "./SpecCategoryField";
 
 interface SpecsSectionProps {

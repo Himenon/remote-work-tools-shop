@@ -9,7 +9,8 @@
     "#ui/field/*": "./src/ui/field/*/*.tsx",
     "#schema/field/*": "./src/schema/field/*.ts",
     "#schema/form/*": "./src/schema/form/*.ts",
-    "#test-helper/storybook": "./src/test-helper/storybook/index.ts"
+    "#test-helper/storybook": "./src/test-helper/storybook/index.ts",
+    "#test-helper/mock/*": "./src/test-helper/mock/*.ts"
   },
   "scripts": {
     "dev": "next dev",
