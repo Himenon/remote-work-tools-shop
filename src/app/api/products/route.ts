@@ -1,4 +1,4 @@
 import { NextResponse } from "next/server";
-import { MOCK_PRODUCT_LIST } from "../../_mock/products";
+import { findAllProducts } from "../../_store/product";
 
-export const GET = (): NextResponse => NextResponse.json(MOCK_PRODUCT_LIST);
+export const GET = (): NextResponse => NextResponse.json(findAllProducts());

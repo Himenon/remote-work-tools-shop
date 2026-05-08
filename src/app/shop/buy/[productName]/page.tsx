@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { MOCK_PRODUCT_SPECS } from "../../../_mock/products";
+import { findProductSpec } from "../../../_store/product";
 import { BuyFormConnector } from "./BuyFormConnector";
 
 interface PageProps {
@@ -9,7 +9,7 @@ interface PageProps {
 
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata> => {
   const { productName } = await params;
-  const spec = MOCK_PRODUCT_SPECS.find((p) => p.productId === productName);
+  const spec = findProductSpec(productName);
   if (!spec) {
     return {};
   }
@@ -18,7 +18,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata>
 
 export default async function BuyPage({ params }: PageProps): Promise<JSX.Element> {
   const { productName } = await params;
-  const spec = MOCK_PRODUCT_SPECS.find((p) => p.productId === productName);
+  const spec = findProductSpec(productName);
 
   if (!spec) {
     notFound();

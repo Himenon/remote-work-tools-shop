@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { findAllBagItems } from "../../_store/bag";
-import { MOCK_PRODUCT_LIST } from "../../_mock/products";
+import { findAllProducts } from "../../_store/product";
 import type { BagItem } from "#schema/client/product";
 import { CheckoutFormConnector } from "./CheckoutFormConnector";
 
@@ -12,17 +12,12 @@ export const dynamic = "force-dynamic";
 
 const EMPTY_LIST_LENGTH = 0;
 
-const findProductName = (productId: string): string => {
-  const found = MOCK_PRODUCT_LIST.find((p) => p.productId === productId);
-  return found?.name ?? productId;
-};
-
 interface CheckoutItemCardProps {
   item: BagItem;
+  productName: string;
 }
 
-const CheckoutItemCard = ({ item }: CheckoutItemCardProps): JSX.Element => {
-  const productName = findProductName(item.product.productId);
+const CheckoutItemCard = ({ item, productName }: CheckoutItemCardProps): JSX.Element => {
   const specEntries = Object.entries(item.product.specs);
   return (
     <li className="flex flex-col gap-2 py-3">
@@ -46,6 +41,13 @@ const CheckoutItemCard = ({ item }: CheckoutItemCardProps): JSX.Element => {
 
 export default function CheckoutPage(): JSX.Element {
   const items = findAllBagItems();
+  const products = findAllProducts();
+
+  const findProductName = (productId: string): string => {
+    const found = products.find((p) => p.productId === productId);
+    return found?.name ?? productId;
+  };
+
   const isEmpty = items.length === EMPTY_LIST_LENGTH;
   return (
     <div className="mx-auto max-w-2xl flex flex-col gap-8">
@@ -57,7 +59,7 @@ export default function CheckoutPage(): JSX.Element {
         ) : (
           <ul className="flex flex-col divide-y divide-gray-100 dark:divide-gray-800">
             {items.map((item, index) => (
-              <CheckoutItemCard key={`${item.product.productId}-${index}`} item={item} />
+              <CheckoutItemCard key={`${item.product.productId}-${index}`} item={item} productName={findProductName(item.product.productId)} />
             ))}
           </ul>
         )}

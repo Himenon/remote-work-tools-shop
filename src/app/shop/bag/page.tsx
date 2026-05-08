@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { findAllBagItems } from "../../_store/bag";
-import { MOCK_PRODUCT_LIST } from "../../_mock/products";
+import { findAllProducts } from "../../_store/product";
 import type { BagItem } from "#schema/client/product";
 
 export const metadata: Metadata = {
@@ -11,17 +11,12 @@ export const dynamic = "force-dynamic";
 
 const EMPTY_LIST_LENGTH = 0;
 
-const findProductName = (productId: string): string => {
-  const found = MOCK_PRODUCT_LIST.find((p) => p.productId === productId);
-  return found?.name ?? productId;
-};
-
 interface BagItemCardProps {
   item: BagItem;
+  productName: string;
 }
 
-const BagItemCard = ({ item }: BagItemCardProps): JSX.Element => {
-  const productName = findProductName(item.product.productId);
+const BagItemCard = ({ item, productName }: BagItemCardProps): JSX.Element => {
   const specEntries = Object.entries(item.product.specs);
 
   return (
@@ -46,6 +41,12 @@ const BagItemCard = ({ item }: BagItemCardProps): JSX.Element => {
 
 export default function BagPage(): JSX.Element {
   const items = findAllBagItems();
+  const products = findAllProducts();
+
+  const findProductName = (productId: string): string => {
+    const found = products.find((p) => p.productId === productId);
+    return found?.name ?? productId;
+  };
 
   if (items.length === EMPTY_LIST_LENGTH) {
     return (
@@ -63,7 +64,7 @@ export default function BagPage(): JSX.Element {
       <h1 className="text-2xl font-bold">バッグ</h1>
       <ul className="flex flex-col gap-4">
         {items.map((item, index) => (
-          <BagItemCard key={`${item.product.productId}-${index}`} item={item} />
+          <BagItemCard key={`${item.product.productId}-${index}`} item={item} productName={findProductName(item.product.productId)} />
         ))}
       </ul>
       <div className="flex justify-end">

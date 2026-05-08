@@ -1,21 +1,26 @@
-import type { BagItem } from "#schema/client/product";
+import fs from "fs";
+import path from "path";
+import { ProductsInBagSchema, type BagItem } from "#schema/client/product";
+
+const BAG_FILE = path.join(process.cwd(), "data", "bag.json");
 
 const MAX_BAG_ITEM_KINDS = 10;
 const NOT_FOUND_INDEX = -1;
 
-// DBの代替となるサーバーサイドのインメモリストア
-// Next.js のホットリロード時にリセットされる点はDB導入で解消する
-declare global {
-  // eslint-disable-next-line no-var
-  var __mockBagItems: BagItem[] | undefined;
-}
-
-const getBagItems = (): BagItem[] => {
-  globalThis.__mockBagItems ??= [];
-  return globalThis.__mockBagItems;
+const readItems = (): BagItem[] => {
+  if (!fs.existsSync(BAG_FILE)) {
+    return [];
+  }
+  const parsed = ProductsInBagSchema.safeParse(JSON.parse(fs.readFileSync(BAG_FILE, "utf-8")));
+  return parsed.success ? parsed.data.items : [];
 };
 
-export const findAllBagItems = (): BagItem[] => getBagItems();
+const writeItems = (items: BagItem[]): void => {
+  fs.mkdirSync(path.dirname(BAG_FILE), { recursive: true });
+  fs.writeFileSync(BAG_FILE, JSON.stringify({ items }, null, 2), "utf-8");
+};
+
+export const findAllBagItems = (): BagItem[] => readItems();
 
 export interface AddBagItemResult {
   success: true;
@@ -28,7 +33,7 @@ export interface AddBagItemError {
 }
 
 export const addBagItem = (item: BagItem): AddBagItemResult | AddBagItemError => {
-  const items = getBagItems();
+  const items = readItems();
   const existingIndex = items.findIndex((i) => i.product.productId === item.product.productId);
 
   if (existingIndex !== NOT_FOUND_INDEX) {
@@ -36,6 +41,7 @@ export const addBagItem = (item: BagItem): AddBagItemResult | AddBagItemError =>
     if (existing) {
       existing.count += item.count;
     }
+    writeItems(items);
     return { success: true, items };
   }
 
@@ -44,9 +50,10 @@ export const addBagItem = (item: BagItem): AddBagItemResult | AddBagItemError =>
   }
 
   items.push(item);
+  writeItems(items);
   return { success: true, items };
 };
 
 export const clearBag = (): void => {
-  globalThis.__mockBagItems = [];
+  writeItems([]);
 };

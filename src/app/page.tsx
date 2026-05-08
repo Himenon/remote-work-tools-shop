@@ -1,4 +1,4 @@
-import { MOCK_PRODUCT_LIST } from "./_mock/products";
+import { findAllProducts } from "./_store/product";
 
 const TAX_RATE = 1.1;
 const COMMA_LOCALE = "ja-JP";
@@ -9,11 +9,13 @@ const formatTaxIncludedPrice = (price: number): string => {
 };
 
 export default function TopPage(): JSX.Element {
+  const products = findAllProducts();
+
   return (
     <div>
       <h1 className="mb-8 text-2xl font-bold">商品一覧</h1>
       <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
-        {MOCK_PRODUCT_LIST.map((product) => {
+        {products.map((product) => {
           const priceText = formatTaxIncludedPrice(product.price);
 
           return (
