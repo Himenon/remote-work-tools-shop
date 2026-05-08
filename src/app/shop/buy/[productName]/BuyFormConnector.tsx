@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { BuyForm, type BuyFormValues } from "#ui/form/BuyForm";
+import { BuyForm, type BuyFormValues, type BuyFormProduct } from "#ui/form/BuyForm";
 import type { ProductSpec } from "#types/product";
 
 interface BuyFormConnectorProps {
@@ -9,6 +9,22 @@ interface BuyFormConnectorProps {
 }
 
 const EMPTY_MESSAGE_LENGTH = 0;
+
+const toBuyFormProduct = (spec: ProductSpec): BuyFormProduct => ({
+  name: spec.name,
+  price: spec.price,
+  specSortKeys: spec.spec.meta.specSortKey,
+  categories: Object.fromEntries(
+    Object.entries(spec.spec.categories).map(([key, category]) => [
+      key,
+      {
+        name: category.name,
+        view: category.view,
+        specs: category.specs.map(({ name, cost }) => ({ name, cost })),
+      },
+    ]),
+  ),
+});
 
 const buildFlatSpecs = (specs: Record<string, string[]>, giftEnabled: boolean, wrapping: string, message: string): Record<string, string> => {
   const flatSpecs: Record<string, string> = {};
@@ -40,7 +56,7 @@ export const BuyFormConnector: React.FC<BuyFormConnectorProps> = ({ spec }) => {
     router.push("/shop/bag");
   };
 
-  return <BuyForm spec={spec} onSubmit={handleSubmit} />;
+  return <BuyForm product={toBuyFormProduct(spec)} onSubmit={handleSubmit} />;
 };
 
 BuyFormConnector.displayName = "BuyFormConnector";

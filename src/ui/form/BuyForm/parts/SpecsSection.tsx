@@ -2,14 +2,14 @@
 
 import { useFormContext } from "react-hook-form";
 import type { BuyFormInput } from "#schema/form/BuyFormSchema";
-import type { ProductSpec } from "./types";
-import { SpecCategoryField, type SpecCategoryFieldProps } from "./SpecCategoryField";
+import { SpecCategoryField, type SpecCategoryFieldProps, type SpecCategory } from "./SpecCategoryField";
 
 interface SpecsSectionProps {
-  spec: ProductSpec;
+  specSortKeys: string[];
+  categories: Record<string, SpecCategory>;
 }
 
-export const SpecsSection: React.FC<SpecsSectionProps> = ({ spec }) => {
+export const SpecsSection: React.FC<SpecsSectionProps> = ({ specSortKeys, categories }) => {
   const { watch, setValue } = useFormContext<BuyFormInput>();
   const selectedSpecs = watch("specs");
 
@@ -20,8 +20,8 @@ export const SpecsSection: React.FC<SpecsSectionProps> = ({ spec }) => {
   return (
     <section className="flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-900">
       <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">スペックを選択</h2>
-      {spec.spec.meta.specSortKey.map((key) => {
-        const category = spec.spec.categories[key];
+      {specSortKeys.map((key) => {
+        const category = categories[key];
         if (!category) {
           return null;
         }

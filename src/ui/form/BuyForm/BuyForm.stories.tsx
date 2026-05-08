@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn, expect, within, userEvent } from "storybook/test";
-import type { ProductSpec } from "#types/product";
-import { MOCK_PRODUCT_SPECS } from "../../../app/_mock/products";
+import type { BuyFormProduct } from "#ui/form/BuyForm";
+import { MOCK_BUY_FORM_PRODUCTS } from "#test-helper/mock/products";
 import { BuyForm } from "./BuyForm";
 
 type T = typeof BuyForm;
 type Story = StoryObj<T>;
 
-const laptopSpec: ProductSpec = MOCK_PRODUCT_SPECS[0];
-const phoneSpec: ProductSpec = MOCK_PRODUCT_SPECS[1];
-const deskSpec: ProductSpec = MOCK_PRODUCT_SPECS[2];
-const micSpec: ProductSpec = MOCK_PRODUCT_SPECS[3];
+const laptopProduct: BuyFormProduct = MOCK_BUY_FORM_PRODUCTS[0];
+const phoneProduct: BuyFormProduct = MOCK_BUY_FORM_PRODUCTS[1];
+const deskProduct: BuyFormProduct = MOCK_BUY_FORM_PRODUCTS[2];
+const micProduct: BuyFormProduct = MOCK_BUY_FORM_PRODUCTS[3];
 
 export const Laptop: Story = {
   name: "ノートPC（MacBook Pro 16インチ）の購入フォーム",
@@ -18,17 +18,17 @@ export const Laptop: Story = {
 
 export const Smartphone: Story = {
   name: "スマートフォン（iPhone 15 Pro）の購入フォーム",
-  args: { spec: phoneSpec },
+  args: { product: phoneProduct },
 };
 
 export const Desk: Story = {
   name: "デスク（Standing Desk Pro）の購入フォーム",
-  args: { spec: deskSpec },
+  args: { product: deskProduct },
 };
 
 export const Microphone: Story = {
   name: "マイク（Blue Yeti Pro）の購入フォーム",
-  args: { spec: micSpec },
+  args: { product: micProduct },
 };
 
 /** 個数フィールドを空にして送信ボタンを押したときのバリデーションエラー */
@@ -70,6 +70,6 @@ export default {
   component: BuyForm,
   args: {
     onSubmit: fn(),
-    spec: laptopSpec,
+    product: laptopProduct,
   },
 } satisfies Meta<T>;

@@ -3,18 +3,18 @@ import { expect, within } from "storybook/test";
 import { FormProvider, useForm } from "react-hook-form";
 import type { ComponentPropsWithoutRef } from "react";
 import { DEFAULT_WRAPPING, DEFAULT_COUNT, type BuyFormInput } from "#schema/form/BuyFormSchema";
-import type { ProductSpec } from "./types";
-import { MOCK_PRODUCT_SPECS } from "#test-helper/mock/products";
+import { MOCK_BUY_FORM_PRODUCTS } from "#test-helper/mock/products";
 import { SpecsSection } from "./SpecsSection";
 
 type T = typeof SpecsSection;
 type Story = StoryObj<T>;
 
-const laptopSpec: ProductSpec = MOCK_PRODUCT_SPECS[0];
-const micSpec: ProductSpec = MOCK_PRODUCT_SPECS[3];
+const laptopProduct = MOCK_BUY_FORM_PRODUCTS[0];
+const micProduct = MOCK_BUY_FORM_PRODUCTS[3];
 
 const defaultArgs: ComponentPropsWithoutRef<T> = {
-  spec: laptopSpec,
+  specSortKeys: laptopProduct.specSortKeys,
+  categories: laptopProduct.categories,
 };
 
 export const Laptop: Story = {
@@ -24,7 +24,7 @@ export const Laptop: Story = {
 /** Blue Yeti Pro は「指向性パターン」が選択不可の表示のみ */
 export const Microphone: Story = {
   name: "マイク（指向性パターンは参考表示のみ）",
-  args: { spec: micSpec },
+  args: { specSortKeys: micProduct.specSortKeys, categories: micProduct.categories },
 };
 
 export const ShowsSpecHeading: Story = {

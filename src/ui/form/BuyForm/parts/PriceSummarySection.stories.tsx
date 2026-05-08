@@ -3,17 +3,17 @@ import { expect, within } from "storybook/test";
 import { FormProvider, useForm } from "react-hook-form";
 import type { ComponentPropsWithoutRef } from "react";
 import { DEFAULT_WRAPPING, DEFAULT_COUNT, type BuyFormInput } from "#schema/form/BuyFormSchema";
-import type { ProductSpec } from "./types";
-import { MOCK_PRODUCT_SPECS } from "#test-helper/mock/products";
+import { MOCK_BUY_FORM_PRODUCTS } from "#test-helper/mock/products";
 import { PriceSummarySection } from "./PriceSummarySection";
 
 type T = typeof PriceSummarySection;
 type Story = StoryObj<T>;
 
-const laptopSpec: ProductSpec = MOCK_PRODUCT_SPECS[0];
+const laptopProduct = MOCK_BUY_FORM_PRODUCTS[0];
 
 const defaultArgs: ComponentPropsWithoutRef<T> = {
-  spec: laptopSpec,
+  price: laptopProduct.price,
+  categories: laptopProduct.categories,
 };
 
 const baseSpecs: BuyFormInput["specs"] = {

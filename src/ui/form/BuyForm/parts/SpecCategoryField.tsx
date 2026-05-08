@@ -1,6 +1,17 @@
 "use client";
 
-import type { SpecCategory } from "./types";
+export interface Spec {
+  name: string;
+  cost: number;
+}
+
+export type SpecSelectView = "radio" | "single-select" | "multi-select" | "indicator";
+
+export interface SpecCategory {
+  name: string;
+  specs: Spec[];
+  view: SpecSelectView;
+}
 
 export interface SpecCategoryFieldProps {
   categoryKey: string;

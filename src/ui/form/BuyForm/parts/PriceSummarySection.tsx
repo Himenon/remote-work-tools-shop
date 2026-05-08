@@ -2,10 +2,11 @@
 
 import { useWatch } from "react-hook-form";
 import type { BuyFormInput } from "#schema/form/BuyFormSchema";
-import type { ProductSpec } from "./types";
+import type { SpecCategory } from "./SpecCategoryField";
 
 interface PriceSummarySectionProps {
-  spec: ProductSpec;
+  price: number;
+  categories: Record<string, SpecCategory>;
 }
 
 const PERCENT_BASE = 100;
@@ -13,10 +14,10 @@ const TAX_RATE_PERCENT = 10;
 const TAX_MULTIPLIER = (PERCENT_BASE + TAX_RATE_PERCENT) / PERCENT_BASE;
 const FALLBACK_COUNT = 0;
 
-const calcExtraCost = (selectedSpecs: Record<string, string[]>, spec: ProductSpec): number => {
+const calcExtraCost = (selectedSpecs: Record<string, string[]>, categories: Record<string, SpecCategory>): number => {
   let extra = 0;
   for (const [key, values] of Object.entries(selectedSpecs)) {
-    const category = spec.spec.categories[key];
+    const category = categories[key];
     if (!category) {
       continue;
     }
@@ -30,10 +31,10 @@ const calcExtraCost = (selectedSpecs: Record<string, string[]>, spec: ProductSpe
   return extra;
 };
 
-export const PriceSummarySection: React.FC<PriceSummarySectionProps> = ({ spec }) => {
+export const PriceSummarySection: React.FC<PriceSummarySectionProps> = ({ price, categories }) => {
   const specs = useWatch<BuyFormInput, "specs">({ name: "specs" });
   const count = useWatch<BuyFormInput, "count">({ name: "count" });
-  const unitPrice = Math.floor((spec.price + calcExtraCost(specs, spec)) * TAX_MULTIPLIER);
+  const unitPrice = Math.floor((price + calcExtraCost(specs, categories)) * TAX_MULTIPLIER);
   const itemCount = count ?? FALLBACK_COUNT;
 
   return (

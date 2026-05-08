@@ -1,4 +1,5 @@
 import type { ProductListItem, ProductSpec } from "#types/product";
+import type { BuyFormProduct } from "#ui/form/BuyForm";
 
 export const MOCK_PRODUCT_LIST: ProductListItem[] = [
   {
@@ -162,6 +163,22 @@ export const MOCK_PRODUCT_SPECS: ProductSpec[] = [
     },
   },
 ];
+
+export const MOCK_BUY_FORM_PRODUCTS: BuyFormProduct[] = MOCK_PRODUCT_SPECS.map((spec) => ({
+  name: spec.name,
+  price: spec.price,
+  specSortKeys: spec.spec.meta.specSortKey,
+  categories: Object.fromEntries(
+    Object.entries(spec.spec.categories).map(([key, category]) => [
+      key,
+      {
+        name: category.name,
+        view: category.view,
+        specs: category.specs.map(({ name, cost }) => ({ name, cost })),
+      },
+    ]),
+  ),
+}));
 
 export const MOCK_BAG_ITEMS = [
   {
