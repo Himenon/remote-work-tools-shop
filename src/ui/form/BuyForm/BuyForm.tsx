@@ -29,7 +29,7 @@ export interface BuyFormProps {
 export const BuyForm: React.FC<BuyFormProps> = ({ product, defaultValues, onSubmit }) => {
   const methods = useForm<BuyFormInput, unknown, BuyFormValues>({
     resolver: zodResolver(BuyFormSchema),
-    defaultValues: defaultValues,
+    defaultValues,
   });
 
   const handleSubmit = methods.handleSubmit(onSubmit);

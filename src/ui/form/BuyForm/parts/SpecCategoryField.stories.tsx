@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn, expect, within, userEvent } from "storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
-import type { SpecCategory } from "./SpecCategoryField";
-import { SpecCategoryField } from "./SpecCategoryField";
+import { SpecCategoryField, type SpecCategory } from "./SpecCategoryField";
 
 type T = typeof SpecCategoryField;
 type Story = StoryObj<T>;
