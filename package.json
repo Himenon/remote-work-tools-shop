@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "imports": {
-    "#types/*": "./src/types/*.ts",
     "#ui/primitive/*": "./src/ui/primitive/*/*.tsx",
     "#ui/form/*": "./src/ui/form/*/*.tsx",
     "#ui/field/*": "./src/ui/field/*/*.tsx",
     "#schema/field/*": "./src/schema/field/*.ts",
     "#schema/form/*": "./src/schema/form/*.ts",
+    "#schema/client/*": "./src/schema/client/*.ts",
+    "#schema/server/*": "./src/schema/server/*.ts",
     "#test-helper/storybook": "./src/test-helper/storybook/index.ts",
     "#test-helper/mock/*": "./src/test-helper/mock/*.ts"
   },

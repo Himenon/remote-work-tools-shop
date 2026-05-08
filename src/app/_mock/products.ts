@@ -1,4 +1,4 @@
-import type { ProductListItem, ProductSpec } from "#types/product";
+import type { ProductListItem, ProductSpec } from "#schema/client/product";
 import type { BuyFormProduct } from "#ui/form/BuyForm";
 
 export const MOCK_PRODUCT_LIST: ProductListItem[] = [

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { findAllBagItems } from "../../_store/bag";
 import { MOCK_PRODUCT_LIST } from "../../_mock/products";
-import type { BagItem } from "#types/product";
+import type { BagItem } from "#schema/client/product";
 import { CheckoutFormConnector } from "./CheckoutFormConnector";
 
 export const metadata: Metadata = {

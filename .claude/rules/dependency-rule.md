@@ -40,6 +40,7 @@ paths:
 
 - サーバー側のバリデーションSchemaの定義。クライアントからPayloadを検証する。
 - クライアント側のRequest Schemaに゙該当する。
+- `zod`でSchemaを定義し、`z.infer`で型定義を抽出すること。Validationのメッセージもこのときに作成する。
 
 ## `src/schema/client`
 
@@ -47,6 +48,7 @@ paths:
 - サーバー側のResponse Schemaに゙該当する。
 - WebSocketのレスポンスはこのSchemaで検証される。
 - HTTPのレスポンスはこのSchemaで検証される。
+- `zod`でSchemaを定義し、`z.infer`で型定義を抽出すること。Validationのメッセージもこのときに作成する。
 
 # 共通の型定義
 

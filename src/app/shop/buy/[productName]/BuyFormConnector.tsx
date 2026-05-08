@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { BuyForm, type BuyFormValues, type BuyFormProduct } from "#ui/form/BuyForm";
 import { DEFAULT_COUNT, DEFAULT_WRAPPING, type BuyFormInput } from "#schema/form/BuyFormSchema";
-import type { ProductSpec } from "#types/product";
+import type { ProductSpec } from "#schema/client/product";
 
 interface BuyFormConnectorProps {
   spec: ProductSpec;

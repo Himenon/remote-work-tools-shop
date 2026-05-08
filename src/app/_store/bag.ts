@@ -1,4 +1,4 @@
-import type { BagItem } from "#types/product";
+import type { BagItem } from "#schema/client/product";
 
 const MAX_BAG_ITEM_KINDS = 10;
 const NOT_FOUND_INDEX = -1;
