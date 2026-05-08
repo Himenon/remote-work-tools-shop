@@ -1,0 +1,13 @@
+{
+  "name": "@rwts/contract",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./client/*": "./client/*.ts",
+    "./form/*": "./form/*.ts",
+    "./server/*": "./server/*.ts"
+  },
+  "dependencies": {
+    "zod": "^4.3.6"
+  }
+}

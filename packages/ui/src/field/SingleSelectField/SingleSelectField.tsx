@@ -1,0 +1,111 @@
+import { Select } from "@base-ui/react/select";
+import * as React from "react";
+import { useController } from "react-hook-form";
+import { FieldLabel } from "../FieldLabel/FieldLabel";
+import { FieldRoot, type FieldLayoutProps } from "../FieldRoot/FieldRoot";
+import { FieldTextError } from "../FieldTextError/FieldTextError";
+
+export interface SelectOption {
+  label: string;
+  value: string;
+  /** @default false */
+  disabled?: boolean;
+}
+
+export interface SingleSelectFieldProps {
+  name: string;
+  label: string;
+  options: SelectOption[];
+  placeholder?: string;
+  /** @default false */
+  required?: boolean;
+  /** @default false */
+  disabled?: boolean;
+  layout?: FieldLayoutProps;
+}
+
+const SelectOptionItem: React.FC<SelectOption> = (option) => (
+  <Select.Item
+    value={option.value}
+    disabled={option.disabled}
+    className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm text-gray-900 outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-indigo-50 data-[highlighted]:text-indigo-900 data-[selected]:font-medium dark:text-white dark:data-[highlighted]:bg-indigo-900/40 dark:data-[highlighted]:text-indigo-100"
+  >
+    <Select.ItemText>{option.label}</Select.ItemText>
+    <Select.ItemIndicator className="ml-auto text-indigo-600 dark:text-indigo-400">
+      <svg
+        viewBox="0 0 16 16"
+        className="size-4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden
+      >
+        <path d="M3.5 8l3 3 5.5-5.5" />
+      </svg>
+    </Select.ItemIndicator>
+  </Select.Item>
+);
+
+interface SelectPopupProps {
+  options: SelectOption[];
+  optionsListClassName: string;
+}
+
+const SelectPopup: React.FC<SelectPopupProps> = ({ options, optionsListClassName }) => (
+  <Select.Portal>
+    <Select.Positioner className="z-50">
+      <Select.Popup className="min-w-[var(--anchor-width)] overflow-hidden rounded-md border border-gray-200 bg-white shadow-lg outline-none dark:border-gray-700 dark:bg-gray-800">
+        <Select.List className={optionsListClassName}>
+          {options.map(
+            (option): React.ReactElement => (
+              <SelectOptionItem key={option.value} {...option} />
+            ),
+          )}
+        </Select.List>
+      </Select.Popup>
+    </Select.Positioner>
+  </Select.Portal>
+);
+
+export const SingleSelectField: React.FC<SingleSelectFieldProps> = (props) => {
+  const { field, fieldState } = useController({ name: props.name });
+
+  const selectRootProps: Select.Root.Props<string> = {
+    value: field.value ?? null,
+    onValueChange: field.onChange,
+    name: field.name,
+    disabled: props.disabled,
+    required: props.required,
+  };
+
+  return (
+    <FieldRoot {...props.layout} invalid={Boolean(fieldState.error)} error={<FieldTextError message={fieldState.error?.message} />}>
+      <FieldLabel>{props.label}</FieldLabel>
+      <Select.Root {...selectRootProps}>
+        <Select.Trigger className="group flex h-9 w-full items-center justify-between rounded-md border border-gray-300 bg-white px-3 text-sm shadow-xs outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[focus-visible]:border-indigo-500 data-[focus-visible]:ring-2 data-[focus-visible]:ring-indigo-500/20 data-[invalid]:border-red-500 data-[popup-open]:border-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:data-[focus-visible]:border-indigo-400 dark:data-[focus-visible]:ring-indigo-400/20 dark:data-[invalid]:border-red-400 dark:data-[popup-open]:border-indigo-400">
+          <Select.Value
+            placeholder={props.placeholder}
+            className="text-gray-600 dark:text-gray-400 data-[value]:text-gray-900 dark:data-[value]:text-white"
+          />
+          <svg
+            viewBox="0 0 16 16"
+            className="size-4 shrink-0 text-gray-400 transition-transform group-data-[popup-open]:rotate-180 dark:text-gray-500"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <path d="M4 6l4 4 4-4" />
+          </svg>
+        </Select.Trigger>
+        <SelectPopup options={props.options} optionsListClassName="p-1" />
+      </Select.Root>
+    </FieldRoot>
+  );
+};
+
+SingleSelectField.displayName = "SingleSelectField";

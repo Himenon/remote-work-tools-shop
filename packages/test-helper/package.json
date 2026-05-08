@@ -1,0 +1,17 @@
+{
+  "name": "@rwts/test-helper",
+  "version": "0.0.0",
+  "private": true,
+  "imports": {
+    "#mock/*": "./mock/*.ts",
+    "#storybook": "./storybook/index.ts"
+  },
+  "exports": {
+    "./mock/*": "./mock/*.ts",
+    "./storybook": "./storybook/index.ts"
+  },
+  "dependencies": {
+    "@rwts/contract": "workspace:*",
+    "react-hook-form": "^7.72.1"
+  }
+}

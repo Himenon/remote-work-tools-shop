@@ -1,0 +1,25 @@
+{
+  "name": "shop-web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@rwts/contract": "workspace:*",
+    "@rwts/server": "workspace:*",
+    "@rwts/ui": "workspace:*",
+    "next": "16.2.4",
+    "react": "19.2.5",
+    "react-dom": "19.2.5"
+  },
+  "devDependencies": {
+    "@rwts/test-helper": "workspace:*",
+    "@types/react": "19",
+    "@types/react-dom": "19",
+    "babel-plugin-react-compiler": "^1.0.0"
+  }
+}
