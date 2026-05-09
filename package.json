@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter shop-web dev",
-    "build": "pnpm --filter shop-web build",
-    "start": "pnpm --filter shop-web start",
+    "dev": "pnpm --filter @rwts/web dev",
+    "build": "pnpm --filter @rwts/web build",
+    "start": "pnpm --filter @rwts/web start",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint",
     "fmt": "oxfmt",
-    "test": "pnpm -r test"
+    "test": "pnpm run -r test"
   },
   "devDependencies": {
     "@types/node": "25",

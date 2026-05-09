@@ -1,5 +1,5 @@
 {
-  "name": "shop-web",
+  "name": "@rwts/web",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -20,6 +20,7 @@
     "@rwts/test-helper": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "babel-plugin-react-compiler": "^1.0.0"
+    "babel-plugin-react-compiler": "^1.0.0",
+    "vitest": "catalog:"
   }
 }
