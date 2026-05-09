@@ -4,7 +4,7 @@ paths:
   - "src/**/*.tsx"
 ---
 
-# `src/ui`
+# `packages/ui`
 
 ## 責務
 
@@ -16,7 +16,7 @@ paths:
 - サーバー側のドメインロジックを知っていること
 - `src/app`起因で決まる型定義を参照すること
 
-# `src/app`
+# `packages/app`
 
 ## 責務
 
@@ -29,20 +29,20 @@ paths:
 - UIの実装（`src/ui`の責務）
 - DBへの保存
 
-# `src/schema`
+# `packages/contract`
 
-## `src/schema/form`
+## `packages/contract/form`
 
 - ユーザーからの入力イベント発生時のバリデーションSchemaの定義
 - ユーザーの入力をアプリケーションにわたす前にすべて検証するためのSchemaがここで定義される
 
-## `src/schema/server`
+## `packages/contract/server`
 
 - サーバー側のバリデーションSchemaの定義。クライアントからPayloadを検証する。
 - クライアント側のRequest Schemaに゙該当する。
 - `zod`でSchemaを定義し、`z.infer`で型定義を抽出すること。Validationのメッセージもこのときに作成する。
 
-## `src/schema/client`
+## `packages/contract/client`
 
 - クライアント側のバリデーションSchemaの定義。サーバーからのPayloadを検証する。
 - サーバー側のResponse Schemaに゙該当する。

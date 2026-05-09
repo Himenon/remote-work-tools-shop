@@ -52,6 +52,8 @@ pnpm test   # 非ウォッチモード（CI・AIエージェント向け）
 
 ## UIコンポーネント開発時の手順
 
+対象: `packages/ui`
+
 コンポーネントの新規実装・修正・テスト作成を行う前に、以下の手順を守ること。
 
 > **コンポーネントを新規作成・リファクタリングするときは `/make-component` スキルを呼び出すこと。**
@@ -70,6 +72,8 @@ pnpm test   # 非ウォッチモード（CI・AIエージェント向け）
 <!-- BEGIN:vrt-rules -->
 
 ## Visual Regression Testing (VRT)
+
+対象: `packages/ui`
 
 > **VRT ファイルを書くときは `/make-component-test` スキルを呼び出すこと。**
 
