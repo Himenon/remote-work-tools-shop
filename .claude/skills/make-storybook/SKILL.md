@@ -17,7 +17,7 @@ metadata:
 - **ファイル名**: `コンポーネント名.stories.tsx`
 - **設定ディレクトリ**: `.storybook/`
 - **ストーリー対象**: `src/**/*.stories.@(js|jsx|mjs|ts|tsx)`
-- **フレームワーク**: `@storybook/nextjs-vite`
+- **フレームワーク**: `@storybook/react-vite`
 
 ## 出力言語
 
@@ -26,7 +26,7 @@ metadata:
 ## 実装テンプレート
 
 ```tsx
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, within } from "storybook/test";
 import type { ComponentPropsWithoutRef } from "react";
 import { Component } from "./Component";
@@ -63,7 +63,7 @@ export default {
 
 - `type T = typeof Component` で型を一度だけ宣言し再利用する
 - `ComponentPropsWithoutRef<T>` で args の型を定義する
-- `Meta` / `StoryObj` は `@storybook/nextjs-vite` からインポートする（`@storybook/react` は不可）
+- `Meta` / `StoryObj` は `@storybook/react-vite` からインポートする（`@storybook/react` は不可）
 
 ### `export default` の書き方
 
@@ -210,7 +210,7 @@ export default {
 
 ## チェックリスト
 
-- [ ] `@storybook/nextjs-vite` からインポートしている
+- [ ] `@storybook/react-vite` からインポートしている
 - [ ] `type T = typeof Component` + `ComponentPropsWithoutRef<T>` で型定義している
 - [ ] Story の name（エクスポート名）が日本語またはわかりやすい英語で記述されている
 - [ ] `Default` ストーリーが存在する

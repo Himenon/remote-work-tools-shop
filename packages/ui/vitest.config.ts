@@ -14,7 +14,7 @@ const dirname = typeof __dirname === "undefined" ? import.meta.dirname : __dirna
 //         このファイル（spec/vrt を含む）と a11y（空文字でストーリーのみ）を同一プロセスで共存できない。
 // 理由2: このファイルはコンポーネントテスト・VRT 用、a11y はライト/ダーク両モードの
 //         アクセシビリティチェック用であり、CI 上で実行目的が異なる。
-// More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
+// More info at: https://storybook.js.org/docs/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [tailwindcss()],
   optimizeDeps: {
@@ -27,7 +27,7 @@ export default defineConfig({
         extends: true,
         plugins: [
           // The plugin will run tests for the stories defined in your Storybook config
-          // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
+          // See options at: https://storybook.js.org/docs/writing-tests/integrations/vitest-addon#storybooktest
           storybookTest({ configDir: path.join(dirname, ".storybook") }),
         ],
         // __VITEST_DARK__ を false に置換する。未定義のままだと preview.ts が ReferenceError を投げる。

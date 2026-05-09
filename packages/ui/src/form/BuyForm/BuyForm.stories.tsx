@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn, expect, within, userEvent } from "storybook/test";
 import { MOCK_BUY_FORM_PRODUCTS } from "@rwts/test-helper/mock/products";
 import { DEFAULT_WRAPPING, type BuyFormInput } from "@rwts/contract/form/BuyFormSchema";

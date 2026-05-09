@@ -1,4 +1,4 @@
-import type { Decorator, Preview } from "@storybook/nextjs-vite";
+import type { Decorator, Preview } from "@storybook/react-vite";
 import "@rwts/ui/theme/globals.css";
 
 // Vite の define で a11y:dark プロジェクトのみ true に置換される

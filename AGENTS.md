@@ -5,15 +5,14 @@
 ソースコードの解析やトレースに入る前に、以下のライブラリは必ず公式ドキュメントを参照すること。
 ドキュメントに答えが書いてある場合がほとんどであり、読まずに進めると数時間の無駄調査になる。
 
-| ライブラリ   | ドキュメント URL                                              |
-| ------------ | ------------------------------------------------------------- |
-| Base UI      | https://base-ui.com/react/components/                         |
-| Storybook    | https://storybook.js.org/docs                                 |
-| Tailwind CSS | https://tailwindcss.com/docs/                                 |
-| Vite         | https://vitejs.dev/guide/                                     |
-| Vitest       | https://vitest.dev/guide/                                     |
-| Next.js      | `node_modules/next/dist/docs/` または https://nextjs.org/docs |
-| React        | https://react.dev/reference/react                             |
+| ライブラリ   | ドキュメント URL                      |
+| ------------ | ------------------------------------- |
+| Base UI      | https://base-ui.com/react/components/ |
+| Storybook    | https://storybook.js.org/docs         |
+| Tailwind CSS | https://tailwindcss.com/docs/         |
+| Vite         | https://vitejs.dev/guide/             |
+| Vitest       | https://vitest.dev/guide/             |
+| React        | https://react.dev/reference/react     |
 
 **調査手順（この順を守ること）**:
 
@@ -31,14 +30,6 @@
 スマートな解決策のためなら、既存コードを大胆に書き直してください。
 
 <!-- END:breaking-changes-allowed -->
-
-<!-- BEGIN:nextjs-agent-rules -->
-
-# This is NOT the Next.js you know
-
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
-
-<!-- END:nextjs-agent-rules -->
 
 <!-- BEGIN:test-storybook-rules -->
 
