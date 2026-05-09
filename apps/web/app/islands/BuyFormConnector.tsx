@@ -76,7 +76,7 @@ export default function BuyFormConnector({ spec }: BuyFormConnectorProps): JSX.E
         count: values.count,
       }),
     });
-    window.location.href = "/shop/bag";
+    globalThis.location.href = "/shop/bag";
   };
 
   return <BuyForm {...toBuyFormProps(spec)} onSubmit={handleSubmit} />;

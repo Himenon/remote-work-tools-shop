@@ -1,4 +1,5 @@
 import "@rwts/ui/theme/globals.css";
+import type { ElementType } from "react";
 import { createClient } from "honox/client";
 
 createClient({
@@ -8,6 +9,6 @@ createClient({
   },
   createElement: async (type: unknown, props: unknown) => {
     const { createElement } = await import("react");
-    return createElement(type as Parameters<typeof createElement>[0], props as Parameters<typeof createElement>[1]);
+    return createElement(type as ElementType, props as object | null);
   },
 });
