@@ -21,6 +21,11 @@ minimumReleaseAgeExclude:
   - "@typescript/native-preview"
   - oxfmt
   - oxlint
+  - hono
+  - honox
+  - "@hono/node-server"
+  - "@hono/react-renderer"
+  - "@hono/vite-build"
 
 onlyBuiltDependencies:
   - "@parcel/watcher"

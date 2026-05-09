@@ -52,3 +52,5 @@ storybook-static
 /.screenshots/*
 !/.screenshots/.gitkeep
 
+.playwright-mcp
+.screenshots
