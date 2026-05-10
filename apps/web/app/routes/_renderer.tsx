@@ -9,7 +9,6 @@ export default reactRenderer(({ children, title }) => (
       <title>{title ?? "RemoteWork Tools Shop"}</title>
       <meta name="description" content="リモートワークのための厳選商品を取り揃えたオンラインショップ" />
       <Script src="/app/client.ts" async />
-      {import.meta.env.PROD && <link rel="stylesheet" href="/static/client.css" />}
     </head>
     <body className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
       <header className="border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">

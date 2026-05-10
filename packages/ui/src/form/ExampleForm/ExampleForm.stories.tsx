@@ -28,7 +28,6 @@ const SOURCES: ExampleFormSources = {
     { label: "HTTP", value: "http" },
     { label: "HTTPS", value: "https" },
   ],
-  scalingThreshold: { min: 0.2, max: 0.8 },
 };
 
 const meta = {

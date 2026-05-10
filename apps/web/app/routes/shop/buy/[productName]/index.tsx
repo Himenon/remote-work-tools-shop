@@ -4,6 +4,9 @@ import BuyFormConnector from "../../../../islands/BuyFormConnector";
 
 export default createRoute((c) => {
   const productName = c.req.param("productName");
+  if (!productName) {
+    return c.notFound();
+  }
   const spec = findProductSpec(productName);
 
   if (!spec) {

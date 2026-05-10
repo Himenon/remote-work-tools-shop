@@ -5,6 +5,9 @@ const HTTP_NOT_FOUND = 404;
 
 export default createRoute((c) => {
   const productName = c.req.param("productName");
+  if (!productName) {
+    return c.json({ error: "商品名が指定されていません" }, HTTP_NOT_FOUND);
+  }
   const spec = findProductSpec(productName);
 
   if (!spec) {
