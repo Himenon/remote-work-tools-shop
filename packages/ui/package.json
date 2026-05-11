@@ -11,6 +11,8 @@
     "./field/*": "./src/field/*/*.tsx",
     "./form/*": "./src/form/*/*.tsx",
     "./primitive/*": "./src/primitive/*/*.tsx",
+    "./layout/*": "./src/layout/*.tsx",
+    "./page/*": "./src/page/*.tsx",
     "./theme/*": "./src/theme/*"
   },
   "scripts": {
