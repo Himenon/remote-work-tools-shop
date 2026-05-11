@@ -1,54 +1,69 @@
 ---
 paths:
-  - "src/**/*.ts"
-  - "src/**/*.tsx"
+  - "apps/web/app/**/*.ts"
+  - "apps/web/app/**/*.tsx"
+  - "packages/ui/src/**/*.ts"
+  - "packages/ui/src/**/*.tsx"
+  - "packages/server/**/*.ts"
+  - "packages/contract/**/*.ts"
 ---
 
-# `packages/ui`
+# `@rwts/web` (`apps/web/`)
+
+## 責務
+
+- HTTPルーティングの定義（`app/routes/`）
+- SSRレンダリング
+- APIエンドポイントのリクエスト受付とレスポンス返却
+- Islands によるクライアントサイドのインタラクション（`app/islands/`）
+
+## してはいけないこと
+
+- UIコンポーネントの実装（`@rwts/ui` の責務）
+- DBへの直接アクセス（`@rwts/server` の責務）
+
+# `@rwts/ui` (`packages/ui/`)
 
 ## 責務
 
 - ユーザーに情報を表示すること
-- ユーザーの情報を検証してアプリケーションに返却すること
+- ユーザーの入力を検証してアプリケーションに返却すること
 
 ## してはいけないこと
 
 - サーバー側のドメインロジックを知っていること
-- `src/app`起因で決まる型定義を参照すること
+- `apps/web` 起因で決まる型定義を参照すること
 
-# `packages/app`
+# `@rwts/server` (`packages/server/`)
 
 ## 責務
 
-- アプリケーションのルーティングを定めること
-- APIの呼び出しエラーハンドリング
-- データの受け渡し、変換を担う
+- DBアクセスおよびデータの永続化（`database/`）
 
 ## してはいけないこと
 
-- UIの実装（`src/ui`の責務）
-- DBへの保存
+- HTTPリクエスト・レスポンスの処理
+- UI表示
 
-# `packages/contract`
+# `@rwts/contract` (`packages/contract/`)
 
-## `packages/contract/form`
+## `contract/form/`
 
-- ユーザーからの入力イベント発生時のバリデーションSchemaの定義
-- ユーザーの入力をアプリケーションにわたす前にすべて検証するためのSchemaがここで定義される
+- ユーザーからの入力イベント発生時のバリデーション Schema の定義
+- ユーザーの入力をアプリケーションに渡す前にすべて検証するための Schema がここで定義される
 
-## `packages/contract/server`
+## `contract/server/`
 
-- サーバー側のバリデーションSchemaの定義。クライアントからPayloadを検証する。
-- クライアント側のRequest Schemaに゙該当する。
-- `zod`でSchemaを定義し、`z.infer`で型定義を抽出すること。Validationのメッセージもこのときに作成する。
+- サーバー側のバリデーション Schema の定義。クライアントからの Payload を検証する。
+- クライアント側の Request Schema に該当する。
+- `zod` で Schema を定義し、`z.infer` で型定義を抽出すること。Validation のメッセージもこのときに作成する。
 
-## `packages/contract/client`
+## `contract/client/`
 
-- クライアント側のバリデーションSchemaの定義。サーバーからのPayloadを検証する。
-- サーバー側のResponse Schemaに゙該当する。
-- WebSocketのレスポンスはこのSchemaで検証される。
-- HTTPのレスポンスはこのSchemaで検証される。
-- `zod`でSchemaを定義し、`z.infer`で型定義を抽出すること。Validationのメッセージもこのときに作成する。
+- クライアント側のバリデーション Schema の定義。サーバーからの Payload を検証する。
+- サーバー側の Response Schema に該当する。
+- HTTP のレスポンスはこの Schema で検証される。
+- `zod` で Schema を定義し、`z.infer` で型定義を抽出すること。Validation のメッセージもこのときに作成する。
 
 # 共通の型定義
 
