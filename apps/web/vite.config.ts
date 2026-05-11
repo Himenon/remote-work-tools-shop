@@ -23,6 +23,6 @@ export default defineConfig(({ mode }) => {
     ssr: {
       external: ["react", "react-dom"],
     },
-    plugins: [honox(), build()],
+    plugins: [honox({ client: { input: ["/app/client.ts", "/app/style.css"] } }), build()],
   };
 });

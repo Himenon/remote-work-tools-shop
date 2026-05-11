@@ -1,5 +1,5 @@
 import { reactRenderer } from "@hono/react-renderer";
-import { Script } from "honox/server";
+import { Link, Script } from "honox/server";
 
 export default reactRenderer(({ children, title }) => (
   <html lang="ja">
@@ -8,6 +8,7 @@ export default reactRenderer(({ children, title }) => (
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>{title ?? "RemoteWork Tools Shop"}</title>
       <meta name="description" content="リモートワークのための厳選商品を取り揃えたオンラインショップ" />
+      <Link href="/app/style.css" rel="stylesheet" />
       <Script src="/app/client.ts" async />
     </head>
     <body className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">

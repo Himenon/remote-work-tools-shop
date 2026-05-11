@@ -1,4 +1,3 @@
-import "@rwts/ui/theme/globals.css";
 import type { ReactNode } from "react";
 import { createClient } from "honox/client";
 
