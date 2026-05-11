@@ -1,4 +1,5 @@
 import build from "@hono/vite-build/node";
+import tailwindcss from "@tailwindcss/vite";
 import honox from "honox/vite";
 import { defineConfig } from "vite";
 
@@ -23,6 +24,6 @@ export default defineConfig(({ mode }) => {
     ssr: {
       external: ["react", "react-dom"],
     },
-    plugins: [honox({ client: { input: ["/app/client.ts", "/app/style.css"] } }), build()],
+    plugins: [tailwindcss(), honox({ client: { input: ["/app/client.ts", "/app/style.css"] } }), build()],
   };
 });

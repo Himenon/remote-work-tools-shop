@@ -2,7 +2,7 @@ import { createRoute } from "honox/factory";
 import { findAllBagItems } from "@rwts/server/database/bag";
 import { findAllProducts } from "@rwts/server/database/product";
 import CheckoutPage from "@rwts/ui/page/CheckoutPage";
-import CheckoutFormConnector from "../../../islands/CheckoutFormConnector";
+import CheckoutFormConnector from "@rwts/web/islands/CheckoutFormConnector";
 
 export default createRoute((c) => {
   const items = findAllBagItems();

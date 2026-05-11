@@ -1,6 +1,6 @@
 import { createRoute } from "honox/factory";
 import { findProductSpec } from "@rwts/server/database/product";
-import BuyFormConnector from "../../../../islands/BuyFormConnector";
+import BuyFormConnector from "@rwts/web/islands/BuyFormConnector";
 
 export default createRoute((c) => {
   const productName = c.req.param("productName");

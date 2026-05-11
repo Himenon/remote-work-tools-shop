@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "exports": {
+    "./islands/*": "./app/islands/*.tsx"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --mode client",
@@ -23,6 +26,7 @@
   "devDependencies": {
     "@hono/vite-build": "^1.0.0",
     "@rwts/test-helper": "workspace:*",
+    "@tailwindcss/vite": "^4.2.2",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "vite": "8.0.8",
