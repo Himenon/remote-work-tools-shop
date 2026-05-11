@@ -1,5 +1,9 @@
 import { reactRenderer } from "@hono/react-renderer";
 import { Link, Script } from "honox/server";
+import DarkModeToggle from "../islands/DarkModeToggle";
+
+// localStorage とシステム設定を参照し、HTML レンダリング前に .dark クラスを付与して FOUC を防ぐ。
+const darkModeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}}catch(e){}})();`;
 
 /**
  * HonoX の `_renderer.tsx` 規約に従い、全ページ共通のレイアウトを定義する。
@@ -16,6 +20,8 @@ export default reactRenderer(({ children, title }) => (
     <head>
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      {/* biome-ignore lint/security/noDangerouslySetInnerHtml: FOUC防止のためレンダリング前にdarkクラスを付与する必要があり、インラインスクリプトが唯一の手段 */}
+      <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
       <title>{title ?? "RemoteWork Tools Shop"}</title>
       <meta name="description" content="リモートワークのための厳選商品を取り揃えたオンラインショップ" />
       <Link href="/app/style.css" rel="stylesheet" />
@@ -27,9 +33,12 @@ export default reactRenderer(({ children, title }) => (
           <a href="/" className="text-xl font-bold tracking-tight text-indigo-600">
             RemoteWork Tools Shop
           </a>
-          <a href="/shop/bag" className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
-            バッグを見る
-          </a>
+          <div className="flex items-center gap-2">
+            <DarkModeToggle />
+            <a href="/shop/bag" className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700">
+              バッグを見る
+            </a>
+          </div>
         </div>
       </header>
       <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
