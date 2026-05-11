@@ -1,5 +1,6 @@
 import { reactRenderer } from "@hono/react-renderer";
 import { Link, Script } from "honox/server";
+import Logo from "@rwts/ui/layout/Logo";
 import DarkModeToggle from "../islands/DarkModeToggle";
 
 // localStorage とシステム設定を参照し、HTML レンダリング前に .dark クラスを付与して FOUC を防ぐ。
@@ -30,8 +31,8 @@ export default reactRenderer(({ children, title }) => (
     <body className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
       <header className="border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-          <a href="/" className="text-xl font-bold tracking-tight text-indigo-600">
-            RemoteWork Tools Shop
+          <a href="/" aria-label="RemoteWork Tools Shop">
+            <Logo size={36} />
           </a>
           <div className="flex items-center gap-2">
             <DarkModeToggle />
