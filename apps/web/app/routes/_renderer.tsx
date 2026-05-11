@@ -1,6 +1,16 @@
 import { reactRenderer } from "@hono/react-renderer";
 import { Link, Script } from "honox/server";
 
+/**
+ * HonoX の `_renderer.tsx` 規約に従い、全ページ共通のレイアウトを定義する。
+ *
+ * `Link` は本番ビルドで Vite マニフェストを参照しハッシュ付きファイル名に解決する。
+ * `Script` は本番ビルドで Islands を含むページにのみスクリプトを出力する。
+ *
+ * @see {@link https://github.com/honojs/honox#renderer HonoX - Renderer}
+ * @see {@link https://github.com/honojs/middleware/tree/main/packages/react-renderer @hono/react-renderer}
+ * @see {@link https://github.com/honojs/honox#islands HonoX - Islands}
+ */
 export default reactRenderer(({ children, title }) => (
   <html lang="ja">
     <head>
