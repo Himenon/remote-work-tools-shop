@@ -9,10 +9,12 @@
     "typecheck": "tsc --noEmit",
     "lint": "oxlint",
     "fmt": "oxfmt",
-    "test": "pnpm run -r test"
+    "test": "pnpm run -r test",
+    "knip": "knip"
   },
   "devDependencies": {
-    "@types/node": "25",
+    "@types/node": "^25.6.0",
+    "knip": "^6.11.0",
     "lefthook": "2.1.6",
     "oxfmt": "0.45.0",
     "oxlint": "1.60.0",
