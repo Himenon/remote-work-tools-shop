@@ -22,7 +22,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     ssr: {
-      external: ["react", "react-dom"],
+      external: ["react", "react-dom", "better-sqlite3", "@prisma/client", "@prisma/adapter-better-sqlite3", "@prisma/adapter-pg"],
     },
     plugins: [tailwindcss(), honox({ client: { input: ["/app/client.ts", "/app/style.css"] } }), build()],
   };
