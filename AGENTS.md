@@ -74,3 +74,9 @@ pnpm test          # スクリーンショットを既存ベースラインと�
 ```
 
 <!-- END:vrt-rules -->
+
+## 禁止ライブラリ
+
+```bash
+tsx: node --strip-types を使う
+```
