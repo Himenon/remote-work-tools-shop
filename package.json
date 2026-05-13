@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "pnpm --filter @rwts/web dev",
-    "build": "pnpm --filter @rwts/web build",
+    "build": "pnpm --filter @rwts/database build && pnpm --filter @rwts/web build",
     "start": "pnpm --filter @rwts/web start",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint",

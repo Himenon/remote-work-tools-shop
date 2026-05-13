@@ -28,9 +28,15 @@ packages/database/
 pnpm install
 ```
 
-`better-sqlite3` はネイティブモジュールのため、初回インストール後にビルドが必要な場合があります。
+### 2. better-sqlite3 ネイティブモジュールをビルド
 
-### 2. Prisma Client を生成
+`better-sqlite3` は C++ ネイティブモジュールです。Node.js のバージョンに合ったバイナリが存在しない場合、以下のコマンドでビルドしてください。
+
+```bash
+pnpm db:build-native
+```
+
+### 3. Prisma Client を生成
 
 ```bash
 pnpm db:generate
@@ -54,12 +60,14 @@ pnpm db:seed
 
 ## スクリプト一覧
 
-| コマンド           | 内容                                               |
-| ------------------ | -------------------------------------------------- |
-| `pnpm db:generate` | Prisma Client を生成（スキーマ変更後に実行）       |
-| `pnpm db:migrate`  | マイグレーションを作成・適用                       |
-| `pnpm db:seed`     | 初期データを投入                                   |
-| `pnpm db:reset`    | データベースをリセットしてマイグレーションを再実行 |
+| コマンド               | 内容                                                                  |
+| ---------------------- | --------------------------------------------------------------------- |
+| `pnpm build`           | Prisma Client を生成（リリースビルド用。ルートの build から呼ばれる） |
+| `pnpm db:build-native` | better-sqlite3 ネイティブバイナリをビルド（Node.js 更新後に実行）     |
+| `pnpm db:generate`     | Prisma Client を生成（スキーマ変更後に手動実行）                      |
+| `pnpm db:migrate`      | マイグレーションを作成・適用                                          |
+| `pnpm db:seed`         | 初期データを投入                                                      |
+| `pnpm db:reset`        | データベースをリセットしてマイグレーションを再実行                    |
 
 ## 環境変数
 
