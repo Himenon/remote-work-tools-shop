@@ -1,5 +1,5 @@
 import { createRoute } from "honox/factory";
-import { clearBag, findAllBagItems } from "@rwts/server/database/bag";
+import { clearBag, findAllBagItems } from "@rwts/database/bag";
 
 const HTTP_UNPROCESSABLE_ENTITY = 422;
 const EMPTY_BAG_LENGTH = 0;

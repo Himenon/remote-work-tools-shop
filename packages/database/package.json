@@ -1,0 +1,16 @@
+{
+  "name": "@rwts/database",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./bag": "./bag.ts",
+    "./product": "./product.ts"
+  },
+  "dependencies": {
+    "@rwts/contract": "workspace:*",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:"
+  }
+}

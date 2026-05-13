@@ -1,5 +1,5 @@
 import { createRoute } from "honox/factory";
-import { findAllBagItems } from "@rwts/server/database/bag";
+import { findAllBagItems } from "@rwts/database/bag";
 import type { ProductsInBag } from "@rwts/contract/client/product";
 
 export default createRoute((c) => {

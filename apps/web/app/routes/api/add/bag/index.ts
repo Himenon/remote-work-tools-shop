@@ -1,6 +1,6 @@
 import { createRoute } from "honox/factory";
 import { AddBagPayloadSchema } from "@rwts/contract/server/product";
-import { addBagItem } from "@rwts/server/database/bag";
+import { addBagItem } from "@rwts/database/bag";
 
 const HTTP_BAD_REQUEST = 400;
 const HTTP_UNPROCESSABLE_ENTITY = 422;

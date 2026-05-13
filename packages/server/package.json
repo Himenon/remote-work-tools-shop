@@ -2,14 +2,7 @@
   "name": "@rwts/server",
   "version": "0.0.0",
   "private": true,
-  "imports": {
-    "#database/*": "./database/*.ts"
-  },
-  "exports": {
-    "./database/*": "./database/*.ts"
-  },
-  "dependencies": {
-    "@rwts/contract": "workspace:*",
-    "zod": "catalog:"
+  "devDependencies": {
+    "@types/node": "catalog:"
   }
 }
