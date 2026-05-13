@@ -1,5 +1,6 @@
-import { BagItemSchema, type BagItem } from "@rwts/contract/client/product";
-import { prisma } from "./client";
+import { type BagItem } from "@rwts/contract/client/product";
+import { prisma } from "../client";
+import { findAllBagItems } from "./findAllBagItems";
 
 const MAX_BAG_ITEM_KINDS = 10;
 
@@ -12,11 +13,6 @@ export interface AddBagItemError {
   success: false;
   reason: "exceeded_max_kinds";
 }
-
-export const findAllBagItems = async (): Promise<BagItem[]> => {
-  const rows = await prisma.bagItem.findMany();
-  return rows.map((row): BagItem => BagItemSchema.parse({ product: { productId: row.productId, specs: row.specs }, count: row.count }));
-};
 
 export const addBagItem = async (item: BagItem): Promise<AddBagItemResult | AddBagItemError> => {
   const existing = await prisma.bagItem.findUnique({
@@ -44,8 +40,4 @@ export const addBagItem = async (item: BagItem): Promise<AddBagItemResult | AddB
 
   const items = await findAllBagItems();
   return { success: true, items };
-};
-
-export const clearBag = async (): Promise<void> => {
-  await prisma.bagItem.deleteMany();
 };

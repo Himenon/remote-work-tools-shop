@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
-    "./bag": "./src/bag.ts",
-    "./product": "./src/product.ts"
+    "./bag": "./src/bag/index.ts",
+    "./product": "./src/product/index.ts"
   },
   "scripts": {
     "build": "prisma generate",
