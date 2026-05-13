@@ -26,10 +26,9 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "catalog:",
-    "tsx": "^4.19.2"
+    "@types/node": "catalog:"
   },
   "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "seed": "node --strip-types prisma/seed.ts"
   }
 }

@@ -1,15 +1,15 @@
 import { createRoute } from "honox/factory";
-import { findAllBagItems } from "@rwts/server/database/bag";
-import { findAllProducts } from "@rwts/server/database/product";
+import { findAllBagItems } from "@rwts/server/repository/bag";
+import { findAllProducts } from "@rwts/server/repository/product";
 import CheckoutPage from "@rwts/ui/page/CheckoutPage";
 import CheckoutFormConnector from "@rwts/web/islands/CheckoutFormConnector";
+import type { ProductListItem } from "@rwts/contract/client/product";
 
-export default createRoute((c) => {
-  const items = findAllBagItems();
-  const products = findAllProducts();
+export default createRoute(async (c) => {
+  const [items, products] = await Promise.all([findAllBagItems(), findAllProducts()]);
 
   const findProductName = (productId: string): string => {
-    const found = products.find((p) => p.productId === productId);
+    const found = products.find((p: ProductListItem) => p.productId === productId);
     return found?.name ?? productId;
   };
 
