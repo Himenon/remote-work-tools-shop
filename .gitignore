@@ -36,6 +36,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
+# prisma
+packages/database/generated/
+packages/database/prisma/*.db
+packages/database/prisma/*.db-journal
+
 lefthook-local.yml
 
 *storybook.log

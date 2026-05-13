@@ -1,27 +1,7 @@
-import fs from "node:fs";
-import path from "node:path";
-import { ProductsInBagSchema, type BagItem } from "@rwts/contract/client/product";
-
-const BAG_FILE = path.join(process.cwd(), "data", "bag.json");
+import { BagItemSchema, type BagItem } from "@rwts/contract/client/product";
+import { prisma } from "./client";
 
 const MAX_BAG_ITEM_KINDS = 10;
-const NOT_FOUND_INDEX = -1;
-const JSON_INDENT_SPACES = 2;
-
-const readItems = (): BagItem[] => {
-  if (!fs.existsSync(BAG_FILE)) {
-    return [];
-  }
-  const parsed = ProductsInBagSchema.safeParse(JSON.parse(fs.readFileSync(BAG_FILE, "utf8")));
-  return parsed.success ? parsed.data.items : [];
-};
-
-const writeItems = (items: BagItem[]): void => {
-  fs.mkdirSync(path.dirname(BAG_FILE), { recursive: true });
-  fs.writeFileSync(BAG_FILE, JSON.stringify({ items }, null, JSON_INDENT_SPACES), "utf8");
-};
-
-export const findAllBagItems = (): BagItem[] => readItems();
 
 export interface AddBagItemResult {
   success: true;
@@ -33,28 +13,39 @@ export interface AddBagItemError {
   reason: "exceeded_max_kinds";
 }
 
-export const addBagItem = (item: BagItem): AddBagItemResult | AddBagItemError => {
-  const items = readItems();
-  const existingIndex = items.findIndex((i) => i.product.productId === item.product.productId);
+export const findAllBagItems = async (): Promise<BagItem[]> => {
+  const rows = await prisma.bagItem.findMany();
+  return rows.map((row): BagItem => BagItemSchema.parse({ product: { productId: row.productId, specs: row.specs }, count: row.count }));
+};
 
-  if (existingIndex !== NOT_FOUND_INDEX) {
-    const existing = items[existingIndex];
-    if (existing) {
-      existing.count += item.count;
+export const addBagItem = async (item: BagItem): Promise<AddBagItemResult | AddBagItemError> => {
+  const existing = await prisma.bagItem.findUnique({
+    where: { productId: item.product.productId },
+  });
+
+  if (existing) {
+    await prisma.bagItem.update({
+      where: { productId: item.product.productId },
+      data: { count: existing.count + item.count },
+    });
+  } else {
+    const count = await prisma.bagItem.count();
+    if (count >= MAX_BAG_ITEM_KINDS) {
+      return { success: false, reason: "exceeded_max_kinds" };
     }
-    writeItems(items);
-    return { success: true, items };
+    await prisma.bagItem.create({
+      data: {
+        productId: item.product.productId,
+        specs: item.product.specs,
+        count: item.count,
+      },
+    });
   }
 
-  if (items.length >= MAX_BAG_ITEM_KINDS) {
-    return { success: false, reason: "exceeded_max_kinds" };
-  }
-
-  items.push(item);
-  writeItems(items);
+  const items = await findAllBagItems();
   return { success: true, items };
 };
 
-export const clearBag = (): void => {
-  writeItems([]);
+export const clearBag = async (): Promise<void> => {
+  await prisma.bagItem.deleteMany();
 };

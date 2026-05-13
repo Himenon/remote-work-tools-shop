@@ -14,7 +14,7 @@ export const POST = createRoute(async (c) => {
     return c.json({ error: "リクエストの形式が不正です" }, HTTP_BAD_REQUEST);
   }
 
-  const result = addBagItem({ product: parsed.data.product, count: parsed.data.count });
+  const result = await addBagItem({ product: parsed.data.product, count: parsed.data.count });
 
   if (!result.success) {
     return c.json({ error: "バッグに追加できる商品の種類数が上限（10種類）に達しています" }, HTTP_UNPROCESSABLE_ENTITY);
