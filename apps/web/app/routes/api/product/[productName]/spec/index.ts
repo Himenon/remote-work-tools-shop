@@ -1,5 +1,5 @@
 import { createRoute } from "honox/factory";
-import { findProductSpec } from "@rwts/database/product";
+import { findProductSpec } from "@rwts/server/repository/product";
 
 const HTTP_NOT_FOUND = 404;
 

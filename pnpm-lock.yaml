@@ -68,9 +68,6 @@ importers:
       '@rwts/contract':
         specifier: workspace:*
         version: link:../../packages/contract
-      '@rwts/database':
-        specifier: workspace:*
-        version: link:../../packages/database
       '@rwts/server':
         specifier: workspace:*
         version: link:../../packages/server
@@ -129,6 +126,10 @@ importers:
         version: 25.6.0
 
   packages/server:
+    dependencies:
+      '@rwts/database':
+        specifier: workspace:*
+        version: link:../database
     devDependencies:
       '@types/node':
         specifier: 'catalog:'

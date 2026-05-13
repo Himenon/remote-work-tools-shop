@@ -2,6 +2,13 @@
   "name": "@rwts/server",
   "version": "0.0.0",
   "private": true,
+  "exports": {
+    "./repository/bag": "./src/repository/bag.ts",
+    "./repository/product": "./src/repository/product.ts"
+  },
+  "dependencies": {
+    "@rwts/database": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "catalog:"
   }
