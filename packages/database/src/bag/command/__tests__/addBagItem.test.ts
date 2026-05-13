@@ -1,16 +1,9 @@
 import { vi, describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
 import type { BagItem } from "@rwts/contract/client/product";
-import { createTestPrisma, type QueryRecord } from "#test-utils";
+import { createTestPrisma, clientMock, setTestPrisma, type QueryRecord, formatQuerySnapshot } from "#test-utils";
 import { addBagItem } from "../addBagItem";
 
-type TestClient = Awaited<ReturnType<typeof createTestPrisma>>["prisma"];
-let testPrisma!: TestClient;
-
-vi.mock("../../../client", () => ({
-  get prisma() {
-    return testPrisma;
-  },
-}));
+vi.mock("#client", () => clientMock);
 
 const TEST_PRODUCT = {
   productId: "add-test-product",
@@ -32,19 +25,19 @@ describe("addBagItem", () => {
 
   beforeAll(async () => {
     const result = await createTestPrisma();
-    testPrisma = result.prisma;
+    setTestPrisma(result.prisma);
     capturedQueries = result.capturedQueries;
     clearCapturedQueries = result.clearCapturedQueries;
   });
 
   afterAll(async () => {
-    await testPrisma.$disconnect();
+    await clientMock.prisma.$disconnect();
   });
 
   beforeEach(async () => {
-    await testPrisma.bagItem.deleteMany();
-    await testPrisma.product.deleteMany();
-    await testPrisma.product.create({ data: TEST_PRODUCT });
+    await clientMock.prisma.bagItem.deleteMany();
+    await clientMock.prisma.product.deleteMany();
+    await clientMock.prisma.product.create({ data: TEST_PRODUCT });
     clearCapturedQueries();
   });
 
@@ -55,11 +48,11 @@ describe("addBagItem", () => {
       success: true,
       items: [{ product: { productId: "add-test-product", specs: { color: "silver" } }, count: 2 }],
     });
-    expect(capturedQueries).toMatchSnapshot();
+    await expect(formatQuerySnapshot(capturedQueries)).toMatchFileSnapshot("./__snapshots__/addBagItem-new.sql");
   });
 
   it("バッグに同じ商品が既に入っているとき、個数を加算して成功を返す", async () => {
-    await testPrisma.bagItem.create({
+    await clientMock.prisma.bagItem.create({
       data: { productId: "add-test-product", specs: { color: "silver" }, count: 1 },
     });
     clearCapturedQueries();
@@ -70,12 +63,12 @@ describe("addBagItem", () => {
       success: true,
       items: [{ product: { productId: "add-test-product", specs: { color: "silver" } }, count: 3 }],
     });
-    expect(capturedQueries).toMatchSnapshot();
+    await expect(formatQuerySnapshot(capturedQueries)).toMatchFileSnapshot("./__snapshots__/addBagItem-update.sql");
   });
 
   it("バッグの商品種類が10件のとき、exceeded_max_kindsを返す", async () => {
     for (let i = 0; i < 10; i++) {
-      await testPrisma.product.create({
+      await clientMock.prisma.product.create({
         data: {
           productId: `prod-max-${i}`,
           name: `商品${i}`,
@@ -85,7 +78,7 @@ describe("addBagItem", () => {
           spec: { meta: { specSortKey: [] }, categories: {} },
         },
       });
-      await testPrisma.bagItem.create({
+      await clientMock.prisma.bagItem.create({
         data: { productId: `prod-max-${i}`, specs: {}, count: 1 },
       });
     }

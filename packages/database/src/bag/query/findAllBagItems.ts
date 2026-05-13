@@ -1,5 +1,5 @@
 import { BagItemSchema, type BagItem } from "@rwts/contract/client/product";
-import { prisma } from "../../client";
+import { prisma } from "#client";
 
 export const findAllBagItems = async (): Promise<BagItem[]> => {
   const rows = await prisma.bagItem.findMany();

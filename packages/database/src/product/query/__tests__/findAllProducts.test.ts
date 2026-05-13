@@ -1,15 +1,8 @@
 import { vi, describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
-import { createTestPrisma, type QueryRecord } from "#test-utils";
+import { createTestPrisma, clientMock, setTestPrisma, type QueryRecord, formatQuerySnapshot } from "#test-utils";
 import { findAllProducts } from "../findAllProducts";
 
-type TestClient = Awaited<ReturnType<typeof createTestPrisma>>["prisma"];
-let testPrisma!: TestClient;
-
-vi.mock("../../../client", () => ({
-  get prisma() {
-    return testPrisma;
-  },
-}));
+vi.mock("#client", () => clientMock);
 
 const TEST_PRODUCTS = [
   {
@@ -36,18 +29,18 @@ describe("findAllProducts", () => {
 
   beforeAll(async () => {
     const result = await createTestPrisma();
-    testPrisma = result.prisma;
+    setTestPrisma(result.prisma);
     capturedQueries = result.capturedQueries;
     clearCapturedQueries = result.clearCapturedQueries;
   });
 
   afterAll(async () => {
-    await testPrisma.$disconnect();
+    await clientMock.prisma.$disconnect();
   });
 
   beforeEach(async () => {
-    await testPrisma.bagItem.deleteMany();
-    await testPrisma.product.deleteMany();
+    await clientMock.prisma.bagItem.deleteMany();
+    await clientMock.prisma.product.deleteMany();
     clearCapturedQueries();
   });
 
@@ -58,7 +51,7 @@ describe("findAllProducts", () => {
 
   it("商品が2件存在するとき、2件の商品一覧を返す", async () => {
     for (const product of TEST_PRODUCTS) {
-      await testPrisma.product.create({ data: product });
+      await clientMock.prisma.product.create({ data: product });
     }
     clearCapturedQueries();
 
@@ -68,6 +61,6 @@ describe("findAllProducts", () => {
       { productId: "prod-a", name: "商品A", price: 100000, catchCopy: "商品Aのキャッチコピーです" },
       { productId: "prod-b", name: "商品B", price: 200000, catchCopy: "商品Bのキャッチコピーです" },
     ]);
-    expect(capturedQueries).toMatchSnapshot();
+    await expect(formatQuerySnapshot(capturedQueries)).toMatchFileSnapshot("./__snapshots__/findAllProducts.sql");
   });
 });

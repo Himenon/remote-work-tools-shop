@@ -5,6 +5,7 @@ import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import { Prisma, PrismaClient } from "../../generated/client/client";
+import { formatDialect, sqlite } from "sql-formatter";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -36,4 +37,27 @@ export const createTestPrisma = async () => {
   };
 
   return { prisma, capturedQueries, clearCapturedQueries, dbPath };
+};
+
+export type TestPrismaClient = Awaited<ReturnType<typeof createTestPrisma>>["prisma"];
+
+// vi.mock("#client", () => clientMock) と組み合わせて使う。
+// Vitest はワーカーごとにモジュールを分離するため、複数テストファイル間で状態が混ざらない。
+let _prisma!: TestPrismaClient;
+
+export const clientMock = {
+  get prisma(): TestPrismaClient {
+    return _prisma;
+  },
+};
+
+export const setTestPrisma = (prisma: TestPrismaClient): void => {
+  _prisma = prisma;
+};
+
+const formatSql = (sql: string): string => formatDialect(sql, { dialect: sqlite });
+
+export const formatQuerySnapshot = (queries: QueryRecord[]): string => {
+  const formatted = queries.map((q, i) => `-- [${i + 1}] params: ${q.params}\n${formatSql(q.query)}`);
+  return formatted.join("\n\n") + "\n";
 };

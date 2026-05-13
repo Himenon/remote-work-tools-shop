@@ -1,15 +1,8 @@
 import { vi, describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
-import { createTestPrisma, type QueryRecord } from "#test-utils";
+import { createTestPrisma, clientMock, setTestPrisma, type QueryRecord, formatQuerySnapshot } from "#test-utils";
 import { findProductSpec } from "../findProductSpec";
 
-type TestClient = Awaited<ReturnType<typeof createTestPrisma>>["prisma"];
-let testPrisma!: TestClient;
-
-vi.mock("../../../client", () => ({
-  get prisma() {
-    return testPrisma;
-  },
-}));
+vi.mock("#client", () => clientMock);
 
 const TEST_PRODUCT = {
   productId: "prod-spec-test",
@@ -35,23 +28,23 @@ describe("findProductSpec", () => {
 
   beforeAll(async () => {
     const result = await createTestPrisma();
-    testPrisma = result.prisma;
+    setTestPrisma(result.prisma);
     capturedQueries = result.capturedQueries;
     clearCapturedQueries = result.clearCapturedQueries;
   });
 
   afterAll(async () => {
-    await testPrisma.$disconnect();
+    await clientMock.prisma.$disconnect();
   });
 
   beforeEach(async () => {
-    await testPrisma.bagItem.deleteMany();
-    await testPrisma.product.deleteMany();
+    await clientMock.prisma.bagItem.deleteMany();
+    await clientMock.prisma.product.deleteMany();
     clearCapturedQueries();
   });
 
   it("指定した商品IDに一致する商品が存在するとき、その商品のスペックを返す", async () => {
-    await testPrisma.product.create({ data: TEST_PRODUCT });
+    await clientMock.prisma.product.create({ data: TEST_PRODUCT });
     clearCapturedQueries();
 
     const result = await findProductSpec("prod-spec-test");
@@ -72,7 +65,7 @@ describe("findProductSpec", () => {
         },
       },
     });
-    expect(capturedQueries).toMatchSnapshot();
+    await expect(formatQuerySnapshot(capturedQueries)).toMatchFileSnapshot("./__snapshots__/findProductSpec.sql");
   });
 
   it("指定した商品IDに一致する商品が存在しないとき、undefinedを返す", async () => {

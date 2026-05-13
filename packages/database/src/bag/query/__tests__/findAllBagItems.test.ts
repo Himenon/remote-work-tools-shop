@@ -1,15 +1,8 @@
 import { vi, describe, it, expect, beforeAll, afterAll, beforeEach } from "vitest";
-import { createTestPrisma, type QueryRecord } from "#test-utils";
+import { createTestPrisma, clientMock, setTestPrisma, type QueryRecord, formatQuerySnapshot } from "#test-utils";
 import { findAllBagItems } from "../findAllBagItems";
 
-type TestClient = Awaited<ReturnType<typeof createTestPrisma>>["prisma"];
-let testPrisma!: TestClient;
-
-vi.mock("../../../client", () => ({
-  get prisma() {
-    return testPrisma;
-  },
-}));
+vi.mock("#client", () => clientMock);
 
 const TEST_PRODUCT = {
   productId: "bag-test-product",
@@ -26,19 +19,19 @@ describe("findAllBagItems", () => {
 
   beforeAll(async () => {
     const result = await createTestPrisma();
-    testPrisma = result.prisma;
+    setTestPrisma(result.prisma);
     capturedQueries = result.capturedQueries;
     clearCapturedQueries = result.clearCapturedQueries;
   });
 
   afterAll(async () => {
-    await testPrisma.$disconnect();
+    await clientMock.prisma.$disconnect();
   });
 
   beforeEach(async () => {
-    await testPrisma.bagItem.deleteMany();
-    await testPrisma.product.deleteMany();
-    await testPrisma.product.create({ data: TEST_PRODUCT });
+    await clientMock.prisma.bagItem.deleteMany();
+    await clientMock.prisma.product.deleteMany();
+    await clientMock.prisma.product.create({ data: TEST_PRODUCT });
     clearCapturedQueries();
   });
 
@@ -48,12 +41,8 @@ describe("findAllBagItems", () => {
   });
 
   it("バッグに商品が1件入っているとき、そのバッグアイテムの一覧を返す", async () => {
-    await testPrisma.bagItem.create({
-      data: {
-        productId: "bag-test-product",
-        specs: { color: "silver" },
-        count: 2,
-      },
+    await clientMock.prisma.bagItem.create({
+      data: { productId: "bag-test-product", specs: { color: "silver" }, count: 2 },
     });
     clearCapturedQueries();
 
@@ -65,6 +54,6 @@ describe("findAllBagItems", () => {
         count: 2,
       },
     ]);
-    expect(capturedQueries).toMatchSnapshot();
+    await expect(formatQuerySnapshot(capturedQueries)).toMatchFileSnapshot("./__snapshots__/findAllBagItems.sql");
   });
 });

@@ -1,5 +1,5 @@
 import { type BagItem } from "@rwts/contract/client/product";
-import { prisma } from "../../client";
+import { prisma } from "#client";
 import { findAllBagItems } from "../query/findAllBagItems";
 
 const MAX_BAG_ITEM_KINDS = 10;

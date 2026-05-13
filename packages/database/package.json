@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "imports": {
+    "#client": "./src/client.ts",
     "#test-utils": "./src/__tests__/createTestPrisma.ts"
   },
   "exports": {
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
+    "sql-formatter": "^15.7.3",
     "vitest": "catalog:"
   },
   "prisma": {
