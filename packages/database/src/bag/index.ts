@@ -1,4 +1,4 @@
-export { findAllBagItems } from "./findAllBagItems";
-export { addBagItem } from "./addBagItem";
-export type { AddBagItemResult, AddBagItemError } from "./addBagItem";
-export { clearBag } from "./clearBag";
+export { findAllBagItems } from "./query/findAllBagItems";
+export { addBagItem } from "./command/addBagItem";
+export type { AddBagItemResult, AddBagItemError } from "./command/addBagItem";
+export { clearBag } from "./command/clearBag";
