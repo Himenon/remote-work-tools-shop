@@ -145,6 +145,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 25.6.0
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(vite@8.0.8(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass@1.99.0)(stylus@0.62.0)(tsx@4.21.0)(yaml@2.8.4))
 
   packages/server:
     dependencies:

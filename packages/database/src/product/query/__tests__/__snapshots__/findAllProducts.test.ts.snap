@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`findAllProducts > 商品が2件存在するとき、2件の商品一覧を返す 1`] = `
+[
+  {
+    "params": "[-1,"0"]",
+    "query": "SELECT \`main\`.\`Product\`.\`productId\`, \`main\`.\`Product\`.\`name\`, \`main\`.\`Product\`.\`price\`, \`main\`.\`Product\`.\`catchCopy\` FROM \`main\`.\`Product\` WHERE 1=1 LIMIT ? OFFSET ?",
+  },
+]
+`;

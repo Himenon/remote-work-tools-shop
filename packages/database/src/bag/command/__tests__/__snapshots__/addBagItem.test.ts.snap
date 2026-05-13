@@ -1,0 +1,39 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`addBagItem > バッグに同じ商品が入っていないとき、バッグに追加して成功を返す 1`] = `
+[
+  {
+    "params": "["add-test-product","1","0"]",
+    "query": "SELECT \`main\`.\`BagItem\`.\`id\`, \`main\`.\`BagItem\`.\`productId\`, \`main\`.\`BagItem\`.\`specs\`, \`main\`.\`BagItem\`.\`count\` FROM \`main\`.\`BagItem\` WHERE (\`main\`.\`BagItem\`.\`productId\` = ? AND 1=1) LIMIT ? OFFSET ?",
+  },
+  {
+    "params": "[-1,"0"]",
+    "query": "SELECT COUNT(*) AS \`_count$_all\` FROM (SELECT \`main\`.\`BagItem\`.\`id\` FROM \`main\`.\`BagItem\` WHERE 1=1 LIMIT ? OFFSET ?) AS \`sub\`",
+  },
+  {
+    "params": "["add-test-product","{\\"color\\":\\"silver\\"}",2]",
+    "query": "INSERT INTO \`main\`.\`BagItem\` (\`productId\`, \`specs\`, \`count\`) VALUES (?,?,?) RETURNING \`id\` AS \`id\`, \`productId\` AS \`productId\`, \`specs\` AS \`specs\`, \`count\` AS \`count\`",
+  },
+  {
+    "params": "[-1,"0"]",
+    "query": "SELECT \`main\`.\`BagItem\`.\`id\`, \`main\`.\`BagItem\`.\`productId\`, \`main\`.\`BagItem\`.\`specs\`, \`main\`.\`BagItem\`.\`count\` FROM \`main\`.\`BagItem\` WHERE 1=1 LIMIT ? OFFSET ?",
+  },
+]
+`;
+
+exports[`addBagItem > バッグに同じ商品が既に入っているとき、個数を加算して成功を返す 1`] = `
+[
+  {
+    "params": "["add-test-product","1","0"]",
+    "query": "SELECT \`main\`.\`BagItem\`.\`id\`, \`main\`.\`BagItem\`.\`productId\`, \`main\`.\`BagItem\`.\`specs\`, \`main\`.\`BagItem\`.\`count\` FROM \`main\`.\`BagItem\` WHERE (\`main\`.\`BagItem\`.\`productId\` = ? AND 1=1) LIMIT ? OFFSET ?",
+  },
+  {
+    "params": "[3,"add-test-product"]",
+    "query": "UPDATE \`main\`.\`BagItem\` SET \`count\` = ? WHERE (\`main\`.\`BagItem\`.\`productId\` = ? AND 1=1) RETURNING \`id\` AS \`id\`, \`productId\` AS \`productId\`, \`specs\` AS \`specs\`, \`count\` AS \`count\`",
+  },
+  {
+    "params": "[-1,"0"]",
+    "query": "SELECT \`main\`.\`BagItem\`.\`id\`, \`main\`.\`BagItem\`.\`productId\`, \`main\`.\`BagItem\`.\`specs\`, \`main\`.\`BagItem\`.\`count\` FROM \`main\`.\`BagItem\` WHERE 1=1 LIMIT ? OFFSET ?",
+  },
+]
+`;

@@ -1,0 +1,10 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`findAllBagItems > バッグに商品が1件入っているとき、そのバッグアイテムの一覧を返す 1`] = `
+[
+  {
+    "params": "[-1,"0"]",
+    "query": "SELECT \`main\`.\`BagItem\`.\`id\`, \`main\`.\`BagItem\`.\`productId\`, \`main\`.\`BagItem\`.\`specs\`, \`main\`.\`BagItem\`.\`count\` FROM \`main\`.\`BagItem\` WHERE 1=1 LIMIT ? OFFSET ?",
+  },
+]
+`;

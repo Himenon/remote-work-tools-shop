@@ -13,8 +13,11 @@ packages/database/
 │   └── dev.db             # SQLite データベースファイル（gitignore対象）
 ├── src/
 │   ├── client.ts          # PrismaClient シングルトン
-│   ├── bag.ts             # バッグ操作
-│   └── product.ts         # 商品操作
+│   ├── bag/
+│   │   ├── query/         # 読み取りクエリ（findAllBagItems など）
+│   │   └── command/       # 書き込みコマンド（addBagItem, clearBag）
+│   └── product/
+│       └── query/         # 読み取りクエリ（findAllProducts, findProductSpec）
 ├── generated/             # prisma generate の出力先（gitignore対象）
 ├── prisma.config.ts       # Prisma CLI 設定（接続 URL など）
 └── .env                   # ローカル開発用環境変数（gitignore対象）
@@ -35,6 +38,15 @@ pnpm install
 ```bash
 pnpm db:build-native
 ```
+
+上記が機能しない場合（出力なしで終了するなどビルドが行われない場合）、`better-sqlite3` のディレクトリで `node-gyp` を直接実行してください。
+
+```bash
+cd node_modules/.pnpm/better-sqlite3@<バージョン>/node_modules/better-sqlite3
+pnpm dlx node-gyp rebuild
+```
+
+バージョンは `node_modules/.pnpm/` 以下のディレクトリ名で確認できます。ビルド成功後に `build/Release/better_sqlite3.node` が生成されます。
 
 ### 3. Prisma Client を生成
 

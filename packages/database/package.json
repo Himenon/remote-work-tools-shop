@@ -2,12 +2,16 @@
   "name": "@rwts/database",
   "version": "0.0.0",
   "private": true,
+  "imports": {
+    "#test-utils": "./src/__tests__/createTestPrisma.ts"
+  },
   "exports": {
     "./bag": "./src/bag/index.ts",
     "./product": "./src/product/index.ts"
   },
   "scripts": {
     "build": "prisma generate",
+    "test": "vitest run",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
     "db:seed": "prisma db seed",
@@ -26,7 +30,8 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "vitest": "catalog:"
   },
   "prisma": {
     "seed": "node --strip-types prisma/seed.ts"
