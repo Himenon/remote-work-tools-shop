@@ -1,3 +1,15 @@
 {
-  "items": []
+  "items": [
+    {
+      "product": {
+        "productId": "macbook-pro-16",
+        "specs": {
+          "cpu": "Apple M4 Max（16コア）",
+          "memory": "24GB ユニファイドメモリ",
+          "storage": "2TB SSD"
+        }
+      },
+      "count": 2
+    }
+  ]
 }
