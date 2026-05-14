@@ -1,7 +1,7 @@
 import { reactRenderer } from "@hono/react-renderer";
 import { Link, Script } from "honox/server";
 import Logo from "@rwts/ui/layout/Logo";
-import DarkModeToggle from "../islands/DarkModeToggle";
+import DarkModeToggle from "@rwts/web/islands/DarkModeToggle";
 
 // localStorage とシステム設定を参照し、HTML レンダリング前に .dark クラスを付与して FOUC を防ぐ。
 const darkModeScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}}catch(e){}})();`;

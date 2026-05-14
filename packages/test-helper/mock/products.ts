@@ -1,6 +1,6 @@
 import type { ProductListItem, ProductSpec } from "@rwts/contract/client/product";
-import productListData from "../../../apps/web/data/product-list.json";
-import productSpecsData from "../../../apps/web/data/product-specs.json";
+import productListData from "./product-list.json";
+import productSpecsData from "./product-specs.json";
 
 export const MOCK_PRODUCT_LIST = productListData as unknown as ProductListItem[];
 export const MOCK_PRODUCT_SPECS = productSpecsData as unknown as ProductSpec[];
