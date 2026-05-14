@@ -27,6 +27,7 @@ minimumReleaseAgeExclude:
   - "@hono/node-server"
   - "@hono/react-renderer"
   - "@hono/vite-build"
+  - "@hono/zod-validator"
 
 onlyBuiltDependencies:
   - "@parcel/watcher"

@@ -8,6 +8,12 @@ const CustomizedProductSchema = z.object({
   specs: z.record(z.string(), z.string({ message: "スペックの値は文字列を指定してください" })),
 });
 
+export const ProductSpecParamSchema = z.object({
+  productName: z.string().min(MIN_PRODUCT_ID_LENGTH, "商品名は1文字以上を指定してください"),
+});
+
+export type ProductSpecParam = z.infer<typeof ProductSpecParamSchema>;
+
 export const AddBagPayloadSchema = z.object({
   product: CustomizedProductSchema,
   count: z

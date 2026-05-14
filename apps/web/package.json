@@ -15,6 +15,7 @@
   "dependencies": {
     "@hono/node-server": "^2.0.0",
     "@hono/react-renderer": "^1.0.1",
+    "@hono/zod-validator": "^0.8.0",
     "@rwts/contract": "workspace:*",
     "@rwts/server": "workspace:*",
     "@rwts/ui": "workspace:*",
