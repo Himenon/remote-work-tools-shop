@@ -80,3 +80,12 @@ pnpm test          # スクリーンショットを既存ベースラインと�
 ```bash
 tsx: node --strip-types を使う
 ```
+
+## 作業後の確認
+
+リポジトリworkspaceのルートでlintとtestを実行してpassすること。
+
+```bash
+pnpm run lint
+pnpm run test
+```
