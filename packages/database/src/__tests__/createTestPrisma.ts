@@ -38,8 +38,9 @@ export const createTestPrisma = async (): Promise<CreateTestPrismaResult> => {
     .map((s) => s.trim())
     .filter((s) => s.length > EMPTY_LENGTH);
 
-  for (const stmt of statements) {
-    // eslint-disable-next-line no-await-in-loop
+  // BagItem は Product への外部キー参照を持ち、CREATE INDEX は BagItem テーブルの存在が前提となるため、
+  // SQL 文の実行順序を保証する必要があり並列化できない
+  for await (const stmt of statements) {
     await prisma.$executeRawUnsafe(stmt);
   }
 
