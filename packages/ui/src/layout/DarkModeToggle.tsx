@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import type { JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 
 const SunIcon = (): JSX.Element => (
   <svg

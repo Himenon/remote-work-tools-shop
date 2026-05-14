@@ -7,7 +7,7 @@ vi.mock("#client", () => clientMock);
 const TEST_PRODUCT = {
   productId: "clear-test-product",
   name: "クリアテスト商品",
-  price: 100000,
+  price: 100_000,
   catchCopy: "クリアテスト用の商品です",
   category: "Laptop",
   spec: { meta: { specSortKey: [] }, categories: {} },
@@ -44,7 +44,8 @@ describe("clearBag", () => {
     await clearBag();
 
     await expect(formatQuerySnapshot(capturedQueries)).toMatchFileSnapshot("./__snapshots__/clearBag.sql");
+    const EMPTY_BAG_LENGTH = 0;
     const remaining = await clientMock.prisma.bagItem.findMany();
-    expect(remaining).toHaveLength(0);
+    expect(remaining).toHaveLength(EMPTY_BAG_LENGTH);
   });
 });

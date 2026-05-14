@@ -1,10 +1,12 @@
 import { prisma } from "../src/client.ts";
 
+const EXIT_FAILURE = 1;
+
 const products = [
   {
     productId: "macbook-pro-16",
     name: "MacBook Pro 16インチ",
-    price: 398000,
+    price: 398_000,
     catchCopy: "M4 Proチップ搭載。最大22時間バッテリーで、どこでもプロの作業環境を実現するラップトップ。",
     category: "Laptop",
     spec: {
@@ -15,7 +17,7 @@ const products = [
           view: "radio",
           specs: [
             { category: "cpu", name: "Apple M4 Pro（12コア）", cost: 0 },
-            { category: "cpu", name: "Apple M4 Max（16コア）", cost: 60000 },
+            { category: "cpu", name: "Apple M4 Max（16コア）", cost: 60_000 },
           ],
         },
         memory: {
@@ -23,7 +25,7 @@ const products = [
           view: "radio",
           specs: [
             { category: "memory", name: "24GB ユニファイドメモリ", cost: 0 },
-            { category: "memory", name: "48GB ユニファイドメモリ", cost: 40000 },
+            { category: "memory", name: "48GB ユニファイドメモリ", cost: 40_000 },
           ],
         },
         storage: {
@@ -31,8 +33,8 @@ const products = [
           view: "radio",
           specs: [
             { category: "storage", name: "512GB SSD", cost: 0 },
-            { category: "storage", name: "1TB SSD", cost: 30000 },
-            { category: "storage", name: "2TB SSD", cost: 70000 },
+            { category: "storage", name: "1TB SSD", cost: 30_000 },
+            { category: "storage", name: "2TB SSD", cost: 70_000 },
           ],
         },
       },
@@ -41,7 +43,7 @@ const products = [
   {
     productId: "iphone-15-pro",
     name: "iPhone 15 Pro",
-    price: 159800,
+    price: 159_800,
     catchCopy: "チタニウムボディとA17 Proチップ搭載。48MPカメラシステムでリモートワークの記録を高画質に残す。",
     category: "SmartPhone",
     spec: {
@@ -52,9 +54,9 @@ const products = [
           view: "radio",
           specs: [
             { category: "storage", name: "128GB", cost: 0 },
-            { category: "storage", name: "256GB", cost: 20000 },
-            { category: "storage", name: "512GB", cost: 40000 },
-            { category: "storage", name: "1TB", cost: 60000 },
+            { category: "storage", name: "256GB", cost: 20_000 },
+            { category: "storage", name: "512GB", cost: 40_000 },
+            { category: "storage", name: "1TB", cost: 60_000 },
           ],
         },
         color: {
@@ -73,7 +75,7 @@ const products = [
   {
     productId: "standing-desk-pro",
     name: "Standing Desk Pro",
-    price: 89000,
+    price: 89_000,
     catchCopy: "電動昇降機能で座り・立ちを自在に切り替え。腰への負担を軽減しながら集中力を持続させるデスク。",
     category: "Desk",
     spec: {
@@ -84,8 +86,8 @@ const products = [
           view: "single-select",
           specs: [
             { category: "size", name: "120cm × 60cm", cost: 0 },
-            { category: "size", name: "140cm × 70cm", cost: 20000 },
-            { category: "size", name: "160cm × 80cm", cost: 40000 },
+            { category: "size", name: "140cm × 70cm", cost: 20_000 },
+            { category: "size", name: "160cm × 80cm", cost: 40_000 },
           ],
         },
         topMaterial: {
@@ -93,8 +95,8 @@ const products = [
           view: "single-select",
           specs: [
             { category: "topMaterial", name: "メラミン化粧板（ホワイト）", cost: 0 },
-            { category: "topMaterial", name: "バーチ天板", cost: 10000 },
-            { category: "topMaterial", name: "ウォールナット天板", cost: 30000 },
+            { category: "topMaterial", name: "バーチ天板", cost: 10_000 },
+            { category: "topMaterial", name: "ウォールナット天板", cost: 30_000 },
           ],
         },
         frameColor: {
@@ -111,7 +113,7 @@ const products = [
   {
     productId: "blue-yeti-pro",
     name: "Blue Yeti Pro",
-    price: 38000,
+    price: 38_000,
     catchCopy: "スタジオ品質のサウンドをリモート会議・ポッドキャストで実現する高品質コンデンサーマイク。",
     category: "Microphone",
     spec: {
@@ -141,23 +143,31 @@ const products = [
 ];
 
 const seed = async (): Promise<void> => {
+  // eslint-disable-next-line no-console
   console.log("シードデータを投入中...");
 
-  for (const product of products) {
-    await prisma.product.upsert({
-      where: { productId: product.productId },
-      update: product,
-      create: product,
-    });
-  }
+  await Promise.all(
+    products.map(
+      (product): Promise<unknown> =>
+        prisma.product.upsert({
+          where: { productId: product.productId },
+          update: product,
+          create: product,
+        }),
+    ),
+  );
 
+  // eslint-disable-next-line no-console
   console.log(`${products.length} 件の商品を投入しました。`);
 
   await prisma.$disconnect();
 };
 
-seed().catch(async (e) => {
-  console.error(e);
+try {
+  await seed();
+} catch (error) {
+  // eslint-disable-next-line no-console
+  console.error(error);
   await prisma.$disconnect();
-  process.exit(1);
-});
+  process.exit(EXIT_FAILURE);
+}

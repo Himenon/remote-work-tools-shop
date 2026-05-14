@@ -7,7 +7,7 @@ vi.mock("#client", () => clientMock);
 const TEST_PRODUCT = {
   productId: "bag-test-product",
   name: "バッグテスト商品",
-  price: 100000,
+  price: 100_000,
   catchCopy: "バッグテスト用の商品です",
   category: "Laptop",
   spec: { meta: { specSortKey: [] }, categories: {} },

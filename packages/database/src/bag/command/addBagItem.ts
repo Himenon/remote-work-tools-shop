@@ -1,4 +1,4 @@
-import { type BagItem } from "@rwts/contract/client/product";
+import type { BagItem } from "@rwts/contract/client/product";
 import { prisma } from "#client";
 import { findAllBagItems } from "../query/findAllBagItems";
 

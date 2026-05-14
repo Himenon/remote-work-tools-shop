@@ -13,7 +13,8 @@ export default createRoute(async (c) => {
     return found?.name ?? productId;
   };
 
-  const isEmpty = items.length === 0;
+  const EMPTY_ITEMS_LENGTH = 0;
+  const isEmpty = items.length === EMPTY_ITEMS_LENGTH;
 
   return c.render(
     <CheckoutPage items={items} findProductName={findProductName} checkoutFormConnector={<CheckoutFormConnector disabled={isEmpty} />} />,

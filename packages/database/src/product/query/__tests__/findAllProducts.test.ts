@@ -8,7 +8,7 @@ const TEST_PRODUCTS = [
   {
     productId: "prod-a",
     name: "商品A",
-    price: 100000,
+    price: 100_000,
     catchCopy: "商品Aのキャッチコピーです",
     category: "Laptop",
     spec: { meta: { specSortKey: [] }, categories: {} },
@@ -16,7 +16,7 @@ const TEST_PRODUCTS = [
   {
     productId: "prod-b",
     name: "商品B",
-    price: 200000,
+    price: 200_000,
     catchCopy: "商品Bのキャッチコピーです",
     category: "SmartPhone",
     spec: { meta: { specSortKey: [] }, categories: {} },
@@ -50,16 +50,14 @@ describe("findAllProducts", () => {
   });
 
   it("商品が2件存在するとき、2件の商品一覧を返す", async () => {
-    for (const product of TEST_PRODUCTS) {
-      await clientMock.prisma.product.create({ data: product });
-    }
+    await Promise.all(TEST_PRODUCTS.map((product): Promise<unknown> => clientMock.prisma.product.create({ data: product })));
     clearCapturedQueries();
 
     const result = await findAllProducts();
 
     expect(result).toEqual([
-      { productId: "prod-a", name: "商品A", price: 100000, catchCopy: "商品Aのキャッチコピーです" },
-      { productId: "prod-b", name: "商品B", price: 200000, catchCopy: "商品Bのキャッチコピーです" },
+      { productId: "prod-a", name: "商品A", price: 100_000, catchCopy: "商品Aのキャッチコピーです" },
+      { productId: "prod-b", name: "商品B", price: 200_000, catchCopy: "商品Bのキャッチコピーです" },
     ]);
     await expect(formatQuerySnapshot(capturedQueries)).toMatchFileSnapshot("./__snapshots__/findAllProducts.sql");
   });

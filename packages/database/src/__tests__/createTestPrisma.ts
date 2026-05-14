@@ -1,19 +1,29 @@
 import { readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, dirname } from "node:path";
+import { join } from "node:path";
 import { randomUUID } from "node:crypto";
-import { fileURLToPath } from "node:url";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-import { Prisma, PrismaClient } from "../../generated/client/client";
+import { type Prisma, PrismaClient } from "../../generated/client/client";
 import { formatDialect, sqlite } from "sql-formatter";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const migrationSql = readFileSync(join(import.meta.dirname, "../../prisma/migrations/20260513123727_init/migration.sql"), "utf8");
 
-const migrationSql = readFileSync(join(__dirname, "../../prisma/migrations/20260513123727_init/migration.sql"), "utf-8");
+export interface QueryRecord {
+  query: string;
+  params: string;
+}
 
-export type QueryRecord = { query: string; params: string };
+interface CreateTestPrismaResult {
+  prisma: PrismaClient;
+  capturedQueries: QueryRecord[];
+  clearCapturedQueries: () => void;
+  dbPath: string;
+}
 
-export const createTestPrisma = async () => {
+const EMPTY_LENGTH = 0;
+const QUERY_INDEX_OFFSET = 1;
+
+export const createTestPrisma = async (): Promise<CreateTestPrismaResult> => {
   const dbPath = join(tmpdir(), `rwts-test-${randomUUID()}.db`);
   const adapter = new PrismaBetterSqlite3({ url: `file:${dbPath}` });
   const prisma = new PrismaClient({ adapter, log: [{ emit: "event", level: "query" }] });
@@ -26,9 +36,10 @@ export const createTestPrisma = async () => {
   const statements = migrationSql
     .split(";")
     .map((s) => s.trim())
-    .filter((s) => s.length > 0);
+    .filter((s) => s.length > EMPTY_LENGTH);
 
   for (const stmt of statements) {
+    // eslint-disable-next-line no-await-in-loop
     await prisma.$executeRawUnsafe(stmt);
   }
 
@@ -39,7 +50,7 @@ export const createTestPrisma = async () => {
   return { prisma, capturedQueries, clearCapturedQueries, dbPath };
 };
 
-export type TestPrismaClient = Awaited<ReturnType<typeof createTestPrisma>>["prisma"];
+export type TestPrismaClient = PrismaClient;
 
 // vi.mock("#client", () => clientMock) と組み合わせて使う。
 // Vitest はワーカーごとにモジュールを分離するため、複数テストファイル間で状態が混ざらない。
@@ -58,6 +69,6 @@ export const setTestPrisma = (prisma: TestPrismaClient): void => {
 const formatSql = (sql: string): string => formatDialect(sql, { dialect: sqlite });
 
 export const formatQuerySnapshot = (queries: QueryRecord[]): string => {
-  const formatted = queries.map((q, i) => `-- [${i + 1}] params: ${q.params}\n${formatSql(q.query)}`);
+  const formatted = queries.map((q, i) => `-- [${i + QUERY_INDEX_OFFSET}] params: ${q.params}\n${formatSql(q.query)}`);
   return formatted.join("\n\n") + "\n";
 };

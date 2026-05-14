@@ -1,6 +1,8 @@
 import type { JSX } from "react";
 
-export default function Logo({ size = 36 }: { size?: number }): JSX.Element {
+const DEFAULT_LOGO_SIZE = 36;
+
+export default function Logo({ size = DEFAULT_LOGO_SIZE }: { size?: number }): JSX.Element {
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="20" cy="20" r="20" fill="#4f46e5" />

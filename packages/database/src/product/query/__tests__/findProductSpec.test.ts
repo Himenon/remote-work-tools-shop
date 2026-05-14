@@ -7,7 +7,7 @@ vi.mock("#client", () => clientMock);
 const TEST_PRODUCT = {
   productId: "prod-spec-test",
   name: "スペックテスト商品",
-  price: 150000,
+  price: 150_000,
   catchCopy: "スペックテスト用のキャッチコピーです",
   category: "Laptop",
   spec: {
@@ -52,7 +52,7 @@ describe("findProductSpec", () => {
     expect(result).toEqual({
       productId: "prod-spec-test",
       name: "スペックテスト商品",
-      price: 150000,
+      price: 150_000,
       category: "Laptop",
       spec: {
         meta: { specSortKey: ["memory"] },
