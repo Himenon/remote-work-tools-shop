@@ -1,2 +1,7 @@
 @import "@rwts/ui/theme/globals.css";
+/* dev サーバー起動時、@tailwindcss/vite は CSS ファイルをモジュールグラフが
+ * 確立される前に処理するため、packages/ui/src のコンポーネントが自動スキャン
+ * 対象に含まれない。@source で明示することで dev・build 両モードで
+ * packages/ui のクラスが CSS に反映される。
+ * パッケージ名（@rwts/ui）ではなくファイルパスで指定する必要がある。 */
 @source "../../../packages/ui/src";
