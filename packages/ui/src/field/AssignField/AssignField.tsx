@@ -1,15 +1,17 @@
 import * as React from "react";
-import { SingleAssignField } from "./AssignField.single";
-import { MultipleAssignField } from "./AssignField.multiple";
+import { SingleAssignField, type SingleAssignFieldProps } from "./AssignField.single";
+import { MultipleAssignField, type MultipleAssignFieldProps } from "./AssignField.multiple";
 import type { AssignFieldProps } from "./AssignField.shared";
 
 export type { AssignOption, AssignFieldProps } from "./AssignField.shared";
 
 export const AssignField: React.FC<AssignFieldProps> = (props) => {
   if (props.multiple) {
-    return <MultipleAssignField fieldProps={props} />;
+    const multipleAssignFieldProps: MultipleAssignFieldProps = { fieldProps: props };
+    return <MultipleAssignField {...multipleAssignFieldProps} />;
   }
-  return <SingleAssignField fieldProps={props} />;
+  const singleAssignFieldProps: SingleAssignFieldProps = { fieldProps: props };
+  return <SingleAssignField {...singleAssignFieldProps} />;
 };
 
 AssignField.displayName = "AssignField";

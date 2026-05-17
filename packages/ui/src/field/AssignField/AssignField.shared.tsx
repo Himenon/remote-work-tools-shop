@@ -28,8 +28,6 @@ export interface AssignFieldProps {
   layout?: FieldLayoutProps;
 }
 
-// ─── アイコン ─────────────────────────────────────────────────────────────────
-
 export const PersonIcon: React.FC = () => (
   <svg viewBox="0 0 16 16" className="size-3" fill="currentColor" aria-hidden>
     <path d="M8 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Z" />
@@ -91,8 +89,6 @@ export const CloseIcon: React.FC<{ className?: string }> = ({ className = "size-
   </svg>
 );
 
-// ─── アバター ─────────────────────────────────────────────────────────────────
-
 export const AssignAvatar: React.FC<{ option: AssignOption }> = ({ option }) => {
   if (option.photoUrl) {
     return <img src={option.photoUrl} alt="" className="size-5 shrink-0 rounded-full object-cover" />;
@@ -104,15 +100,11 @@ export const AssignAvatar: React.FC<{ option: AssignOption }> = ({ option }) => 
   );
 };
 
-// ─── 定数 ─────────────────────────────────────────────────────────────────────
-
 export const ITEM_CLASS =
   "flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm text-gray-900 outline-none transition-colors data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50 data-[highlighted]:bg-indigo-50 data-[highlighted]:text-indigo-900 dark:text-white dark:data-[highlighted]:bg-indigo-900/40 dark:data-[highlighted]:text-indigo-100";
 
 export const WRAPPER_CLASS =
   "w-full rounded-md border border-gray-300 bg-white shadow-xs transition-colors focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-500/20 data-[invalid]:border-red-500 data-[disabled]:opacity-50 dark:border-gray-700 dark:bg-gray-900 dark:focus-within:border-indigo-400 dark:focus-within:ring-indigo-400/20 dark:data-[invalid]:border-red-400";
-
-// ─── ドロップダウン (Combobox.Root のコンテキストから items を受け取る) ────────
 
 export const AssignDropdown: React.FC = () => (
   <Combobox.Portal>
@@ -134,8 +126,6 @@ export const AssignDropdown: React.FC = () => (
     </Combobox.Positioner>
   </Combobox.Portal>
 );
-
-// ─── Combobox 共通オプション ──────────────────────────────────────────────────
 
 export const isAssignItemEqualToValue = (a: AssignOption, b: AssignOption): boolean => a.valueId === b.valueId;
 
