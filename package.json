@@ -10,7 +10,8 @@
     "lint": "oxlint",
     "fmt": "oxfmt",
     "test": "pnpm run -r test",
-    "knip": "knip"
+    "knip": "knip",
+    "build:image": "docker build -f apps/web/Dockerfile -t rwts-web ."
   },
   "devDependencies": {
     "@types/node": "catalog:",
