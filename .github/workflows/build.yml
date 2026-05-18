@@ -28,8 +28,8 @@ jobs:
       - run: pnpm i --frozen-lockfile
       - name: Test & Build
         run: |
+          pnpm build  
           pnpm check
           pnpm test
-          pnpm build
         env:
           CI: true
