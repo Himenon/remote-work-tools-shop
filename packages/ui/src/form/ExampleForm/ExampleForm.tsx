@@ -68,13 +68,7 @@ export const ExampleForm: React.FC<ExampleFormProps> = (props) => {
 
   return (
     <FormProvider {...methods}>
-      <form
-        onSubmit={(e): void => {
-          void handleSubmit(e);
-        }}
-        noValidate
-        className="flex max-w-xl flex-col gap-6 p-6"
-      >
+      <form onSubmit={handleSubmit} noValidate className="flex max-w-xl flex-col gap-6 p-6">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">サーバー設定</h2>
 
         <OnelineTextField name="serverName" label="サーバー名" placeholder="例: web-server-01" required />

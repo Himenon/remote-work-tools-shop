@@ -66,6 +66,8 @@
     ],
     "eslint/no-alert": "off",
     "eslint/no-void": ["error", { "allowAsStatement": true }],
+    "typescript/no-misused-promises": ["error", { "checksVoidReturn": false }],
+    "typescript/strict-void-return": "off",
     "prefer-readonly-parameter-types": "off"
   },
   "overrides": [
