@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
 
     # @see https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#concurrency
     concurrency:
@@ -26,7 +27,13 @@ jobs:
           node-version-file: "package.json"
           cache: "pnpm"
       - run: pnpm i --frozen-lockfile
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ hashFiles('packages/ui/package.json') }}
       - run: pnpm --filter @rwts/ui exec playwright install --with-deps chromium
+        timeout-minutes: 5
       - name: Test & Build
         run: |
           pnpm build  
