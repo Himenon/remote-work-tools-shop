@@ -16,7 +16,7 @@ ENV CI=true
 WORKDIR /repo
 COPY . .
 RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @rwts/web build:docker
+RUN pnpm --filter @rwts/web build:image
 
 # ─── runner ───────────────────────────────────────────────────────────────────
 FROM node:24-slim AS runner

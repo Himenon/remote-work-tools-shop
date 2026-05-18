@@ -75,6 +75,12 @@ pnpm run build:image
 ### 1. コンテナを起動する
 
 ```bash
+pnpm run image:run
+```
+
+または、コンテナ名を指定して起動する場合は直接 docker コマンドを使う。
+
+```bash
 docker run --rm -p 3000:3000 --name rwts-web-test rwts-web
 ```
 
