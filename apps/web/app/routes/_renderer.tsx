@@ -1,5 +1,4 @@
 import { reactRenderer } from "@hono/react-renderer";
-import { Link, Script } from "honox/server";
 import Logo from "@rwts/ui/layout/Logo";
 import DarkModeToggle from "@rwts/web/islands/DarkModeToggle";
 
@@ -9,8 +8,11 @@ const darkModeScript = `(function(){try{var t=localStorage.getItem('theme');if(t
 /**
  * HonoX の `_renderer.tsx` 規約に従い、全ページ共通のレイアウトを定義する。
  *
- * `Link` は本番ビルドで Vite マニフェストを参照しハッシュ付きファイル名に解決する。
- * `Script` は本番ビルドで Islands を含むページにのみスクリプトを出力する。
+ * honox/server の Link・Script は Hono JSX で実装されているため React ツリーに
+ * 直接含めると "Objects are not valid as a React child" エラーが発生する。
+ * Rollup バンドル後は Vite プラグインが JSX を統合しないため、
+ * plain HTML 要素で代替する。スタイルとスクリプトは Vite クライアントビルドが
+ * dist/static/ へ固定パスで出力するため、ハッシュなし参照で問題ない。
  *
  * @see {@link https://github.com/honojs/honox#renderer HonoX - Renderer}
  * @see {@link https://github.com/honojs/middleware/tree/main/packages/react-renderer @hono/react-renderer}
@@ -25,8 +27,10 @@ export default reactRenderer(({ children, title }) => (
       <script dangerouslySetInnerHTML={{ __html: darkModeScript }} />
       <title>{title ?? "RemoteWork Tools Shop"}</title>
       <meta name="description" content="リモートワークのための厳選商品を取り揃えたオンラインショップ" />
-      <Link href="/app/style.css" rel="stylesheet" />
-      <Script src="/app/client.ts" async />
+      {/* dev: Viteが /app/style.css をTailwind処理して提供する。production: Viteクライアントビルドが dist/static/style.css に出力する */}
+      <link href={import.meta.env.PROD ? "/static/style.css" : "/app/style.css"} rel="stylesheet" />
+      {/* dev: Viteが /app/client.ts をESM変換して提供する。production: dist/static/client.js を参照する */}
+      <script type="module" src={import.meta.env.PROD ? "/static/client.js" : "/app/client.ts"} async />
     </head>
     <body className="min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
       <header className="border-b border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">

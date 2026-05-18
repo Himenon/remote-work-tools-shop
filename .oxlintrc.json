@@ -92,6 +92,13 @@
           }
         ]
       }
+    },
+    {
+      "files": ["packages/builder/**/*.js"],
+      "rules": {
+        "no-magic-numbers": "off",
+        "no-inline-comments": "off"
+      }
     }
   ],
   "env": {

@@ -6,9 +6,10 @@ import { defineConfig } from "vite";
 export default defineConfig(({ mode }) => {
   if (mode === "client") {
     return {
+      plugins: [tailwindcss()],
       build: {
         rollupOptions: {
-          input: ["./app/client.ts"],
+          input: ["./app/client.ts", "./app/style.css"],
           output: {
             entryFileNames: "static/client.js",
             chunkFileNames: "static/assets/[name]-[hash].js",

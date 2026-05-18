@@ -1,11 +1,13 @@
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
 import { copyFileSync, mkdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { swc } from "rollup-plugin-swc3";
+import { importMetaGlobPlugin } from "./glob-plugin.js";
 
 /**
  * better-sqlite3 v12 の native addon を output dir に配置し、
@@ -25,24 +27,27 @@ function betterSqlite3Plugin() {
 
     /** @param {string} id */
     resolveId(id) {
-      if (id === "better-sqlite3") {
-        return "\0virtual:better-sqlite3";
+      if (id === "bindings") {
+        return "\0virtual:bindings";
       }
       return null;
     },
 
     /** @param {string} id */
     load(id) {
-      if (id !== "\0virtual:better-sqlite3") {
+      if (id !== "\0virtual:bindings") {
         return null;
       }
+      // better-sqlite3 の lib/database.js が require('bindings')('better_sqlite3.node') で
+      // ネイティブアドオンを取得する。バンドル後は dist/ 直下の .node を直接 require する。
       return `
 import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const _req = createRequire(import.meta.url);
-const _addon = _req(join(dirname(fileURLToPath(import.meta.url)), 'better_sqlite3.node'));
-export default _addon.Database ?? _addon;
+export default function bindings(name) {
+  return _req(join(dirname(fileURLToPath(import.meta.url)), name));
+}
       `.trim();
     },
 
@@ -67,9 +72,26 @@ export function createNodeConfig({ input, output }) {
       format: "esm",
       generatedCode: { constBindings: true },
       sourcemap: true,
+      inlineDynamicImports: true,
       ...output,
     },
     plugins: [
+      replace({
+        preventAssignment: true,
+        values: {
+          "import.meta.env.PROD": "true",
+          "import.meta.env.DEV": "false",
+          "import.meta.env.MODE": JSON.stringify("production"),
+          "import.meta.env.SSR": "true",
+          "import.meta.env": JSON.stringify({
+            PROD: true,
+            DEV: false,
+            MODE: "production",
+            SSR: true,
+          }),
+        },
+      }),
+      importMetaGlobPlugin(),
       resolve({
         extensions: [".ts", ".tsx", ".mjs", ".js", ".json"],
         moduleDirectories: ["node_modules"],

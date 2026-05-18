@@ -34,4 +34,4 @@ ENV DATABASE_URL="file:/data/db.sqlite"
 
 EXPOSE 3000
 
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server/index.js"]
