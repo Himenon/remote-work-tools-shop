@@ -9,7 +9,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --mode client",
-    "build:image": "rollup -c rollup.config.mjs && vite build --mode client",
+    "build:bundle": "rollup -c rollup.config.mjs && vite build --mode client",
+    "build:image": "docker build -f Dockerfile -t rwts-web ../.. ",
+    "image:run": "docker run --rm -p 3000:3000 rwts-web",
     "start": "node ./dist/index.js",
     "test": "vitest run --passWithNoTests"
   },

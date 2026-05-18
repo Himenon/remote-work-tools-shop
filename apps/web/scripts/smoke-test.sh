@@ -117,7 +117,7 @@ echo "===== Docker スモークテスト: ${IMAGE_NAME} ====="
 if [ "${BUILD}" = "true" ]; then
   log_section "Docker イメージのビルド"
   log_info "pnpm run build:image を実行しています..."
-  (cd "${REPO_ROOT}" && pnpm run build:image)
+  (cd "${REPO_ROOT}/apps/web" && pnpm run build:image)
   log_info "ビルド完了"
 fi
 
