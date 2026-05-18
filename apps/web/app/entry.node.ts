@@ -4,4 +4,11 @@ import app from "./server";
 
 app.use("/static/*", serveStatic({ root: "./dist" }));
 
-serve({ fetch: app.fetch, port: 3000 });
+const server = serve({ fetch: app.fetch, port: 3000 });
+
+const shutdown = () => {
+  server.close(() => process.exit(0));
+};
+
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);

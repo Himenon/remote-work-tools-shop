@@ -9,10 +9,11 @@
   "scripts": {
     "clean": "rimraf dist",
     "dev": "vite",
-    "build": "pnpm run clean && vite build && vite build --mode client",
-    "build:bundle": "pnpm run clean && rollup -c rollup.config.mjs && vite build --mode client",
-    "build:image": "pnpm run build:bundle && docker build -f Dockerfile -t rwts-web ../.. ",
-    "image:run": "docker run --rm -p 3000:3000 rwts-web",
+    "build:rollup": "rollup -c rollup.config.mjs",
+    "build:vite": "vite build --mode client",
+    "build": "pnpm run clean && pnpm run build:rollup && pnpm run build:vite",
+    "build:image": "pnpm run build && docker build -f Dockerfile -t rwts-web ../.. ",
+    "image": "docker run --rm --init -p 3000:3000 rwts-web",
     "start": "node ./dist/server/index.js",
     "test": "vitest run --passWithNoTests"
   },

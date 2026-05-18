@@ -12,7 +12,7 @@
     "test": "pnpm run -r test",
     "knip": "knip",
     "build:image": "pnpm --filter @rwts/web build:image",
-    "image:run": "pnpm --filter @rwts/web image:run"
+    "image": "pnpm --filter @rwts/web image"
   },
   "devDependencies": {
     "@types/node": "catalog:",
