@@ -6,7 +6,7 @@
     "dev": "pnpm --filter @rwts/web dev",
     "build": "pnpm --filter @rwts/database build && pnpm --filter @rwts/web build",
     "start": "pnpm --filter @rwts/web start",
-    "typecheck": "tsc --noEmit",
+    "check": "oxlint && oxfmt --check",
     "lint": "oxlint",
     "fmt": "oxfmt",
     "test": "pnpm run -r test",
@@ -22,7 +22,7 @@
     "typescript": "6.0.3"
   },
   "engines": {
-    "node": ">=24.0.0 <25.0.0",
+    "node": "24.15.0",
     "pnpm": "10.17.1"
   },
   "packageManager": "pnpm@10.17.1"
