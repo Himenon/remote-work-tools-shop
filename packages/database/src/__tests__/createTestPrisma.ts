@@ -40,7 +40,8 @@ export const createTestPrisma = async (): Promise<CreateTestPrismaResult> => {
 
   // BagItem は Product への外部キー参照を持ち、CREATE INDEX は BagItem テーブルの存在が前提となるため、
   // SQL 文の実行順序を保証する必要があり並列化できない
-  for await (const stmt of statements) {
+  for (const stmt of statements) {
+    // oxlint-disable-next-line no-await-in-loop
     await prisma.$executeRawUnsafe(stmt);
   }
 

@@ -6,6 +6,7 @@ await createClient({
     const { hydrateRoot } = await import("react-dom/client");
     // HonoX は elem を DOM Node として型付けするが、@hono/react-renderer 使用時の実値は ReactElement。
     // HonoX 内部型と React 型のブリッジ境界のため型キャストが必要。
+    // oxlint-disable-next-line no-unsafe-type-assertion
     hydrateRoot(root, elem as unknown as ReactNode);
   },
   createElement: async (type, props) => {
@@ -13,6 +14,7 @@ await createClient({
     // HonoX の CreateElement 型は Node を返すことを要求するが、
     // @hono/react-renderer 使用時の実値は ReactElement。
     // HonoX 内部型と React 型のブリッジ境界のため型キャストが必要。
+    // oxlint-disable-next-line no-unsafe-type-assertion
     return createElement(type, props) as unknown as Node;
   },
 });
