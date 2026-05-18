@@ -33,3 +33,4 @@ jobs:
           pnpm test
         env:
           CI: true
+          DATABASE_URL: file:./prisma/dev.db
