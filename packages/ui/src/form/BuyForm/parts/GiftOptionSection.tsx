@@ -1,5 +1,3 @@
-"use client";
-
 import { useWatch } from "react-hook-form";
 import { CheckboxField } from "@rwts/ui/field/CheckboxField";
 import { OnelineTextField } from "@rwts/ui/field/OnelineTextField";

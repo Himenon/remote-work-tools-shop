@@ -1,5 +1,3 @@
-"use client";
-
 import { useWatch } from "react-hook-form";
 import type { BuyFormInput } from "@rwts/contract/form/BuyFormSchema";
 import type { SpecCategory } from "./SpecCategoryField";

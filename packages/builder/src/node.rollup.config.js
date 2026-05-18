@@ -76,21 +76,21 @@ export function createNodeConfig({ input, output }) {
       ...output,
     },
     plugins: [
-      replace({
-        preventAssignment: true,
-        values: {
-          "import.meta.env.PROD": "true",
-          "import.meta.env.DEV": "false",
-          "import.meta.env.MODE": JSON.stringify("production"),
-          "import.meta.env.SSR": "true",
-          "import.meta.env": JSON.stringify({
-            PROD: true,
-            DEV: false,
-            MODE: "production",
-            SSR: true,
-          }),
-        },
-      }),
+      // replace({
+      //   preventAssignment: true,
+      //   values: {
+      //     "import.meta.env.PROD": "true",
+      //     "import.meta.env.DEV": "false",
+      //     "import.meta.env.MODE": JSON.stringify("production"),
+      //     "import.meta.env.SSR": "true",
+      //     "import.meta.env": JSON.stringify({
+      //       PROD: true,
+      //       DEV: false,
+      //       MODE: "production",
+      //       SSR: true,
+      //     }),
+      //   },
+      // }),
       importMetaGlobPlugin(),
       resolve({
         extensions: [".ts", ".tsx", ".mjs", ".js", ".json"],

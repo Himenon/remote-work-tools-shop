@@ -1,5 +1,3 @@
-"use client";
-
 export interface Spec {
   name: string;
   cost: number;

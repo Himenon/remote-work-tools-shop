@@ -1,5 +1,3 @@
-"use client";
-
 import { useFormContext } from "react-hook-form";
 import type { BuyFormInput } from "@rwts/contract/form/BuyFormSchema";
 import { SpecCategoryField, type SpecCategoryFieldProps, type SpecCategory } from "./SpecCategoryField";
