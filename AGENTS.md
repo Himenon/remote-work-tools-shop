@@ -69,8 +69,8 @@ pnpm test   # 非ウォッチモード（CI・AIエージェント向け）
 > **VRT ファイルを書くときは `/make-component-test` スキルを呼び出すこと。**
 
 ```bash
-pnpm test:update   # ベースラインスクリーンショットを生成・更新
-pnpm test          # スクリーンショットを既存ベースラインと比較（CI向け）
+pnpm --filter @rwts/ui test:update   # ベースラインスクリーンショットを生成・更新
+pnpm --filter @rwts/ui test:vrt      # スクリーンショットを既存ベースラインと比較（CI向け）
 ```
 
 <!-- END:vrt-rules -->

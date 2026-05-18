@@ -60,19 +60,19 @@ await expect.element(document.body).toMatchScreenshot("disabled");
 
 ```bash
 # 初回 / ベースライン更新
-pnpm test:update
+pnpm --filter @rwts/ui test:update
 
 # 比較（CI・日常確認）
-pnpm test
+pnpm --filter @rwts/ui test:vrt
 ```
 
-VRT ファイルを追加・変更したら `pnpm test:update` でベースラインを生成してから `pnpm test` で確認する。
+VRT ファイルを追加・変更したら `pnpm --filter @rwts/ui test:update` でベースラインを生成してから `pnpm --filter @rwts/ui test:vrt` で確認する。
 
 ### 合格基準
 
 ```
-Test Files  18 passed (18)
-     Tests  71 passed (71)
+Test Files  31 passed (31)
+     Tests 154 passed (154)
 ```
 
 各コンポーネントの `__screenshots__/XxxField.vrt.tsx/` に正しい名前のPNGが存在すること。
