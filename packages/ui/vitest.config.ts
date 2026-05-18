@@ -5,7 +5,7 @@ import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { playwright } from "@vitest/browser-playwright";
 import { defineConfig } from "vitest/config";
 
-process.env.STORYBOOK_COMPONENT_PATHS ??= ["src/**/*.spec.?(m)[jt]s?(x)", "src/**/*.vrt.?(m)[jt]s?(x)"].join(";");
+process.env.STORYBOOK_COMPONENT_PATHS ??= "src/**/*.spec.?(m)[jt]s?(x)";
 
 const dirname = typeof __dirname === "undefined" ? import.meta.dirname : __dirname;
 

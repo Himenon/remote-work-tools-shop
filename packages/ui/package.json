@@ -19,8 +19,9 @@
     "build-storybook": "storybook build",
     "storybook": "storybook dev -p 15023",
     "test": "vitest run",
+    "test:vrt": "vitest run --config vitest.vrt.config.ts",
     "test:a11y": "vitest run --config vitest.a11y.config.ts",
-    "test:update": "vitest run --update"
+    "test:update": "vitest run --config vitest.vrt.config.ts --update"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.0",
