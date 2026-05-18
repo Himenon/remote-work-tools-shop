@@ -32,8 +32,9 @@ const optionsOrientationClassNames: Record<"vertical" | "horizontal", string> = 
 export const MultiSelectField: React.FC<MultiSelectFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
 
+  const rawValue: unknown = field.value;
   const checkboxGroupProps: React.ComponentProps<typeof CheckboxGroup> = {
-    value: field.value ?? [],
+    value: Array.isArray(rawValue) ? rawValue.filter((v): v is string => typeof v === "string") : [],
     onValueChange: field.onChange,
     disabled: props.disabled,
   };

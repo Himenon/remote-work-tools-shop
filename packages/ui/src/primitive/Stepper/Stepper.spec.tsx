@@ -47,7 +47,7 @@ describe("Stepper のアクティブステップ表示確認", () => {
   it("全ステップが完了しているとき、どのステップにも現在地マーカーが付かない", async () => {
     await 水平レイアウト全ステップ完了.run();
     const activeStepItems = document.body.querySelectorAll("[aria-current='step']");
-    expect(activeStepItems).toHaveLength(0);
+    await expect(activeStepItems).toHaveLength(0);
   });
 });
 

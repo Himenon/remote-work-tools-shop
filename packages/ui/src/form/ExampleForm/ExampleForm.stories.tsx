@@ -34,7 +34,7 @@ const meta = {
   component: ExampleForm,
   args: {
     sources: SOURCES,
-    onSubmit: fn(),
+    onSubmit: fn<(values: ExampleFormValues) => void>(),
   },
 } satisfies Meta<typeof ExampleForm>;
 
@@ -90,7 +90,7 @@ export const ServerNameWithInvalidCharacters: Story = {
 export const WithPrefilledValues: Story = {
   name: "送信時の値を Actions で確認できる状態",
   args: {
-    onSubmit: fn().mockImplementation((values: ExampleFormValues): void => {
+    onSubmit: fn<(values: ExampleFormValues) => void>().mockImplementation((values: ExampleFormValues): void => {
       action("フォーム送信値")(values);
     }),
   },

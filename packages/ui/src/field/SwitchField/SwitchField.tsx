@@ -21,8 +21,9 @@ export const SwitchField: React.FC<SwitchFieldProps> = (props) => {
   // SwitchField はラベルとスイッチを横並びにするため direction のデフォルトを "horizontal" にする
   const layout: FieldLayoutProps = { direction: "horizontal", ...props.layout };
 
+  const rawValue: unknown = field.value;
   const switchRootProps: React.ComponentProps<typeof Switch.Root> = {
-    checked: field.value ?? false,
+    checked: typeof rawValue === "boolean" ? rawValue : false,
     onCheckedChange: field.onChange,
     name: field.name,
     inputRef: field.ref,

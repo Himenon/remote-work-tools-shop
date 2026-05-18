@@ -27,7 +27,9 @@ export interface SingleAssignFieldProps {
 
 export const SingleAssignField: React.FC<SingleAssignFieldProps> = ({ fieldProps }) => {
   const { field, fieldState } = useCtrl({ name: fieldProps.name });
-  const selectedOption = fieldProps.options.find((o): boolean => o.valueId === (field.value as string | null)) ?? null;
+  const rawValue: unknown = field.value;
+  const fieldValue: string | null = typeof rawValue === "string" ? rawValue : null;
+  const selectedOption = fieldProps.options.find((o): boolean => o.valueId === fieldValue) ?? null;
 
   // Base UI の Combobox は controlled value を入力欄の表示テキストに自動反映しないため別途管理
   const [inputValue, setInputValue] = React.useState(selectedOption?.label ?? "");

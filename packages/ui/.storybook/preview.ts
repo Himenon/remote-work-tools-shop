@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import type { Decorator, Preview } from "@storybook/react-vite";
 import "@rwts/ui/theme/globals.css";
 

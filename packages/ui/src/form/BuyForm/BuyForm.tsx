@@ -52,7 +52,13 @@ export const BuyForm: React.FC<BuyFormProps> = ({ product, defaultValues, onSubm
     <FormProvider {...methods}>
       <div className="mx-auto max-w-2xl">
         <h1 className="mb-6 text-2xl font-bold">{product.name}</h1>
-        <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
+        <form
+          onSubmit={(e): void => {
+            void handleSubmit(e);
+          }}
+          noValidate
+          className="flex flex-col gap-6"
+        >
           <SpecsSection specSortKeys={product.specSortKeys} categories={product.categories} />
           <GiftOptionSection />
           <section className="flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-900">

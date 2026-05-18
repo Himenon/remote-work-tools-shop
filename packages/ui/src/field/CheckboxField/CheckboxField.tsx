@@ -18,8 +18,9 @@ export interface CheckboxFieldProps {
 export const CheckboxField: React.FC<CheckboxFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
 
+  const rawValue: unknown = field.value;
   const checkboxRootProps: React.ComponentProps<typeof Checkbox.Root> = {
-    checked: field.value ?? false,
+    checked: typeof rawValue === "boolean" ? rawValue : false,
     onCheckedChange: field.onChange,
     name: field.name,
     inputRef: field.ref,

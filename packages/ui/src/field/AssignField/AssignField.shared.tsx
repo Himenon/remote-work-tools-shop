@@ -127,6 +127,16 @@ export const AssignDropdown: React.FC = () => (
   </Combobox.Portal>
 );
 
+export const isAssignOption = (o: unknown): o is AssignOption => {
+  if (o === null || typeof o !== "object") {
+    return false;
+  }
+  if (!("valueId" in o) || !("label" in o)) {
+    return false;
+  }
+  return typeof o.valueId === "string" && typeof o.label === "string";
+};
+
 export const isAssignItemEqualToValue = (a: AssignOption, b: AssignOption): boolean => a.valueId === b.valueId;
 
 export const assignItemToStringLabel = (o: AssignOption): string => o.label;

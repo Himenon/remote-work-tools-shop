@@ -23,7 +23,11 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ disabled, onConfirm 
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e): void => {
+          void handleSubmit(e);
+        }}
+      >
         <button
           type="submit"
           disabled={isDisabled}

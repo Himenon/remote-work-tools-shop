@@ -1,4 +1,4 @@
-import { prisma } from "../src/client.ts";
+import { prisma } from "../src/client";
 
 const EXIT_FAILURE = 1;
 

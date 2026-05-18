@@ -23,7 +23,7 @@ describe("QuantityStepperField の入力値検証", () => {
 
   const renderWithValue = (value: unknown): void => {
     const Wrapper: React.FC = () => {
-      const methods = useForm<Record<string, unknown>>({ defaultValues: { numOfInstances: value } });
+      const methods = useForm({ defaultValues: { numOfInstances: value } });
       return (
         <FormProvider {...methods}>
           <QuantityStepperField name="numOfInstances" label="インスタンス数" />
@@ -33,16 +33,22 @@ describe("QuantityStepperField の入力値検証", () => {
     render(<Wrapper />);
   };
 
-  it("文字列を渡したとき、number | null ではないため型不一致エラーが発生する", () => {
-    expect(() => renderWithValue("3")).toThrow("QuantityStepperField: field.value が number | null 形式ではありません");
+  it("文字列を渡したとき、number | null ではないため型不一致エラーが発生する", async () => {
+    await expect(() => {
+      renderWithValue("3");
+    }).toThrow("QuantityStepperField: field.value が number | null 形式ではありません");
   });
 
-  it("オブジェクトを渡したとき、number | null ではないため型不一致エラーが発生する", () => {
-    expect(() => renderWithValue({ value: 3 })).toThrow("QuantityStepperField: field.value が number | null 形式ではありません");
+  it("オブジェクトを渡したとき、number | null ではないため型不一致エラーが発生する", async () => {
+    await expect(() => {
+      renderWithValue({ value: 3 });
+    }).toThrow("QuantityStepperField: field.value が number | null 形式ではありません");
   });
 
-  it("配列を渡したとき、number | null ではないため型不一致エラーが発生する", () => {
-    expect(() => renderWithValue([3])).toThrow("QuantityStepperField: field.value が number | null 形式ではありません");
+  it("配列を渡したとき、number | null ではないため型不一致エラーが発生する", async () => {
+    await expect(() => {
+      renderWithValue([3]);
+    }).toThrow("QuantityStepperField: field.value が number | null 形式ではありません");
   });
 });
 

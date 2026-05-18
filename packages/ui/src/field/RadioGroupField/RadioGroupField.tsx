@@ -34,8 +34,9 @@ const optionsOrientationClassNames: Record<"vertical" | "horizontal", string> = 
 export const RadioGroupField: React.FC<RadioGroupFieldProps> = (props) => {
   const { field, fieldState } = useController({ name: props.name });
 
+  const rawValue: unknown = field.value;
   const radioGroupProps: RadioGroup.Props = {
-    value: field.value,
+    value: typeof rawValue === "string" ? rawValue : undefined,
     onValueChange: field.onChange,
     name: field.name,
     disabled: props.disabled,

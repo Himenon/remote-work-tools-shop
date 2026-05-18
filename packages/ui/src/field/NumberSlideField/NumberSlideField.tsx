@@ -16,24 +16,23 @@ const assertSliderValue = (value: unknown): SliderValue => {
       `NumberSlideField: field.value はオブジェクトである必要がありますが、${typeof value} が渡されました。実際の値: ${JSON.stringify(value)}`,
     );
   }
-  const record = value as Record<string, unknown>;
   if (!("min" in value)) {
     throw new Error(`NumberSlideField: field.value に min キーがありません。実際の値: ${JSON.stringify(value)}`);
   }
   if (!("max" in value)) {
     throw new Error(`NumberSlideField: field.value に max キーがありません。実際の値: ${JSON.stringify(value)}`);
   }
-  if (typeof record.min !== "number") {
+  if (typeof value.min !== "number") {
     throw new TypeError(
-      `NumberSlideField: field.value.min は number である必要がありますが、${typeof record.min} が渡されました。実際の値: ${JSON.stringify(value)}`,
+      `NumberSlideField: field.value.min は number である必要がありますが、${typeof value.min} が渡されました。実際の値: ${JSON.stringify(value)}`,
     );
   }
-  if (typeof record.max !== "number") {
+  if (typeof value.max !== "number") {
     throw new TypeError(
-      `NumberSlideField: field.value.max は number である必要がありますが、${typeof record.max} が渡されました。実際の値: ${JSON.stringify(value)}`,
+      `NumberSlideField: field.value.max は number である必要がありますが、${typeof value.max} が渡されました。実際の値: ${JSON.stringify(value)}`,
     );
   }
-  return value as SliderValue;
+  return { min: value.min, max: value.max };
 };
 
 export interface NumberSlideFieldProps {
@@ -70,7 +69,9 @@ export const NumberSlideField: React.FC<NumberSlideFieldProps> = (props) => {
         render={
           <Slider.Root
             value={[value.min, value.max]}
-            onValueChange={([min, max]: number[]): void => field.onChange({ min, max })}
+            onValueChange={([min, max]: number[]): void => {
+              field.onChange({ min, max });
+            }}
             name={field.name}
             min={props.min ?? DEFAULT_MIN}
             max={props.max ?? DEFAULT_MAX}

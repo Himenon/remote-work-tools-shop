@@ -50,7 +50,7 @@ const args: ComponentPropsWithoutRef<T> = {
   categoryKey: "cpu",
   category: radioCategory,
   selectedValues: ["Apple M4 Pro（12コア）"],
-  onChange: fn(),
+  onChange: fn<(categoryKey: string, values: string[]) => void>(),
 };
 
 export const Radio: Story = {

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { createClient } from "honox/client";
 
-createClient({
+await createClient({
   hydrate: async (elem, root) => {
     const { hydrateRoot } = await import("react-dom/client");
     // HonoX は elem を DOM Node として型付けするが、@hono/react-renderer 使用時の実値は ReactElement。

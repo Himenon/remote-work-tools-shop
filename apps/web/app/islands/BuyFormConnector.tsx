@@ -57,9 +57,9 @@ const buildFlatSpecs = (specs: Record<string, string[]>, giftEnabled: boolean, w
     flatSpecs[key] = values.join(", ");
   }
   if (giftEnabled) {
-    flatSpecs["gift_wrapping"] = wrapping;
+    flatSpecs.gift_wrapping = wrapping;
     if (message.length > EMPTY_MESSAGE_LENGTH) {
-      flatSpecs["gift_message"] = message;
+      flatSpecs.gift_message = message;
     }
   }
   return flatSpecs;

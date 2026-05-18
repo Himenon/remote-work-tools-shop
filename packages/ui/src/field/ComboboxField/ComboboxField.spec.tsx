@@ -23,7 +23,7 @@ describe("ComboboxField の表示確認", () => {
   it("デフォルト値のラベルが入力欄に表示される", async () => {
     await WithDefaultValue.run();
     const canvas = within(document.body);
-    const input = canvas.getByRole("combobox") as HTMLInputElement;
+    const input = canvas.getByRole<HTMLInputElement>("combobox");
     await expect(input.value).toBe("EU (Ireland)");
   });
 

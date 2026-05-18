@@ -8,6 +8,7 @@ import {
   type AssignOption,
   type AssignFieldProps,
   AssignDropdown,
+  isAssignOption,
   isAssignItemEqualToValue,
   assignItemToStringLabel,
 } from "./AssignField.shared";
@@ -30,7 +31,8 @@ interface UseMultipleAssignFieldReturn {
 
 function useMultipleAssignField({ name, options }: UseMultipleAssignFieldArgs): UseMultipleAssignFieldReturn {
   const { field, fieldState } = useCtrl({ name });
-  const selectedValueIds: string[] = field.value ?? [];
+  const rawValue: unknown = field.value;
+  const selectedValueIds: string[] = Array.isArray(rawValue) ? rawValue.filter((v): v is string => typeof v === "string") : [];
 
   const optionsMap = React.useMemo(() => Object.fromEntries(options.map((o): [string, AssignOption] => [o.valueId, o])), [options]);
 
@@ -47,7 +49,7 @@ function useMultipleAssignField({ name, options }: UseMultipleAssignFieldArgs): 
   );
 
   const handleValueChange = (newOptions: unknown): void => {
-    const opts = Array.isArray(newOptions) ? (newOptions as AssignOption[]) : [];
+    const opts: AssignOption[] = Array.isArray(newOptions) ? newOptions.filter((o): o is AssignOption => isAssignOption(o)) : [];
     const lockedIds = selectedOptions.filter((o): boolean => Boolean(o.locked)).map((o): string => o.valueId);
     const newIds = opts.filter((o): boolean => !o.locked).map((o): string => o.valueId);
     field.onChange([...lockedIds, ...newIds]);
