@@ -1,33 +1,22 @@
-FROM node:24-slim AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+FROM node:24-slim AS native-builder
 
-# ─── builder ──────────────────────────────────────────────────────────────────
-FROM base AS builder
-
-# better-sqlite3 ネイティブアドオンのコンパイルに必要
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 make g++ \
     && rm -rf /var/lib/apt/lists/*
 
-ENV CI=true
+WORKDIR /build
+RUN npm install better-sqlite3@12.9.0
 
-WORKDIR /repo
-COPY . .
-RUN pnpm install --frozen-lockfile
-RUN pnpm --filter @rwts/web build:bundle
-
-# ─── runner ───────────────────────────────────────────────────────────────────
+# ── runner ────────────────────────────────────────────────────────────────────
 FROM node:24-slim AS runner
 WORKDIR /app
 
-# dist/index.js + dist/better_sqlite3.node のみで完結する
-COPY --from=builder /repo/apps/web/dist ./dist
+ADD apps/web/dist ./dist
+COPY --from=native-builder \
+    /build/node_modules/better-sqlite3/build/Release/better_sqlite3.node \
+    ./dist/server/better_sqlite3.node
 
-# シードデータ入りの SQLite ファイルをデフォルトとして同梱
-# 本番運用時は -v /host/path:/data でマウントして上書きすること
-COPY --from=builder /repo/packages/database/prisma/dev.db /data/db.sqlite
+ADD packages/database/prisma/dev.db /data/db.sqlite
 
 ENV NODE_ENV=production
 ENV DATABASE_URL="file:/data/db.sqlite"
