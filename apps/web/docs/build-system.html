@@ -1,0 +1,587 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>Build System — @rwts/web</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        font-size: 14px;
+        background: #f8f9fa;
+        color: #212529;
+        padding: 32px;
+      }
+      h1 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 24px;
+      }
+      h2 {
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #6c757d;
+        margin-bottom: 12px;
+      }
+
+      /* layout */
+      .pipeline {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      .phase {
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 20px 24px;
+      }
+      .phase-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 99px;
+        white-space: nowrap;
+      }
+
+      /* arrows between phases */
+      .arrow {
+        text-align: center;
+        color: #adb5bd;
+        font-size: 20px;
+        line-height: 1;
+      }
+
+      /* flow row inside a phase */
+      .flow {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0;
+      }
+      .flow-arrow {
+        color: #adb5bd;
+        padding: 0 6px;
+        font-size: 16px;
+        flex-shrink: 0;
+      }
+
+      /* node types */
+      .node {
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 12px;
+        line-height: 1.5;
+      }
+      .node strong {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 2px;
+      }
+      .node ul {
+        padding-left: 14px;
+      }
+      .node ul li {
+        color: #495057;
+      }
+
+      .node-src {
+        background: #e8f4fd;
+        border: 1px solid #74c0fc;
+      }
+      .node-tool {
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+      }
+      .node-out {
+        background: #d3f9d8;
+        border: 1px solid #51cf66;
+      }
+      .node-plugin {
+        background: #f3f0ff;
+        border: 1px solid #9775fa;
+      }
+      .node-docker {
+        background: #fff5f5;
+        border: 1px solid #ff8787;
+      }
+      .node-final {
+        background: #1a1a2e;
+        color: #e0e0e0;
+        border: 1px solid #444;
+      }
+      .node-final strong {
+        color: #fff;
+      }
+      .node-final ul li {
+        color: #ccc;
+      }
+
+      /* color badges */
+      .b-gray {
+        background: #e9ecef;
+        color: #495057;
+      }
+      .b-blue {
+        background: #d0ebff;
+        color: #1971c2;
+      }
+      .b-green {
+        background: #d3f9d8;
+        color: #2f9e44;
+      }
+      .b-red {
+        background: #ffe3e3;
+        color: #c92a2a;
+      }
+      .b-dark {
+        background: #343a40;
+        color: #fff;
+      }
+
+      /* two-column inside a phase */
+      .cols {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .col {
+        flex: 1;
+        min-width: 220px;
+      }
+      .col-divider {
+        width: 1px;
+        background: #dee2e6;
+        align-self: stretch;
+      }
+
+      /* note */
+      .note {
+        font-size: 11px;
+        color: #868e96;
+        margin-top: 10px;
+        padding-left: 4px;
+      }
+
+      /* serving table */
+      .serve-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+      .serve-table th {
+        background: #f1f3f5;
+        text-align: left;
+        padding: 8px 10px;
+        border: 1px solid #dee2e6;
+        font-weight: 600;
+      }
+      .serve-table td {
+        padding: 8px 10px;
+        border: 1px solid #dee2e6;
+        vertical-align: top;
+        line-height: 1.6;
+      }
+      .serve-table tr:nth-child(even) td {
+        background: #f8f9fa;
+      }
+      .serve-table small {
+        color: #868e96;
+      }
+
+      .tag {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 99px;
+        white-space: nowrap;
+      }
+      .tag-ssr {
+        background: #d0ebff;
+        color: #1971c2;
+      }
+      .tag-api {
+        background: #fff3cd;
+        color: #b08400;
+      }
+      .tag-static {
+        background: #d3f9d8;
+        color: #2f9e44;
+      }
+
+      .cdn-yes {
+        color: #2f9e44;
+        font-weight: 700;
+      }
+      .cdn-no {
+        color: #c92a2a;
+        font-weight: 700;
+      }
+      .cdn-maybe {
+        color: #e67700;
+        font-weight: 700;
+      }
+
+      /* dist tree */
+      .tree {
+        font-family: monospace;
+        font-size: 12px;
+        line-height: 1.7;
+      }
+      .tree .dir {
+        color: #1971c2;
+        font-weight: 600;
+      }
+      .tree .file {
+        color: #2f9e44;
+      }
+      .tree .desc {
+        color: #868e96;
+        margin-left: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Build System — @rwts/web</h1>
+
+    <div class="pipeline">
+      <!-- ① pnpm build:rolldown -->
+      <div class="phase">
+        <div class="phase-header">
+          <span class="badge b-blue">① pnpm build:rolldown</span>
+          <code style="font-size: 12px; color: #868e96">rolldown -c rolldown.config.ts</code>
+        </div>
+        <div class="flow">
+          <div class="node node-src">
+            <strong>エントリ</strong>
+            <ul>
+              <li>app/entry.node.ts</li>
+              <li>app/server.ts</li>
+              <li>app/routes/**</li>
+            </ul>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="node node-plugin">
+            <strong>Rolldown Plugins</strong>
+            <ul>
+              <li>importMetaEnvPlugin<br /><small style="color: #888">import.meta.env.* → 定数に置換</small></li>
+              <li>importMetaGlobPlugin<br /><small style="color: #888">import.meta.glob() → static import に展開</small></li>
+              <li>
+                betterSqlite3Plugin<br /><small style="color: #888"
+                  >bindings → virtual module に置換<br />.node ファイルを dist/server/ にコピー</small
+                >
+              </li>
+            </ul>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="node node-tool">
+            <strong>Rolldown 1.0</strong>
+            <ul>
+              <li>platform: node</li>
+              <li>format: esm</li>
+              <li>TypeScript strip (Node 24)</li>
+              <li>tree-shake + bundle</li>
+            </ul>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="node node-out">
+            <strong>dist/server/</strong>
+            <ul>
+              <li>index.js <small>(~7.8 MB)</small></li>
+              <li>index.js.map</li>
+              <li>better_sqlite3.node</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note">
+          サーバーサイドの SSR ロジック・ルーティング・DB アクセスをすべて 1 ファイルにバンドル。<br />
+          honox の dist 内の import.meta.glob を静的 import に展開することで、Vite なしで動作させる。
+        </p>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <!-- ② pnpm build:vite -->
+      <div class="phase">
+        <div class="phase-header">
+          <span class="badge b-blue">② pnpm build:vite</span>
+          <code style="font-size: 12px; color: #868e96">vite build --mode client</code>
+        </div>
+        <div class="flow">
+          <div class="node node-src">
+            <strong>エントリ</strong>
+            <ul>
+              <li>app/client.ts<br /><small style="color: #888">アイランド hydration</small></li>
+              <li>app/style.css<br /><small style="color: #888">Tailwind CSS</small></li>
+            </ul>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="node node-tool">
+            <strong>Vite 8 (client mode)</strong>
+            <ul>
+              <li>tailwindcss プラグイン</li>
+              <li>Rolldown バンドラー</li>
+              <li>コード分割・ハッシュ付与</li>
+            </ul>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="node node-out">
+            <strong>dist/static/</strong>
+            <ul>
+              <li>client.js</li>
+              <li>style.css</li>
+              <li>assets/[name]-[hash].js</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note">
+          ブラウザで動くアイランドコンポーネント（React）と Tailwind CSS のみをバンドル。<br />
+          emptyOutDir: false により ① の出力を上書きしない。
+        </p>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <!-- dist 全体像 -->
+      <div class="phase">
+        <div class="phase-header">
+          <span class="badge b-green">dist/ — ビルド成果物</span>
+        </div>
+        <div class="tree">
+          <div><span class="dir">dist/</span></div>
+          <div>&nbsp;&nbsp;<span class="dir">server/</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">index.js</span><span class="desc">① SSR サーバー本体（~7.8 MB）</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">index.js.map</span><span class="desc">① ソースマップ</span></div>
+          <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">better_sqlite3.node</span
+            ><span class="desc">① ネイティブアドオン（betterSqlite3Plugin がコピー）</span>
+          </div>
+          <div>&nbsp;&nbsp;<span class="dir">static/</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">client.js</span><span class="desc">② クライアント hydration</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">style.css</span><span class="desc">② Tailwind CSS</span></div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="dir">assets/</span><span class="desc">② コード分割チャンク</span></div>
+        </div>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <!-- ③ docker build -->
+      <div class="phase">
+        <div class="phase-header">
+          <span class="badge b-red">③ docker build</span>
+          <code style="font-size: 12px; color: #868e96">docker build -f Dockerfile -t rwts-web ../..</code>
+        </div>
+        <div class="cols">
+          <div class="col">
+            <h2>native-builder ステージ</h2>
+            <div class="flow">
+              <div class="node node-docker">
+                <strong>node:24-slim</strong>
+                <ul>
+                  <li>python3 / make / g++ をインストール</li>
+                </ul>
+              </div>
+              <span class="flow-arrow">→</span>
+              <div class="node node-docker">
+                <strong>npm install better-sqlite3</strong>
+                <ul>
+                  <li>C++ アドオンをコンパイル</li>
+                  <li>→ better_sqlite3.node</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-divider"></div>
+          <div class="col">
+            <h2>runner ステージ</h2>
+            <div class="flow">
+              <div class="node node-docker">
+                <strong>ADD dist/</strong>
+                <ul>
+                  <li>① + ② の成果物を /app/dist に配置</li>
+                </ul>
+              </div>
+              <span class="flow-arrow">→</span>
+              <div class="node node-docker">
+                <strong>COPY .node</strong>
+                <ul>
+                  <li>native-builder の<br />better_sqlite3.node を配置</li>
+                </ul>
+              </div>
+              <span class="flow-arrow">→</span>
+              <div class="node node-docker">
+                <strong>ADD dev.db</strong>
+                <ul>
+                  <li>SQLite DB を<br />/data/db.sqlite に配置</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note">
+          builder ステージで重い Node.js 依存ツリーを一切持ち込まず、pre-built な dist/ を ADD するだけ。<br />
+          .dockerignore で <code>apps/web/dist/**</code> と <code>packages/database/prisma/dev.db</code> だけをビルドコンテキストに含める。
+        </p>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <!-- 配信アーキテクチャ -->
+      <div class="phase">
+        <div class="phase-header">
+          <span class="badge b-dark">④ 配信アーキテクチャ</span>
+        </div>
+
+        <!-- リクエスト種別テーブル -->
+        <table class="serve-table">
+          <thead>
+            <tr>
+              <th>パス</th>
+              <th>種別</th>
+              <th>配信元</th>
+              <th>生成タイミング</th>
+              <th>CDN 適性</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>GET /</code><br /><code>GET /shop/**</code></td>
+              <td><span class="tag tag-ssr">SSR</span></td>
+              <td>Hono サーバー<br /><small>HonoX がルートを解決、React を SSR して HTML を返す</small></td>
+              <td>リクエストごと<br /><small>DB クエリ → React.renderToString → HTML</small></td>
+              <td><span class="cdn-no">✗ 不向き</span><br /><small>DB参照を含む動的コンテンツ</small></td>
+            </tr>
+            <tr>
+              <td><code>GET /api/**</code></td>
+              <td><span class="tag tag-api">API</span></td>
+              <td>Hono サーバー<br /><small>JSON レスポンスを返す</small></td>
+              <td>リクエストごと</td>
+              <td><span class="cdn-no">✗ 不向き</span><br /><small>動的データ</small></td>
+            </tr>
+            <tr>
+              <td><code>GET /static/client.js</code><br /><code>GET /static/style.css</code></td>
+              <td><span class="tag tag-static">静的</span></td>
+              <td>Hono サーバー<br /><small>serveStatic({ root: "./dist" }) が dist/static/ を配信</small></td>
+              <td>② のビルド時に確定</td>
+              <td>
+                <span class="cdn-maybe">△ 条件付き</span><br /><small
+                  >ファイル名にハッシュなし。<br />CDN 配置時は Cache-Control に max-age を設定しないか、デプロイ時に Purge が必要</small
+                >
+              </td>
+            </tr>
+            <tr>
+              <td><code>GET /static/assets/[name]-[hash].js</code></td>
+              <td><span class="tag tag-static">静的</span></td>
+              <td>Hono サーバー<br /><small>serveStatic が配信</small></td>
+              <td>② のビルド時に確定</td>
+              <td>
+                <span class="cdn-yes">○ 最適</span><br /><small
+                  >コンテンツハッシュ付きファイル名。<br />CDN に配置して Cache-Control: immutable 可</small
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- CSR hydration の流れ -->
+        <div style="margin-top: 20px">
+          <h2 style="margin-bottom: 10px">アイランド Hydration（CSR）</h2>
+          <div class="flow">
+            <div class="node node-src" style="min-width: 160px">
+              <strong>ブラウザ受信</strong>
+              <ul>
+                <li>SSR済み HTML</li>
+                <li>/static/client.js を非同期ロード</li>
+              </ul>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="node node-tool" style="min-width: 180px">
+              <strong>client.js（アイランド）</strong>
+              <ul>
+                <li>DarkModeToggle</li>
+                <li>BuyFormConnector</li>
+                <li>CheckoutFormConnector</li>
+              </ul>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="node node-out" style="min-width: 200px">
+              <strong>React hydration</strong>
+              <ul>
+                <li>既存 DOM に React イベントをアタッチ</li>
+                <li>追加の HTML レンダリングは不要</li>
+                <li>インタラクティブ部分のみ CSR</li>
+              </ul>
+            </div>
+          </div>
+          <p class="note">
+            HonoX のアイランドアーキテクチャ: ページ全体を SPA にせず、インタラクティブなコンポーネントだけを React hydration する。初期 HTML は
+            SSR で生成済みのため FCP が速い。
+          </p>
+        </div>
+
+        <!-- 現状 vs CDN分離 -->
+        <div style="margin-top: 20px">
+          <h2 style="margin-bottom: 10px">現状構成 vs CDN 分離</h2>
+          <div class="cols">
+            <div class="col">
+              <div class="node node-docker" style="min-width: 0">
+                <strong>現状: Hono が静的ファイルも配信</strong>
+                <ul>
+                  <li>構成がシンプル（1プロセス）</li>
+                  <li>serveStatic が Node.js のファイルI/Oで配信</li>
+                  <li>静的ファイルのスケールは Node.js に依存</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-divider"></div>
+            <div class="col">
+              <div class="node node-out" style="min-width: 0">
+                <strong>CDN 分離時: /static/* を CDN にオフロード</strong>
+                <ul>
+                  <li><code>dist/static/</code> を CDN オリジンに配置</li>
+                  <li>CDN が /static/* を edge から配信</li>
+                  <li>Hono サーバーは SSR・API のみ処理</li>
+                  <li>assets/[hash].js は immutable キャッシュ可</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="arrow">↓</div>
+
+      <!-- 最終成果物 -->
+      <div class="phase">
+        <div class="phase-header">
+          <span class="badge b-dark">最終成果物 — Docker イメージ rwts-web</span>
+        </div>
+        <div class="flow">
+          <div class="node node-final">
+            <strong>node dist/server/index.js</strong>
+            <ul>
+              <li>@hono/node-server が :3000 で起動</li>
+              <li>SSR HTML を生成して返す</li>
+              <li>better-sqlite3 で SQLite を参照</li>
+              <li>静的ファイルは dist/static/ から配信</li>
+              <li>Node.js 以外の依存ゼロ（node_modules 不要）</li>
+            </ul>
+          </div>
+        </div>
+        <p class="note">pnpm start（<code>node ./dist/server/index.js</code>）でもローカル起動可能。</p>
+      </div>
+    </div>
+  </body>
+</html>
