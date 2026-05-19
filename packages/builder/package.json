@@ -9,7 +9,8 @@
   "scripts": {},
   "dependencies": {
     "fast-glob": "^3.3.3",
-    "rolldown": "^1.0.0"
+    "rolldown": "^1.0.0",
+    "strip-literal": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "catalog:",
