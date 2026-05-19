@@ -4,16 +4,11 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./node": "./src/node.rollup.config.js"
+    "./node": "./src/node.rolldown.config.js"
   },
   "scripts": {},
   "dependencies": {
-    "@rollup/plugin-commonjs": "^28.0.0",
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^16.0.0",
-    "@rollup/plugin-replace": "^6.0.3",
     "fast-glob": "^3.3.3",
-    "rollup": "^4.0.0",
-    "rollup-plugin-swc3": "^0.12.0"
+    "rolldown": "^1.0.0"
   }
 }

@@ -1,7 +1,7 @@
 import { createNodeConfig } from "@rwts/builder/node";
 
 /**
- * @type {import("rollup").RollupOptions}
+ * @type {import("rolldown").RolldownOptions}
  */
 export default createNodeConfig({
   input: "app/entry.node.ts",

@@ -1,17 +1,13 @@
-import commonjs from "@rollup/plugin-commonjs";
-import json from "@rollup/plugin-json";
-import resolve from "@rollup/plugin-node-resolve";
-import replace from "@rollup/plugin-replace";
 import { copyFileSync, mkdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { swc } from "rollup-plugin-swc3";
+import { replacePlugin } from "rolldown/plugins";
 import { importMetaGlobPlugin } from "./glob-plugin.js";
 
 /**
  * better-sqlite3 v12 の native addon を output dir に配置し、
- * モジュール本体を virtual module に置き換える Rollup plugin。
+ * モジュール本体を virtual module に置き換える Rolldown plugin。
  *
  * v12 は独自の native loader を内包するが、バンドル後の minify で
  * 変数名衝突が発生して loader が呼び出せなくなる。
@@ -45,13 +41,13 @@ import { createRequire } from 'node:module';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const _req = createRequire(import.meta.url);
-export default function bindings(name) {
-  return _req(join(dirname(fileURLToPath(import.meta.url)), name));
-}
+const bindings = (name) => _req(join(dirname(fileURLToPath(import.meta.url)), name));
+export default bindings;
+export { bindings as "module.exports" };
       `.trim();
     },
 
-    /** @param {import("rollup").NormalizedOutputOptions} options */
+    /** @param {import("rolldown").NormalizedOutputOptions} options */
     writeBundle(options) {
       const outDir = options.dir ?? (options.file ? dirname(options.file) : "dist");
       mkdirSync(outDir, { recursive: true });
@@ -62,23 +58,22 @@ export default function bindings(name) {
 }
 
 /**
- * @param {{ input: string, output: import("rollup").OutputOptions }} options
- * @returns {import("rollup").RollupOptions}
+ * @param {{ input: string, output: import("rolldown").OutputOptions }} options
+ * @returns {import("rolldown").RolldownOptions}
  */
 export function createNodeConfig({ input, output }) {
   return {
     input,
+    platform: "node",
     output: {
       format: "esm",
-      generatedCode: { constBindings: true },
       sourcemap: true,
-      inlineDynamicImports: true,
+      codeSplitting: false,
       ...output,
     },
     plugins: [
-      replace({
-        preventAssignment: true,
-        values: {
+      replacePlugin(
+        {
           "import.meta.env.PROD": "true",
           "import.meta.env.DEV": "false",
           "import.meta.env.MODE": JSON.stringify("production"),
@@ -90,23 +85,9 @@ export function createNodeConfig({ input, output }) {
             SSR: true,
           }),
         },
-      }),
+        { preventAssignment: true },
+      ),
       importMetaGlobPlugin(),
-      resolve({
-        extensions: [".ts", ".tsx", ".mjs", ".js", ".json"],
-        moduleDirectories: ["node_modules"],
-        preferBuiltins: true,
-      }),
-      commonjs({ requireReturnsDefault: "auto" }),
-      json(),
-      swc({
-        sourceMaps: true,
-        jsc: {
-          target: "es2022",
-          parser: { syntax: "typescript", tsx: true },
-          transform: { react: { runtime: "automatic" } },
-        },
-      }),
       betterSqlite3Plugin(),
     ],
   };
