@@ -12,6 +12,7 @@
     "rolldown": "^1.0.0"
   },
   "devDependencies": {
-    "@types/node": "catalog:"
+    "@types/node": "catalog:",
+    "dedent": "^1.7.2"
   }
 }

@@ -1,3 +1,10 @@
+// import.meta.glob は Vite 固有の Glob Import API であり、Node.js ESM には存在しない。
+// HonoX は自身の dist コード内でルート・レンダラー・アイランドの自動収集に使用している。
+//   例: import.meta.glob("/app/routes/**/_renderer.tsx", { eager: true })
+// このビルドは Vite を経由しない直接 Rolldown ビルドであるため、このプラグインで
+// import.meta.glob(...) 呼び出しを静的 import の展開に変換する必要がある。
+// 参照: https://vite.dev/guide/features#glob-import
+
 import fastGlob from "fast-glob";
 import { join, relative } from "node:path";
 import type { Plugin } from "rolldown";
