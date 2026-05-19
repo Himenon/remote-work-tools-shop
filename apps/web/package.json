@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "dev": "vite",
-    "build:rolldown": "rolldown -c rolldown.config.mjs",
+    "build:rolldown": "rolldown -c rolldown.config.ts",
     "build:vite": "vite build --mode client",
     "build": "pnpm run clean && pnpm run build:rolldown && pnpm run build:vite",
     "build:image": "pnpm run build && docker build -f Dockerfile -t rwts-web ../.. ",

@@ -1,5 +1,6 @@
 import fastGlob from "fast-glob";
 import { join, relative } from "node:path";
+import type { Plugin } from "rolldown";
 
 // Matches import.meta.glob(patterns [, options])
 // patterns: string literal or array of string literals (possibly multiline)
@@ -8,8 +9,7 @@ const GLOB_CALL_RE = /import\.meta\.glob\((\[[\s\S]*?\]|'[^']*'|"[^"]*")\s*(?:,\
 const QUOTE_PATTERN_RE = /['"]([^'"]+)['"]/g;
 const SINGLE_QUOTE_PREFIX_RE = /^['"]([^'"]+)['"]/;
 
-/** @param {string} arg */
-function parsePatterns(arg) {
+function parsePatterns(arg: string): string[] {
   const s = arg.trim();
   if (s.startsWith("[")) {
     return [...s.matchAll(QUOTE_PATTERN_RE)].map((m) => m[1]);
@@ -19,28 +19,26 @@ function parsePatterns(arg) {
 }
 
 /**
- * Vite の import.meta.glob() を Rollup 向けに static import に展開する plugin。
+ * Vite の import.meta.glob() を Rolldown 向けに static import に展開する plugin。
  *
- * @param {string} [root] プロジェクトルート（デフォルト: process.cwd()）
- * @returns {import("rollup").Plugin}
+ * @param root プロジェクトルート（デフォルト: process.cwd()）
  */
-export function importMetaGlobPlugin(root = process.cwd()) {
+export function importMetaGlobPlugin(root = process.cwd()): Plugin {
   let counter = 0;
 
   return {
     name: "import-meta-glob",
 
-    /** @param {string} code @param {string} _id */
-    transform(code, _id) {
+    transform(code: string, _id: string) {
       if (!code.includes("import.meta.glob")) {
         return null;
       }
 
-      const addedImports = /** @type {string[]} */ ([]);
+      const addedImports: string[] = [];
       const re = new RegExp(GLOB_CALL_RE.source, "g");
       let hadMatch = false;
 
-      const result = code.replaceAll(re, (match, /** @type {string} */ patternsArg) => {
+      const result = code.replaceAll(re, (match, patternsArg: string) => {
         const patterns = parsePatterns(patternsArg);
         if (patterns.length === 0) {
           return match;
@@ -50,7 +48,7 @@ export function importMetaGlobPlugin(root = process.cwd()) {
 
         // Vite glob patterns start with "/" (relative to project root).
         // path.join(root, "/absolute") on POSIX ignores root, so strip the leading "/".
-        const toFsPath = (/** @type {string} */ p) => {
+        const toFsPath = (p: string) => {
           const rel = p.startsWith("/") ? p.slice(1) : p;
           return join(root, rel);
         };
@@ -68,8 +66,6 @@ export function importMetaGlobPlugin(root = process.cwd()) {
         return `{${entries.join(", ")}}`;
       });
 
-      // hadMatch でなければ置換対象がなかったので null を返す。
-      // addedImports が空でも hadMatch なら glob パターンを {} に置換済みなので結果を返す。
       if (!hadMatch) {
         return null;
       }

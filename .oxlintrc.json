@@ -94,7 +94,7 @@
       }
     },
     {
-      "files": ["packages/builder/**/*.js"],
+      "files": ["packages/builder/**/*.{js,ts}"],
       "rules": {
         "no-magic-numbers": "off",
         "no-inline-comments": "off"

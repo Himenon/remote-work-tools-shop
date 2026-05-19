@@ -4,11 +4,14 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./node": "./src/node.rolldown.config.js"
+    "./node": "./src/node.rolldown.config.ts"
   },
   "scripts": {},
   "dependencies": {
     "fast-glob": "^3.3.3",
     "rolldown": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:"
   }
 }

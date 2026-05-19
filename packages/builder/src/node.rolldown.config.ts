@@ -2,8 +2,9 @@ import { copyFileSync, mkdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
+import type { NormalizedOutputOptions, OutputOptions, RolldownOptions, RolldownPlugin } from "rolldown";
 import { replacePlugin } from "rolldown/plugins";
-import { importMetaGlobPlugin } from "./glob-plugin.js";
+import { importMetaGlobPlugin } from "./glob-plugin.ts";
 
 /**
  * better-sqlite3 v12 の native addon を output dir に配置し、
@@ -13,7 +14,7 @@ import { importMetaGlobPlugin } from "./glob-plugin.js";
  * 変数名衝突が発生して loader が呼び出せなくなる。
  * virtual module で直接 createRequire + .node ロードに差し替えることで回避する。
  */
-function betterSqlite3Plugin() {
+function betterSqlite3Plugin(): RolldownPlugin {
   // CWD 基準で解決することで、このファイルの場所ではなく
   // ビルド対象プロジェクトの node_modules から .node を取得する
   const _require = createRequire(pathToFileURL(join(process.cwd(), "package.json")));
@@ -21,16 +22,14 @@ function betterSqlite3Plugin() {
   return {
     name: "better-sqlite3-native",
 
-    /** @param {string} id */
-    resolveId(id) {
+    resolveId(id: string) {
       if (id === "bindings") {
         return "\0virtual:bindings";
       }
       return null;
     },
 
-    /** @param {string} id */
-    load(id) {
+    load(id: string) {
       if (id !== "\0virtual:bindings") {
         return null;
       }
@@ -47,8 +46,7 @@ export { bindings as "module.exports" };
       `.trim();
     },
 
-    /** @param {import("rolldown").NormalizedOutputOptions} options */
-    writeBundle(options) {
+    writeBundle(options: NormalizedOutputOptions) {
       const outDir = options.dir ?? (options.file ? dirname(options.file) : "dist");
       mkdirSync(outDir, { recursive: true });
       const src = _require.resolve("better-sqlite3/build/Release/better_sqlite3.node");
@@ -57,11 +55,7 @@ export { bindings as "module.exports" };
   };
 }
 
-/**
- * @param {{ input: string, output: import("rolldown").OutputOptions }} options
- * @returns {import("rolldown").RolldownOptions}
- */
-export function createNodeConfig({ input, output }) {
+export function createNodeConfig({ input, output }: { input: string; output: OutputOptions }): RolldownOptions {
   return {
     input,
     platform: "node",
