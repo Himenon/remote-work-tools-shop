@@ -1,6 +1,6 @@
 import { CheckoutForm, type CheckoutFormValues } from "@rwts/ui/form/CheckoutForm";
 
-interface CheckoutFormConnectorProps {
+interface CheckoutFormContainerProps {
   disabled: boolean;
 }
 
@@ -9,6 +9,6 @@ const handleConfirm = async (_values: CheckoutFormValues): Promise<void> => {
   globalThis.location.href = "/";
 };
 
-export default function CheckoutFormConnector({ disabled }: CheckoutFormConnectorProps): JSX.Element {
+export default function CheckoutFormContainer({ disabled }: CheckoutFormContainerProps): JSX.Element {
   return <CheckoutForm disabled={disabled} onConfirm={handleConfirm} />;
 }

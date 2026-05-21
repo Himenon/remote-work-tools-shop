@@ -1,7 +1,7 @@
 import { createRoute } from "honox/factory";
 import { findAllBagItems } from "@rwts/server/repository/bag";
 import { findAllProducts } from "@rwts/server/repository/product";
-import BagPage from "@rwts/ui/page/BagPage";
+import BagPageContainer from "@rwts/web/islands/BagPageContainer";
 import type { ProductListItem } from "@rwts/contract/client/product";
 
 export default createRoute(async (c) => {
@@ -12,7 +12,7 @@ export default createRoute(async (c) => {
     return found?.name ?? productId;
   };
 
-  return c.render(<BagPage items={items} findProductName={findProductName} />, {
+  return c.render(<BagPageContainer items={items} findProductName={findProductName} />, {
     title: "バッグ - RemoteWork Tools Shop",
   });
 });

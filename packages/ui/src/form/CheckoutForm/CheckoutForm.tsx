@@ -1,19 +1,20 @@
 import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, type DefaultValues } from "react-hook-form";
 import { CheckoutFormSchema, type CheckoutFormInput, type CheckoutFormValues } from "@rwts/contract/form/CheckoutFormSchema";
 
 export type { CheckoutFormValues };
 
 export interface CheckoutFormProps {
   disabled?: boolean;
+  defaultValues?: DefaultValues<CheckoutFormInput>;
   onConfirm: (values: CheckoutFormValues) => Promise<void>;
 }
 
-export const CheckoutForm: React.FC<CheckoutFormProps> = ({ disabled, onConfirm }) => {
+export const CheckoutForm: React.FC<CheckoutFormProps> = ({ disabled, defaultValues, onConfirm }) => {
   const methods = useForm<CheckoutFormInput, unknown, CheckoutFormValues>({
     resolver: zodResolver(CheckoutFormSchema),
-    defaultValues: {},
+    defaultValues: defaultValues ?? {},
   });
 
   const handleSubmit = methods.handleSubmit(onConfirm);

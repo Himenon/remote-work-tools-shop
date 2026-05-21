@@ -1,6 +1,6 @@
 import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, type DefaultValues } from "react-hook-form";
 import { QuantityStepperField } from "@rwts/ui/field/QuantityStepperField";
 import {
   BuyFormSchema,
@@ -28,7 +28,7 @@ export interface BuyFormProduct {
 export interface BuyFormProps {
   product: BuyFormProduct;
   /** 指定時は編集フォーム、未指定時は商品スペックの先頭値を初期選択した新規フォームとして動作する */
-  defaultValues?: BuyFormInput;
+  defaultValues?: DefaultValues<BuyFormInput>;
   onSubmit: (values: BuyFormValues) => Promise<void>;
 }
 

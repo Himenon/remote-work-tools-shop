@@ -98,3 +98,12 @@ pnpm run test
 1. formのバリデーションのスキーマは `@packages/contract/form` で定義してください。
 2. formに対するUIが必要な場合、`@packages/ui/src/form` にformのコンポーネントを実装してください。
 3. formに対するUIが不要な場合、zodのsafeParse等のAPIを使って入力値をバリデーションしてください。
+
+## 作業後
+
+以下のコマンドを実行し、code formatとlintに従って修正を行うこと。
+
+```bash
+pnpm run fmt
+pnpm run lint
+```

@@ -2,7 +2,7 @@ import { BuyForm, type BuyFormValues, type BuyFormProduct } from "@rwts/ui/form/
 import { DEFAULT_COUNT, DEFAULT_WRAPPING, type BuyFormInput } from "@rwts/contract/form/BuyFormSchema";
 import type { ProductSpec } from "@rwts/contract/client/product";
 
-interface BuyFormConnectorProps {
+interface BuyFormContainerProps {
   spec: ProductSpec;
 }
 
@@ -65,7 +65,7 @@ const buildFlatSpecs = (specs: Record<string, string[]>, giftEnabled: boolean, w
   return flatSpecs;
 };
 
-export default function BuyFormConnector({ spec }: BuyFormConnectorProps): JSX.Element {
+export default function BuyFormContainer({ spec }: BuyFormContainerProps): JSX.Element {
   const handleSubmit = async (values: BuyFormValues): Promise<void> => {
     const flatSpecs = buildFlatSpecs(values.specs, values.giftEnabled, values.wrapping, values.message);
     await fetch("/api/add/bag", {

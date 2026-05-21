@@ -36,6 +36,87 @@ function parsePatterns(arg: string): string[] {
   return m ? [m[1]] : [];
 }
 
+/** `(` の位置から対応する `)` の末尾インデックス（次の文字位置）を返す */
+function findCallEnd(code: string, openParenIndex: number): number {
+  let depth = 0;
+  for (let i = openParenIndex; i < code.length; i += 1) {
+    if (code[i] === "(") {
+      depth += 1;
+    } else if (code[i] === ")") {
+      depth -= 1;
+      if (depth === 0) {
+        return i + 1;
+      }
+    }
+  }
+  return -1;
+}
+
+/** Vite glob パターン（`/` 始まり）をファイルシステムの絶対パスパターンに変換する */
+function toFsPathPatterns(patterns: string[], root: string): string[] {
+  const toFsPath = (p: string): string => {
+    const rel = p.startsWith("/") ? p.slice(1) : p;
+    return join(root, rel);
+  };
+  return patterns.map((p) => (p.startsWith("!") ? `!${toFsPath(p.slice(1))}` : toFsPath(p)));
+}
+
+/** マッチしたファイル群から import 文と object entry 文字列を生成する */
+function buildGlobEntries(files: string[], root: string, startIndex: number): { entries: string[]; imports: string[] } {
+  const entries: string[] = [];
+  const imports: string[] = [];
+  files.forEach((file, fileIndex) => {
+    const varName = `__glob${startIndex + fileIndex}`;
+    const key = `/${relative(root, file).replaceAll("\\", "/")}`;
+    imports.push(`import * as ${varName} from ${JSON.stringify(file)};`);
+    entries.push(`${JSON.stringify(key)}: ${varName}`);
+  });
+  return { entries, imports };
+}
+
+function transformGlob(code: string, root: string, counter: number): { code: string; newCounter: number } | null {
+  if (!code.includes("import.meta.glob")) {
+    return null;
+  }
+  const strippedCode = stripLiteral(code);
+  const addedImports: string[] = [];
+  const replacements: { start: number; end: number; replacement: string }[] = [];
+  GLOB_CALL_RE.lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let currentCounter = counter;
+
+  while ((match = GLOB_CALL_RE.exec(strippedCode)) !== null) {
+    const callStart = match.index;
+    const afterParen = code.slice(match.index + match[0].length);
+    const patternMatch = PATTERN_ARG_RE.exec(afterParen);
+    if (!patternMatch) {
+      continue;
+    }
+    const patterns = parsePatterns(patternMatch[1]);
+    if (patterns.length === 0) {
+      continue;
+    }
+    const callEnd = findCallEnd(code, callStart + match[0].length - 1);
+    if (callEnd === -1) {
+      continue;
+    }
+    const files = fastGlob.sync(toFsPathPatterns(patterns, root), { absolute: true });
+    const { entries, imports } = buildGlobEntries(files, root, currentCounter);
+    currentCounter += files.length;
+    addedImports.push(...imports);
+    replacements.push({ start: callStart, end: callEnd, replacement: `{${entries.join(", ")}}` });
+  }
+
+  if (replacements.length === 0) {
+    return null;
+  }
+  let result = code;
+  for (const { start, end, replacement } of replacements.toReversed()) {
+    result = result.slice(0, start) + replacement + result.slice(end);
+  }
+  return { code: `${addedImports.join("\n")}\n${result}`, newCounter: currentCounter };
+}
+
 /**
  * Vite の import.meta.glob() を Rolldown 向けに static import に展開する plugin。
  *
@@ -48,78 +129,12 @@ export function importMetaGlobPlugin(root = process.cwd()): Plugin {
     name: "import-meta-glob",
 
     transform(code: string, _id: string) {
-      if (!code.includes("import.meta.glob")) {
+      const result = transformGlob(code, root, counter);
+      if (result === null) {
         return null;
       }
-
-      // Vite と同じく stripped code でマッチ位置を検出して偽陽性を防ぐ
-      const strippedCode = stripLiteral(code);
-
-      const addedImports: string[] = [];
-      const replacements: Array<{ start: number; end: number; replacement: string }> = [];
-
-      GLOB_CALL_RE.lastIndex = 0;
-      let match: RegExpExecArray | null;
-
-      while ((match = GLOB_CALL_RE.exec(strippedCode)) !== null) {
-        const callStart = match.index;
-        // "(" の位置から元コードの残りを取り出してパターン引数を解析する
-        const afterParen = code.slice(match.index + match[0].length);
-        const patternMatch = PATTERN_ARG_RE.exec(afterParen);
-        if (!patternMatch) continue;
-
-        const patternsArg = patternMatch[1];
-        const patterns = parsePatterns(patternsArg);
-        if (patterns.length === 0) continue;
-
-        // 閉じ括弧まで読み進めて call expression の終端を特定する
-        const callEnd = findCallEnd(code, callStart + match[0].length - 1);
-        if (callEnd === -1) continue;
-
-        // Vite glob patterns start with "/" (relative to project root).
-        // path.join(root, "/absolute") on POSIX ignores root, so strip the leading "/".
-        const toFsPath = (p: string) => {
-          const rel = p.startsWith("/") ? p.slice(1) : p;
-          return join(root, rel);
-        };
-        const fsPatterns = patterns.map((p) => (p.startsWith("!") ? `!${toFsPath(p.slice(1))}` : toFsPath(p)));
-
-        const files = fastGlob.sync(fsPatterns, { absolute: true });
-        const entries = files.map((file) => {
-          const varName = `__glob${counter}`;
-          counter += 1;
-          const key = `/${relative(root, file).replaceAll("\\", "/")}`;
-          addedImports.push(`import * as ${varName} from ${JSON.stringify(file)};`);
-          return `${JSON.stringify(key)}: ${varName}`;
-        });
-
-        replacements.push({ start: callStart, end: callEnd, replacement: `{${entries.join(", ")}}` });
-      }
-
-      if (replacements.length === 0) {
-        return null;
-      }
-
-      // 後ろから置換することでオフセットのズレを回避する
-      let result = code;
-      for (const { start, end, replacement } of replacements.toReversed()) {
-        result = result.slice(0, start) + replacement + result.slice(end);
-      }
-
-      return { code: `${addedImports.join("\n")}\n${result}`, map: null };
+      counter = result.newCounter;
+      return { code: result.code, map: null };
     },
   };
-}
-
-/** `(` の位置から対応する `)` の末尾インデックス（次の文字位置）を返す */
-function findCallEnd(code: string, openParenIndex: number): number {
-  let depth = 0;
-  for (let i = openParenIndex; i < code.length; i++) {
-    if (code[i] === "(") depth++;
-    else if (code[i] === ")") {
-      depth--;
-      if (depth === 0) return i + 1;
-    }
-  }
-  return -1;
 }

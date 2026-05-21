@@ -4,7 +4,7 @@ import type { BagItem } from "@rwts/contract/client/product";
 interface CheckoutPageProps {
   items: BagItem[];
   findProductName: (productId: string) => string;
-  checkoutFormConnector: ReactNode;
+  checkoutFormContainer: ReactNode;
 }
 
 interface CheckoutItemCardProps {
@@ -36,7 +36,7 @@ const CheckoutItemCard = ({ item, productName }: CheckoutItemCardProps): JSX.Ele
   );
 };
 
-export default function CheckoutPage({ items, findProductName, checkoutFormConnector }: CheckoutPageProps): JSX.Element {
+export default function CheckoutPage({ items, findProductName, checkoutFormContainer }: CheckoutPageProps): JSX.Element {
   const isEmpty = items.length === EMPTY_LIST_LENGTH;
 
   return (
@@ -54,7 +54,7 @@ export default function CheckoutPage({ items, findProductName, checkoutFormConne
           </ul>
         )}
       </section>
-      {checkoutFormConnector}
+      {checkoutFormContainer}
       {isEmpty && (
         <a href="/" className="text-center text-sm text-indigo-600 underline hover:text-indigo-700">
           商品を探す

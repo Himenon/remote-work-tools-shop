@@ -1,6 +1,6 @@
 import { createRoute } from "honox/factory";
 import { findProductSpec } from "@rwts/server/repository/product";
-import BuyFormConnector from "@rwts/web/islands/BuyFormConnector";
+import BuyFormContainer from "@rwts/web/islands/BuyFormContainer";
 
 export default createRoute(async (c) => {
   const productName = c.req.param("productName");
@@ -13,7 +13,7 @@ export default createRoute(async (c) => {
     return c.notFound();
   }
 
-  return c.render(<BuyFormConnector spec={spec} />, {
+  return c.render(<BuyFormContainer spec={spec} />, {
     title: `${spec.name} - RemoteWork Tools Shop`,
   });
 });

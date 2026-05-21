@@ -12,6 +12,7 @@
     "./form/*": "./src/form/*/*.tsx",
     "./primitive/*": "./src/primitive/*/*.tsx",
     "./layout/*": "./src/layout/*.tsx",
+    "./page/BagPage": "./src/page/BagPage/BagPage.tsx",
     "./page/*": "./src/page/*.tsx",
     "./theme/*": "./src/theme/*"
   },

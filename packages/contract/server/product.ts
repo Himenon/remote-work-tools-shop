@@ -23,3 +23,13 @@ export const AddBagPayloadSchema = z.object({
 });
 
 export type AddBagPayload = z.infer<typeof AddBagPayloadSchema>;
+
+export const UpdateBagItemCountPayloadSchema = z.object({
+  productId: z.string({ message: "商品IDは文字列を指定してください" }).min(MIN_PRODUCT_ID_LENGTH, "商品IDは1文字以上を指定してください"),
+  count: z
+    .number({ message: "個数は数値を指定してください" })
+    .int("個数は整数を指定してください")
+    .min(MIN_COUNT, "個数は1以上を指定してください"),
+});
+
+export type UpdateBagItemCountPayload = z.infer<typeof UpdateBagItemCountPayloadSchema>;

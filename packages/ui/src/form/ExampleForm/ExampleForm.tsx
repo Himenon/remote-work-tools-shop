@@ -1,6 +1,6 @@
 import * as React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, type DefaultValues } from "react-hook-form";
 
 import {
   ExampleFormSchema,
@@ -32,7 +32,7 @@ export interface ExampleFormSources {
 export interface ExampleFormProps {
   sources: ExampleFormSources;
   /** 指定時は編集フォーム、未指定時は新規入力フォームとして動作する */
-  defaultValues?: ExampleFormInput;
+  defaultValues?: DefaultValues<ExampleFormInput>;
   onSubmit?: (values: ExampleFormValues) => void;
 }
 
