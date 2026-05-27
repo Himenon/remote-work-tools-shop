@@ -1,0 +1,8 @@
+# ビルドコンテキストを最小化する。
+# Dockerfile が ADD で参照するのは以下の2パスのみ。
+#   apps/web/dist/
+#   packages/database/prisma/dev.db
+
+**
+!apps/web/dist/**
+!packages/database/prisma/dev.db

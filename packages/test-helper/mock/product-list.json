@@ -1,0 +1,26 @@
+[
+  {
+    "productId": "macbook-pro-16",
+    "name": "MacBook Pro 16インチ",
+    "price": 398000,
+    "catchCopy": "M4 Proチップ搭載。最大22時間バッテリーで、どこでもプロの作業環境を実現するラップトップ。"
+  },
+  {
+    "productId": "iphone-15-pro",
+    "name": "iPhone 15 Pro",
+    "price": 159800,
+    "catchCopy": "チタニウムボディとA17 Proチップ搭載。48MPカメラシステムでリモートワークの記録を高画質に残す。"
+  },
+  {
+    "productId": "standing-desk-pro",
+    "name": "Standing Desk Pro",
+    "price": 89000,
+    "catchCopy": "電動昇降機能で座り・立ちを自在に切り替え。腰への負担を軽減しながら集中力を持続させるデスク。"
+  },
+  {
+    "productId": "blue-yeti-pro",
+    "name": "Blue Yeti Pro",
+    "price": 38000,
+    "catchCopy": "スタジオ品質のサウンドをリモート会議・ポッドキャストで実現する高品質コンデンサーマイク。"
+  }
+]

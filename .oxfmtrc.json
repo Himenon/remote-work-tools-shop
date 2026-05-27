@@ -1,0 +1,4 @@
+{
+  "printWidth": 144,
+  "ignorePatterns": ["node_modules/**"]
+}

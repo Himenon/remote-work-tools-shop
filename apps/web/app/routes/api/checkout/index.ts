@@ -1,0 +1,17 @@
+import { createRoute } from "honox/factory";
+import { clearBag, findAllBagItems } from "@rwts/server/repository/bag";
+
+const HTTP_UNPROCESSABLE_ENTITY = 422;
+const EMPTY_BAG_LENGTH = 0;
+
+export const POST = createRoute(async (c) => {
+  const items = await findAllBagItems();
+
+  if (items.length === EMPTY_BAG_LENGTH) {
+    return c.json({ error: "バッグに商品が入っていません" }, HTTP_UNPROCESSABLE_ENTITY);
+  }
+
+  await clearBag();
+
+  return c.json({ message: "決済が完了しました" });
+});

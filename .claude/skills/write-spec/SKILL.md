@@ -1,0 +1,114 @@
+---
+name: write-spec
+description: specファイルを書く。「specを書いて」「テストを書いて」「spec ファイルを作って」と言われたときに実行
+---
+
+# write-spec スキル
+
+## 前提知識
+
+このプロジェクトのテストは **Vitest + Storybook ブラウザモード** で動作する。
+`*.spec.tsx` ファイルは `composeStories` を使い、実際のブラウザ(Chromium)上でコンポーネントをレンダリングして検証する。
+
+## ファイル配置
+
+ストーリーファイルと同じディレクトリに配置する:
+
+```
+src/ui/fields/XxxField/
+  XxxField.tsx
+  XxxField.stories.tsx   ← ストーリー定義
+  XxxField.spec.tsx      ← spec（ここに書く）
+```
+
+## 必須テンプレート
+
+```tsx
+import { composeStories } from "@storybook/react";
+import { describe, it } from "vitest";
+import { expect, within } from "storybook/test";
+import * as Stories from "./XxxField.stories";
+
+const { Default, Disabled } = composeStories(Stories);
+
+describe("XxxField の表示確認", () => {
+  it("ラベルが画面に表示される", async () => {
+    await Default.run();
+    const canvas = within(document.body);
+    await expect(canvas.getByText("ラベルテキスト")).toBeInTheDocument();
+  });
+});
+```
+
+## 必須ルール
+
+### インポート
+
+- `describe`, `it`, `afterEach` は **`vitest`** からimportする（グローバルに頼らない）
+- `expect`, `within` は **`storybook/test`** からimportする
+- `expect` を `vitest` からimportすると `toBeInTheDocument()` 等が使えない
+
+### DOM クエリ
+
+- `Story.run()` は **void** を返す。返り値を受け取らない。
+- `run()` の後に `within(document.body)` でDOMにアクセスする。
+
+```tsx
+// NG
+const canvas = await Default.run();
+canvas.getByText("..."); // canvas は undefined
+
+// OK
+await Default.run();
+const canvas = within(document.body);
+canvas.getByText("...");
+```
+
+### disabled 状態の検証
+
+Base UI コンポーネント（`role="checkbox"`, `role="radio"`, `role="switch"`, `role="combobox"` の一部）は
+`aria-disabled="true"` で無効化を表現する。
+
+```tsx
+// NG: Base UI のカスタム要素では動作しない
+await expect(canvas.getByRole("checkbox")).toBeDisabled();
+
+// OK
+await expect(canvas.getByRole("checkbox")).toHaveAttribute("aria-disabled", "true");
+```
+
+ネイティブ要素（`<input>`, `<button>`, `<select>` など）は `toBeDisabled()` が使える。
+
+### 複数要素の検証
+
+```tsx
+const checkboxes: HTMLElement[] = canvas.getAllByRole("checkbox");
+await Promise.all(checkboxes.map((checkbox: HTMLElement) => expect(checkbox).toHaveAttribute("aria-disabled", "true")));
+```
+
+## テスト実行と動作確認
+
+```bash
+pnpm test   # 非ウォッチ（AIエージェント・CI向け）
+pnpm test       # ウォッチモード
+```
+
+spec ファイルを追加・変更したら必ず `pnpm test` を実行して確認すること。
+
+### 合格基準
+
+```
+Test Files  18 passed (18)
+     Tests  71 passed (71)
+```
+
+新しい spec ファイルを1つ追加するたびにテスト数が増える。テスト数が減っていたら spec の include 設定を確認すること。
+
+## よくある失敗パターン
+
+| 症状                              | 原因                                   | 対処                                              |
+| --------------------------------- | -------------------------------------- | ------------------------------------------------- |
+| `canvas is undefined`             | `run()` の返り値を使っている           | `within(document.body)` を使う                    |
+| `describe is not defined`         | グローバルに頼っている                 | `vitest` からimportする                           |
+| `toBeDisabled()` が失敗           | Base UIのARIA無効化                    | `toHaveAttribute("aria-disabled", "true")` を使う |
+| spec ファイルがテストに含まれない | `STORYBOOK_COMPONENT_PATHS` の設定漏れ | `vitest.config.ts` を確認する                     |

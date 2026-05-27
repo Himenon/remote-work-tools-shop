@@ -1,0 +1,37 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalog:
+  "@types/node": 25.6.0
+  "@types/react": "19"
+  "@types/react-dom": "19"
+  react: 19.2.5
+  react-dom: 19.2.5
+  react-hook-form: ^7.72.1
+  vitest: 4.1.4
+  zod: ^4.3.6
+
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver
+
+minimumReleaseAge: 10800
+
+minimumReleaseAgeExclude:
+  - "@typescript/native-preview"
+  - oxfmt
+  - oxlint
+  - hono
+  - honox
+  - "@hono/node-server"
+  - "@hono/react-renderer"
+  - "@hono/vite-build"
+  - "@hono/zod-validator"
+
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - "@swc/core"
+  - better-sqlite3
+  - esbuild
+  - lefthook

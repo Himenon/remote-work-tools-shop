@@ -1,0 +1,14 @@
+{
+  "name": "@rwts/builder",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./node": "./src/node.rolldown.config.js"
+  },
+  "scripts": {},
+  "dependencies": {
+    "fast-glob": "^3.3.3",
+    "rolldown": "^1.0.0"
+  }
+}

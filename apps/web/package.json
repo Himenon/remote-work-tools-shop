@@ -1,0 +1,43 @@
+{
+  "name": "@rwts/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./islands/*": "./app/islands/*.tsx"
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "dev": "vite",
+    "build:rolldown": "rolldown -c rolldown.config.mjs",
+    "build:vite": "vite build --mode client",
+    "build": "pnpm run clean && pnpm run build:rolldown && pnpm run build:vite",
+    "build:image": "pnpm run build && docker build -f Dockerfile -t rwts-web ../.. ",
+    "image": "docker run --rm --init -p 3000:3000 rwts-web",
+    "start": "node ./dist/server/index.js",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.0.0",
+    "@hono/react-renderer": "^1.0.1",
+    "@hono/zod-validator": "^0.8.0",
+    "@rwts/contract": "workspace:*",
+    "@rwts/server": "workspace:*",
+    "@rwts/ui": "workspace:*",
+    "hono": "^4.12.18",
+    "honox": "^0.1.55",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@hono/vite-build": "^1.0.0",
+    "@rwts/builder": "workspace:*",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "rimraf": "^6.1.3",
+    "rolldown": "^1.0.0",
+    "vite": "8.0.8",
+    "vitest": "catalog:"
+  }
+}

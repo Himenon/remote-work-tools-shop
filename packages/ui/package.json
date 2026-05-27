@@ -1,0 +1,57 @@
+{
+  "name": "@rwts/ui",
+  "version": "0.0.0",
+  "private": true,
+  "imports": {
+    "#field/*": "./src/field/*/*.tsx",
+    "#form/*": "./src/form/*/*.tsx",
+    "#primitive/*": "./src/primitive/*/*.tsx"
+  },
+  "exports": {
+    "./field/*": "./src/field/*/*.tsx",
+    "./form/*": "./src/form/*/*.tsx",
+    "./primitive/*": "./src/primitive/*/*.tsx",
+    "./layout/*": "./src/layout/*.tsx",
+    "./page/*": "./src/page/*.tsx",
+    "./theme/*": "./src/theme/*"
+  },
+  "scripts": {
+    "build-storybook": "storybook build",
+    "storybook": "storybook dev -p 15023",
+    "test": "vitest run",
+    "test:vrt": "vitest run --config vitest.vrt.config.ts",
+    "test:a11y": "vitest run --config vitest.a11y.config.ts",
+    "test:update": "vitest run --config vitest.vrt.config.ts --update"
+  },
+  "dependencies": {
+    "@base-ui/react": "^1.4.0",
+    "@hookform/resolvers": "^5.2.2",
+    "@rwts/contract": "workspace:*",
+    "tailwindcss": "^4.2.2"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "5.1.2",
+    "@rwts/test-helper": "workspace:*",
+    "@storybook/addon-a11y": "10.3.5",
+    "@storybook/addon-docs": "10.3.5",
+    "@storybook/addon-mcp": "^0.6.0",
+    "@storybook/addon-vitest": "10.3.5",
+    "@storybook/react": "10.3.5",
+    "@storybook/react-vite": "10.3.5",
+    "@tailwindcss/vite": "^4.2.2",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitest/browser-playwright": "4.1.4",
+    "@vitest/coverage-v8": "4.1.4",
+    "playwright": "1.59.1",
+    "storybook": "10.3.5",
+    "vite": "8.0.8",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-hook-form": "catalog:"
+  }
+}

@@ -1,0 +1,28 @@
+generator client {
+  provider              = "prisma-client"
+  output                = "../generated/client"
+  moduleFormat          = "esm"
+  importFileExtension   = "ts"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Product {
+  productId String    @id
+  name      String
+  price     Float
+  catchCopy String
+  category  String
+  spec      Json
+  bagItems  BagItem[]
+}
+
+model BagItem {
+  id        Int     @id @default(autoincrement())
+  productId String  @unique
+  specs     Json
+  count     Int
+  product   Product @relation(fields: [productId], references: [productId])
+}
