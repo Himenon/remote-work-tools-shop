@@ -31,7 +31,9 @@ minimumReleaseAgeExclude:
 
 onlyBuiltDependencies:
   - "@parcel/watcher"
+  - "@prisma/engines"
   - "@swc/core"
   - better-sqlite3
   - esbuild
   - lefthook
+  - prisma
