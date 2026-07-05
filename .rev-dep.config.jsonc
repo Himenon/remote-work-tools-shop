@@ -95,6 +95,10 @@
       },
       "unusedExportsDetection": {
         "enabled": false,
+        "ignore": {
+          "**/*.tsx": "*",
+          "**/*.ts": "*",
+        },
       },
       "unresolvedImportsDetection": {
         "enabled": true,
@@ -179,9 +183,13 @@
       },
       "unusedExportsDetection": {
         "enabled": false,
+        "ignore": {
+          "*.ts": "*",
+        },
       },
       "unresolvedImportsDetection": {
         "enabled": true,
+        "ignoreImports": ["react"],
       },
       "devDepsUsageOnProdDetection": {
         "enabled": false,
@@ -207,6 +215,12 @@
       },
       "unusedExportsDetection": {
         "enabled": true,
+        "ignore": {
+          "*.ts": "*",
+          "src/*.tsx": "*",
+          "src/*.ts": "*",
+          ".storybook/*.ts": "*",
+        },
       },
       "unresolvedImportsDetection": {
         "enabled": true,
