@@ -21,6 +21,7 @@
     "oxfmt": "0.45.0",
     "oxlint": "1.60.0",
     "oxlint-tsgolint": "0.21.1",
+    "rev-dep": "^2.16.0",
     "typescript": "6.0.3"
   },
   "engines": {
