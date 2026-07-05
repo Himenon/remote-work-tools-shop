@@ -10,18 +10,16 @@
     "lint": "oxlint",
     "fmt": "oxfmt",
     "test": "pnpm run -r test",
-    "knip": "knip",
     "build:image": "pnpm --filter @rwts/web build:image",
     "image": "pnpm --filter @rwts/web image"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "knip": "^6.11.0",
     "lefthook": "2.1.6",
     "oxfmt": "0.45.0",
     "oxlint": "1.60.0",
     "oxlint-tsgolint": "0.21.1",
-    "rev-dep": "^2.16.0",
+    "rev-dep": "2.16.0",
     "typescript": "6.0.3"
   },
   "engines": {
