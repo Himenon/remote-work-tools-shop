@@ -23,7 +23,7 @@ declare global {
   }
 
   // CSS ファイルの副作用インポート（globals.css）を TypeScript が認識できるようにする
-  declare module "*.css" {
+  module "*.css" {
     const content: Record<string, string>;
     export default content;
   }

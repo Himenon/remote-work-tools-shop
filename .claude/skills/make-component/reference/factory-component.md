@@ -64,15 +64,11 @@ export const ShapeFactory: React.FC<{ shape: Shape }> = ({ shape }) => {
 export const ShapeFactory: React.FC<{ shape: Shape }> = ({ shape }) => {
   switch (shape.kind) {
     case "square": {
-      const squareProps = {
-        /** etc... */
-      };
+      const squareProps = {/** etc... */};
       return <Square {...squareProps} />;
     }
     case "circle": {
-      const circleProps = {
-        /** etc */
-      };
+      const circleProps = {/** etc */};
       return <Circle {...circleProps} />;
     }
     default:
@@ -87,15 +83,11 @@ export const ShapeFactory: React.FC<{ shape: Shape }> = ({ shape }) => {
 export const ShapeFactory: React.FC<{ shape: Shape }> = ({ shape }) => {
   switch (shape.kind) {
     case "square": {
-      const squareProps: SquareProps = {
-        /** etc... */
-      };
+      const squareProps: SquareProps = {/** etc... */};
       return <Square {...squareProps} />;
     }
     case "circle": {
-      const circleProps: CircleProps = {
-        /** etc */
-      };
+      const circleProps: CircleProps = {/** etc */};
       return <Circle {...circleProps} />;
     }
     default:
