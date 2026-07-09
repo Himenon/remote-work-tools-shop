@@ -1,6 +1,6 @@
 import { copyFileSync, mkdirSync } from "node:fs";
 import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
+import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { replacePlugin } from "rolldown/plugins";
 import { importMetaGlobPlugin } from "./glob-plugin.js";
@@ -16,7 +16,8 @@ import { importMetaGlobPlugin } from "./glob-plugin.js";
 function betterSqlite3Plugin() {
   // CWD 基準で解決することで、このファイルの場所ではなく
   // ビルド対象プロジェクトの node_modules から .node を取得する
-  const _require = createRequire(pathToFileURL(join(process.cwd(), "package.json")));
+  const packageJsonUrl = pathToFileURL(path.join(process.cwd(), "package.json"));
+  const projectRequire = createRequire(packageJsonUrl);
 
   return {
     name: "better-sqlite3-native",
@@ -49,10 +50,10 @@ export { bindings as "module.exports" };
 
     /** @param {import("rolldown").NormalizedOutputOptions} options */
     writeBundle(options) {
-      const outDir = options.dir ?? (options.file ? dirname(options.file) : "dist");
+      const outDir = options.dir ?? (options.file ? path.dirname(options.file) : "dist");
       mkdirSync(outDir, { recursive: true });
-      const src = _require.resolve("better-sqlite3/build/Release/better_sqlite3.node");
-      copyFileSync(src, join(outDir, "better_sqlite3.node"));
+      const src = projectRequire.resolve("better-sqlite3/build/Release/better_sqlite3.node");
+      copyFileSync(src, path.join(outDir, "better_sqlite3.node"));
     },
   };
 }

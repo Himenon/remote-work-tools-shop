@@ -18,7 +18,7 @@ import { SingleSelectField, type SelectOption } from "@rwts/ui/field/SingleSelec
 import { SwitchField } from "@rwts/ui/field/SwitchField";
 import { OnelineTextField } from "@rwts/ui/field/OnelineTextField";
 
-export type { ExampleFormValues };
+export type { ExampleFormValues } from "@rwts/contract/form/ExampleFormSchema";
 
 const SCALING_THRESHOLD_FORMAT: Intl.NumberFormatOptions = { style: "percent" };
 

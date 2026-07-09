@@ -10,6 +10,18 @@ import { NumberSlideField } from "./NumberSlideField";
 
 const { Default, Disabled } = composeStories(Stories);
 
+const renderWithValue = (value: unknown): void => {
+  const Wrapper: React.FC = () => {
+    const methods = useForm({ defaultValues: { scalingThreshold: value } });
+    return (
+      <FormProvider {...methods}>
+        <NumberSlideField name="scalingThreshold" label="スケーリング閾値" />
+      </FormProvider>
+    );
+  };
+  render(<Wrapper />);
+};
+
 describe("NumberSlideField の入力値検証", () => {
   // console.error を抑制: React が描画エラーをコンソールに出力するが、テスト結果には影響しない
   beforeEach((): void => {
@@ -20,18 +32,6 @@ describe("NumberSlideField の入力値検証", () => {
   afterEach((): void => {
     vi.restoreAllMocks();
   });
-
-  const renderWithValue = (value: unknown): void => {
-    const Wrapper: React.FC = () => {
-      const methods = useForm({ defaultValues: { scalingThreshold: value } });
-      return (
-        <FormProvider {...methods}>
-          <NumberSlideField name="scalingThreshold" label="スケーリング閾値" />
-        </FormProvider>
-      );
-    };
-    render(<Wrapper />);
-  };
 
   it("null を渡したとき、オブジェクトではないためオブジェクト型要求エラーが発生する", async () => {
     await expect(() => {

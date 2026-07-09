@@ -1,12 +1,12 @@
 import fastGlob from "fast-glob";
-import { join, relative } from "node:path";
+import path from "node:path";
 
 // Matches import.meta.glob(patterns [, options])
 // patterns: string literal or array of string literals (possibly multiline)
-const GLOB_CALL_RE = /import\.meta\.glob\((\[[\s\S]*?\]|'[^']*'|"[^"]*")\s*(?:,\s*\{[^}]*\})?\)/g;
+const GLOB_CALL_RE = /import\.meta\.glob\((?<patterns>\[[\s\S]*?\]|'[^']*'|"[^"]*")\s*(?:,\s*\{[^}]*\})?\)/gu;
 
-const QUOTE_PATTERN_RE = /['"]([^'"]+)['"]/g;
-const SINGLE_QUOTE_PREFIX_RE = /^['"]([^'"]+)['"]/;
+const QUOTE_PATTERN_RE = /['"](?<quotePattern>[^'"]+)['"]/gu;
+const SINGLE_QUOTE_PREFIX_RE = /^['"](?<singleQuote>[^'"]+)['"]/u;
 
 /** @param {string} arg */
 function parsePatterns(arg) {
@@ -37,7 +37,7 @@ export function importMetaGlobPlugin(root = process.cwd()) {
       }
 
       const addedImports = /** @type {string[]} */ ([]);
-      const re = new RegExp(GLOB_CALL_RE.source, "g");
+      const re = new RegExp(GLOB_CALL_RE.source, "gu");
       let hadMatch = false;
 
       const result = code.replaceAll(re, (match, /** @type {string} */ patternsArg) => {
@@ -52,7 +52,7 @@ export function importMetaGlobPlugin(root = process.cwd()) {
         // path.join(root, "/absolute") on POSIX ignores root, so strip the leading "/".
         const toFsPath = (/** @type {string} */ p) => {
           const rel = p.startsWith("/") ? p.slice(1) : p;
-          return join(root, rel);
+          return path.join(root, rel);
         };
         const fsPatterns = patterns.map((p) => (p.startsWith("!") ? `!${toFsPath(p.slice(1))}` : toFsPath(p)));
 
@@ -60,7 +60,7 @@ export function importMetaGlobPlugin(root = process.cwd()) {
         const entries = files.map((file) => {
           const varName = `__glob${counter}`;
           counter += 1;
-          const key = `/${relative(root, file).replaceAll("\\", "/")}`;
+          const key = `/${path.relative(root, file).replaceAll("\\", "/")}`;
           addedImports.push(`import * as ${varName} from ${JSON.stringify(file)};`);
           return `${JSON.stringify(key)}: ${varName}`;
         });

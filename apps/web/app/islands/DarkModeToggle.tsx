@@ -1,2 +1,1 @@
-import DarkModeToggle from "@rwts/ui/layout/DarkModeToggle";
-export default DarkModeToggle;
+export { default } from "@rwts/ui/layout/DarkModeToggle";

@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { CheckoutFormSchema, type CheckoutFormInput, type CheckoutFormValues } from "@rwts/contract/form/CheckoutFormSchema";
 
-export type { CheckoutFormValues };
+export type { CheckoutFormValues } from "@rwts/contract/form/CheckoutFormSchema";
 
 export interface CheckoutFormProps {
   disabled?: boolean;

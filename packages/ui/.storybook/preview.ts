@@ -3,11 +3,12 @@ import type { Decorator, Preview } from "@storybook/react-vite";
 import "@rwts/ui/theme/globals.css";
 
 // Vite の define で a11y:dark プロジェクトのみ true に置換される
+// eslint-disable-next-line no-underscore-dangle
 declare const __VITEST_DARK__: boolean | undefined;
 
 const withTheme: Decorator = (Story, context) => {
-  // oxlint-disable-next-line unicorn/no-typeof-undefined
-  const isDarkForced = typeof __VITEST_DARK__ !== "undefined" && __VITEST_DARK__;
+  // eslint-disable-next-line no-underscore-dangle
+  const isDarkForced = __VITEST_DARK__ !== undefined && __VITEST_DARK__;
   const isDark = isDarkForced || (context.globals as { theme?: string }).theme === "dark";
   document.documentElement.classList.toggle("dark", isDark);
   document.documentElement.style.backgroundColor = isDark ? "oklch(15% 1% 264deg)" : "";
@@ -36,8 +37,8 @@ const preview: Preview = {
     backgrounds: { disable: true },
     controls: {
       matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
+        color: /(?<colorMatch>background|color)$/iu,
+        date: /Date$/iu,
       },
     },
     a11y: {
