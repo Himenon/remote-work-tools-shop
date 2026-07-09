@@ -16,6 +16,7 @@ const configDir = path.join(dirname, ".storybook");
 
 export default defineConfig({
   test: {
+    setupFiles: ["./.storybook/vitest.setup.ts"],
     globals: true,
     projects: [
       {
