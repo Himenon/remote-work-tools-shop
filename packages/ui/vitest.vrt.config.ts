@@ -20,6 +20,7 @@ export default defineConfig({
     include: ["@base-ui/react/fieldset", "@base-ui/react/number-field", "@base-ui/react/slider"],
   },
   test: {
+    setupFiles: ["./.storybook/vitest.setup.ts"],
     globals: true,
     projects: [
       {

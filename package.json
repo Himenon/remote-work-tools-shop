@@ -6,26 +6,26 @@
     "dev": "pnpm --filter @rwts/web dev",
     "build": "pnpm --filter @rwts/database build && pnpm --filter @rwts/web build",
     "start": "pnpm --filter @rwts/web start",
-    "check": "oxlint && oxfmt --check",
+    "check": "oxlint && oxfmt --check && pnpm check:deps",
+    "check:deps": "rev-dep config run --list-all-issues",
     "lint": "oxlint",
     "fmt": "oxfmt",
     "test": "pnpm run -r test",
-    "knip": "knip",
     "build:image": "pnpm --filter @rwts/web build:image",
     "image": "pnpm --filter @rwts/web image"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "knip": "^6.11.0",
-    "lefthook": "2.1.6",
-    "oxfmt": "0.45.0",
-    "oxlint": "1.60.0",
-    "oxlint-tsgolint": "0.21.1",
-    "typescript": "6.0.3"
+    "lefthook": "2.1.9",
+    "oxfmt": "0.58.0",
+    "oxlint": "1.73.0",
+    "oxlint-tsgolint": "0.24.0",
+    "rev-dep": "2.16.1",
+    "typescript": "7.0.2"
   },
   "engines": {
-    "node": "24.15.0",
-    "pnpm": "10.17.1"
+    "node": "26.4.0",
+    "pnpm": "11.9.0"
   },
-  "packageManager": "pnpm@10.17.1"
+  "packageManager": "pnpm@11.9.0"
 }

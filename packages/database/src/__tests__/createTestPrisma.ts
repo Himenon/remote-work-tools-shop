@@ -1,12 +1,12 @@
 import { readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
 import { type Prisma, PrismaClient } from "../../generated/client/client";
 import { formatDialect, sqlite } from "sql-formatter";
 
-const migrationSql = readFileSync(join(import.meta.dirname, "../../prisma/migrations/20260513123727_init/migration.sql"), "utf8");
+const migrationSql = readFileSync(path.join(import.meta.dirname, "../../prisma/migrations/20260513123727_init/migration.sql"), "utf8");
 
 export interface QueryRecord {
   query: string;
@@ -24,7 +24,7 @@ const EMPTY_LENGTH = 0;
 const QUERY_INDEX_OFFSET = 1;
 
 export const createTestPrisma = async (): Promise<CreateTestPrismaResult> => {
-  const dbPath = join(tmpdir(), `rwts-test-${randomUUID()}.db`);
+  const dbPath = path.join(tmpdir(), `rwts-test-${randomUUID()}.db`);
   const adapter = new PrismaBetterSqlite3({ url: `file:${dbPath}` });
   const prisma = new PrismaClient({ adapter, log: [{ emit: "event", level: "query" }] });
 
@@ -56,16 +56,16 @@ export type TestPrismaClient = PrismaClient;
 
 // vi.mock("#client", () => clientMock) と組み合わせて使う。
 // Vitest はワーカーごとにモジュールを分離するため、複数テストファイル間で状態が混ざらない。
-let _prisma!: TestPrismaClient;
+let testPrismaClient!: TestPrismaClient;
 
 export const clientMock = {
   get prisma(): TestPrismaClient {
-    return _prisma;
+    return testPrismaClient;
   },
 };
 
 export const setTestPrisma = (prisma: TestPrismaClient): void => {
-  _prisma = prisma;
+  testPrismaClient = prisma;
 };
 
 const formatSql = (sql: string): string => formatDialect(sql, { dialect: sqlite });

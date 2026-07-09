@@ -10,6 +10,18 @@ import { QuantityStepperField } from "./QuantityStepperField";
 
 const { Default, Disabled } = composeStories(Stories);
 
+const renderWithValue = (value: unknown): void => {
+  const Wrapper: React.FC = () => {
+    const methods = useForm({ defaultValues: { numOfInstances: value } });
+    return (
+      <FormProvider {...methods}>
+        <QuantityStepperField name="numOfInstances" label="インスタンス数" />
+      </FormProvider>
+    );
+  };
+  render(<Wrapper />);
+};
+
 describe("QuantityStepperField の入力値検証", () => {
   // console.error を抑制: React が描画エラーをコンソールに出力するが、テスト結果には影響しない
   beforeEach((): void => {
@@ -20,18 +32,6 @@ describe("QuantityStepperField の入力値検証", () => {
   afterEach((): void => {
     vi.restoreAllMocks();
   });
-
-  const renderWithValue = (value: unknown): void => {
-    const Wrapper: React.FC = () => {
-      const methods = useForm({ defaultValues: { numOfInstances: value } });
-      return (
-        <FormProvider {...methods}>
-          <QuantityStepperField name="numOfInstances" label="インスタンス数" />
-        </FormProvider>
-      );
-    };
-    render(<Wrapper />);
-  };
 
   it("文字列を渡したとき、number | null ではないため型不一致エラーが発生する", async () => {
     await expect(() => {

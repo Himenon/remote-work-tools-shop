@@ -8,8 +8,10 @@ const DEFAULT_WRAPPING_INDEX = 0;
 export const WRAPPING_OPTIONS = ["通常包装", "リボン包装", "高級包装"] as const;
 export const DEFAULT_WRAPPING: string = WRAPPING_OPTIONS[DEFAULT_WRAPPING_INDEX];
 
+const SpecsSchema = z.record(z.string(), z.array(z.string()));
+
 export const BuyFormSchema = z.object({
-  specs: z.record(z.string(), z.array(z.string())),
+  specs: SpecsSchema,
   giftEnabled: z.boolean(),
   wrapping: z.string(),
   message: z.string(),

@@ -98,7 +98,7 @@ export const RadioChangeTriggered: Story = {
   name: "選択肢を変更すると onChange が呼ばれる",
   play: async ({ canvasElement, args: storyArgs }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole("radio", { name: /Apple M4 Max（16コア）/ }));
+    await userEvent.click(canvas.getByRole("radio", { name: /Apple M4 Max（16コア）/u }));
     await expect(storyArgs.onChange).toHaveBeenCalledWith("cpu", ["Apple M4 Max（16コア）"]);
   },
 };

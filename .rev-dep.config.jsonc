@@ -1,0 +1,237 @@
+{
+  "configVersion": "1.10",
+  "$schema": "https://github.com/jayu/rev-dep/blob/master/config-schema/1.10.schema.json?raw=true",
+  "nodeModulesResolution": {
+    "resolutionType": "entry-package",
+    "includeDevDepsFromRoot": false,
+  },
+  "rules": [
+    {
+      "path": ".",
+      "moduleBoundaries": [
+        {
+          "name": "packages",
+          "pattern": "packages/**/*",
+          "allow": ["packages/**/*"],
+        },
+      ],
+      "orphanFilesDetection": {
+        "enabled": false,
+      },
+      "unusedExportsDetection": {
+        "enabled": false,
+      },
+    },
+    {
+      "path": "apps/web",
+      "circularImportsDetection": {
+        "enabled": true,
+        "ignoreTypeImports": false,
+      },
+      "orphanFilesDetection": {
+        "enabled": false,
+      },
+      "unusedNodeModulesDetection": {
+        "enabled": false,
+      },
+      "missingNodeModulesDetection": {
+        "enabled": false,
+      },
+      "unusedExportsDetection": {
+        "enabled": false,
+      },
+      "unresolvedImportsDetection": {
+        "enabled": true,
+      },
+      "devDepsUsageOnProdDetection": {
+        "enabled": false,
+      },
+      "restrictedImportsDetection": {
+        "enabled": false,
+      },
+    },
+    {
+      "path": "packages/builder",
+      "circularImportsDetection": {
+        "enabled": true,
+        "ignoreTypeImports": false,
+      },
+      "orphanFilesDetection": {
+        "enabled": false,
+      },
+      "unusedNodeModulesDetection": {
+        "enabled": false,
+      },
+      "missingNodeModulesDetection": {
+        "enabled": false,
+      },
+      "unusedExportsDetection": {
+        "enabled": false,
+      },
+      "unresolvedImportsDetection": {
+        "enabled": true,
+      },
+      "devDepsUsageOnProdDetection": {
+        "enabled": false,
+      },
+      "restrictedImportsDetection": {
+        "enabled": false,
+      },
+    },
+    {
+      "path": "packages/contract",
+      "circularImportsDetection": {
+        "enabled": true,
+        "ignoreTypeImports": false,
+      },
+      "orphanFilesDetection": {
+        "enabled": false,
+      },
+      "unusedNodeModulesDetection": {
+        "enabled": false,
+      },
+      "missingNodeModulesDetection": {
+        "enabled": false,
+      },
+      "unusedExportsDetection": {
+        "enabled": false,
+        "ignore": {
+          "**/*.tsx": "*",
+          "**/*.ts": "*",
+        },
+      },
+      "unresolvedImportsDetection": {
+        "enabled": true,
+      },
+      "devDepsUsageOnProdDetection": {
+        "enabled": false,
+      },
+      "restrictedImportsDetection": {
+        "enabled": false,
+      },
+    },
+    {
+      "path": "packages/database",
+      "circularImportsDetection": {
+        "enabled": true,
+        "ignoreTypeImports": false,
+      },
+      "orphanFilesDetection": {
+        "enabled": false,
+      },
+      "unusedNodeModulesDetection": {
+        "enabled": false,
+      },
+      "missingNodeModulesDetection": {
+        "enabled": false,
+      },
+      "unusedExportsDetection": {
+        "enabled": false,
+      },
+      "unresolvedImportsDetection": {
+        "enabled": true,
+      },
+      "devDepsUsageOnProdDetection": {
+        "enabled": false,
+      },
+      "restrictedImportsDetection": {
+        "enabled": false,
+      },
+    },
+    {
+      "path": "packages/server",
+      "circularImportsDetection": {
+        "enabled": true,
+        "ignoreTypeImports": false,
+      },
+      "orphanFilesDetection": {
+        "enabled": false,
+      },
+      "unusedNodeModulesDetection": {
+        "enabled": false,
+      },
+      "missingNodeModulesDetection": {
+        "enabled": false,
+      },
+      "unusedExportsDetection": {
+        "enabled": false,
+      },
+      "unresolvedImportsDetection": {
+        "enabled": true,
+      },
+      "devDepsUsageOnProdDetection": {
+        "enabled": false,
+      },
+      "restrictedImportsDetection": {
+        "enabled": false,
+      },
+    },
+    {
+      "path": "packages/test-helper",
+      "circularImportsDetection": {
+        "enabled": true,
+        "ignoreTypeImports": false,
+      },
+      "orphanFilesDetection": {
+        "enabled": false,
+      },
+      "unusedNodeModulesDetection": {
+        "enabled": false,
+      },
+      "missingNodeModulesDetection": {
+        "enabled": false,
+      },
+      "unusedExportsDetection": {
+        "enabled": false,
+        "ignore": {
+          "*.ts": "*",
+        },
+      },
+      "unresolvedImportsDetection": {
+        "enabled": true,
+        "ignoreImports": ["react"],
+      },
+      "devDepsUsageOnProdDetection": {
+        "enabled": false,
+      },
+      "restrictedImportsDetection": {
+        "enabled": false,
+      },
+    },
+    {
+      "path": "packages/ui",
+      "circularImportsDetection": {
+        "enabled": true,
+        "ignoreTypeImports": false,
+      },
+      "orphanFilesDetection": {
+        "enabled": false,
+      },
+      "unusedNodeModulesDetection": {
+        "enabled": false,
+      },
+      "missingNodeModulesDetection": {
+        "enabled": false,
+      },
+      "unusedExportsDetection": {
+        "enabled": true,
+        "ignore": {
+          "*.ts": "*",
+          "src/*.tsx": "*",
+          "src/*.ts": "*",
+          ".storybook/*.ts": "*",
+        },
+      },
+      "unresolvedImportsDetection": {
+        "enabled": true,
+        "ignoreImports": ["react", "react-hook-form", "@rwts/ui/*"],
+      },
+      "devDepsUsageOnProdDetection": {
+        "enabled": false,
+      },
+      "restrictedImportsDetection": {
+        "enabled": false,
+      },
+    },
+  ],
+}

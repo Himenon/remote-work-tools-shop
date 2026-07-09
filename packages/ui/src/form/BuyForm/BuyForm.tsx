@@ -16,7 +16,7 @@ import { GiftOptionSection } from "./parts/GiftOptionSection";
 import { PriceSummarySection } from "./parts/PriceSummarySection";
 import { SpecsSection } from "./parts/SpecsSection";
 
-export type { BuyFormValues };
+export type { BuyFormValues } from "@rwts/contract/form/BuyFormSchema";
 
 export interface BuyFormProduct {
   name: string;

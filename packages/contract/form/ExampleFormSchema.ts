@@ -22,7 +22,7 @@ export const ExampleFormSchema = z.object({
     .string()
     .min(NON_EMPTY_MIN_LENGTH, "サーバー名を入力してください")
     .min(SERVER_NAME_MIN_LENGTH, `サーバー名は${SERVER_NAME_MIN_LENGTH}文字以上で入力してください`)
-    .regex(/^[\w-]+$/, "サーバー名は英数字・アンダースコア・ハイフンのみ使用できます"),
+    .regex(/^[\w-]+$/u, "サーバー名は英数字・アンダースコア・ハイフンのみ使用できます"),
   region: nullableRequiredString("リージョンを選択してください"),
   containerImage: z.string().min(NON_EMPTY_MIN_LENGTH, "コンテナイメージを入力してください"),
   serverType: nullableRequiredString("サーバータイプを選択してください"),

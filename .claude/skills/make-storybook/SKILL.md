@@ -184,9 +184,7 @@ const longTextEn = "abcdefg ".repeat(10);
 - [ ] 100件など多い個数のストーリーを用意する
 
 ```tsx
-const item: ItemProps = {
-  /* 最小限の値 */
-};
+const item: ItemProps = {/* 最小限の値 */};
 const items: ItemProps[] = [item]; // 要素が1つ
 
 // Bad: items[0] が undefined になり型エラーになる場合がある

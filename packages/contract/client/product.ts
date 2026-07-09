@@ -16,11 +16,14 @@ const SpecCategorySchema = z.object({
   view: SpecSelectViewSchema,
 });
 
+const SpecSortKeyStringSchema = z.string({ message: "スペック並び順のキーは文字列である必要があります" });
+const SpecSortKeyArraySchema = z.array(SpecSortKeyStringSchema, {
+  message: "スペック並び順は配列である必要があります",
+});
+
 const CustomizableSpecSchema = z.object({
   meta: z.object({
-    specSortKey: z.array(z.string({ message: "スペック並び順のキーは文字列である必要があります" }), {
-      message: "スペック並び順は配列である必要があります",
-    }),
+    specSortKey: SpecSortKeyArraySchema,
   }),
   categories: z.record(z.string(), SpecCategorySchema),
 });
